@@ -39,7 +39,7 @@ module.exports = {
         "jsx-a11y/anchor-is-valid": "off",
 
         // Why would you want unused vars?
-        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/no-unused-vars": ["warn"],
 
         // I suggest this setting for requiring return types on functions only where useful
         "@typescript-eslint/explicit-function-return-type": [
@@ -66,8 +66,8 @@ module.exports = {
         "react/jsx-curly-brace-presence": ["warn", { props: "never", children: "never" }],
 
         // Import Sort
-        "simple-import-sort/imports": "error",
-        "simple-import-sort/exports": "error",
+        "simple-import-sort/imports": "warn",
+        "simple-import-sort/exports": "warn",
       },
     },
   ],
