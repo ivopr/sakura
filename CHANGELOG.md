@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/ivopr/sword/compare/v1.0.0...v1.1.0) (2022-02-19)
+
+
+### Features
+
+* account registering ([8b00c5d](https://github.com/ivopr/sword/commit/8b00c5ddb48bb1639515d3e63430cd1a7faf93d3))
+
 # 1.0.0 (2022-02-19)
 
 
