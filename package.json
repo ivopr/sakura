@@ -1,6 +1,6 @@
 {
   "name": "sword",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -44,7 +44,9 @@
     "typescript": "4.5.5"
   },
   "release": {
-    "branches": ["main"],
+    "branches": [
+      "main"
+    ],
     "prepare": [
       "@semantic-release/changelog",
       "@semantic-release/npm",

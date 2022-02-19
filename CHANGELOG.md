@@ -1,0 +1,12 @@
+# 1.0.0 (2022-02-19)
+
+
+### Bug Fixes
+
+* eslint breaking build unnecessarily ([c2f5ee4](https://github.com/ivopr/sword/commit/c2f5ee4440dab5d3d0b873b7a3ae00b191d1265f))
+* semantic-version release-branches ([45f3e3e](https://github.com/ivopr/sword/commit/45f3e3eae362f2608f69f9fd82ef696d76018827))
+
+
+### Features
+
+* project starter ([bbafbe8](https://github.com/ivopr/sword/commit/bbafbe812cd8b388bbd20160505dd9c041971f9b))
