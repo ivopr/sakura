@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model sword_sessions {
+  id          Int  @id @default(autoincrement())
+  account_id  Int
+  accessed_at Int
+}
+
+
 model account_ban_history {
   id         Int      @id @default(autoincrement()) @db.UnsignedInt
   account_id Int
