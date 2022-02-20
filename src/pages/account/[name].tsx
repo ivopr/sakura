@@ -1,8 +1,21 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Avatar,
+  Box,
+  Button,
   Divider,
   Heading,
+  HStack,
   Icon,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   SimpleGrid,
   Tab,
   TabList,
@@ -10,22 +23,30 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useDisclosure,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { players } from "@prisma/client";
+import { AxiosError } from "axios";
 import { DateTime } from "luxon";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
   IoIdCardOutline,
   IoPeopleOutline,
   IoPersonOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
+import * as yup from "yup";
 
+import { Input } from "../../components/input";
 import { Layout } from "../../components/layout";
 import { setupApiClient } from "../../services/axios";
+import { toastSettings } from "../../utils/toast";
 
 type SingleAccount = {
   id: number;
@@ -159,7 +180,39 @@ const Account: NextPage = () => {
             <p>Friends</p>
           </TabPanel>
           <TabPanel>
-            <p>Settings</p>
+            <Alert
+              alignItems="center"
+              flexDirection={{
+                base: "column",
+                md: "row",
+              }}
+              justifyContent="space-between"
+              status="error"
+              variant="left-accent"
+            >
+              <AlertIcon boxSize="40px" marginRight="2.5" />
+              <Box
+                marginY={{
+                  base: "2.5",
+                  md: "0",
+                }}
+              >
+                <AlertTitle
+                  fontSize="lg"
+                  textAlign={{
+                    base: "center",
+                    md: "left",
+                  }}
+                >
+                  Delete Account
+                </AlertTitle>
+                <AlertDescription maxWidth="sm">
+                  Note that every single thing you achieved, your characters, in-game items,
+                  EVERYTHING, will be lost FOREVER.
+                </AlertDescription>
+              </Box>
+              <DeleteAccountModal accountId={account.id} accountName={account.name} />
+            </Alert>
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -167,5 +220,108 @@ const Account: NextPage = () => {
     </Layout>
   );
 };
+
+type DeleteAccountData = {
+  confirmation: string;
+};
+
+type DeleteAccountModalProps = {
+  accountId: number;
+  accountName: string;
+};
+
+function DeleteAccountModal({ accountId, accountName }: DeleteAccountModalProps): JSX.Element {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+
+  const DeleteAccountSchema = yup.object().shape({
+    confirmation: yup
+      .string()
+      .oneOf([accountName, null], "This isn't the name of the account you're trying to delete")
+      .required("You must confirm this action"),
+  });
+
+  const { formState, handleSubmit, register, reset } = useForm<DeleteAccountData>({
+    mode: "onChange",
+    resolver: yupResolver(DeleteAccountSchema),
+    reValidateMode: "onChange",
+  });
+
+  const onSubmit: SubmitHandler<DeleteAccountData> = async ({ confirmation }) => {
+    toast.closeAll();
+    const api = setupApiClient();
+
+    await api
+      .delete("/account/delete", {
+        data: {
+          idToDelete: accountId,
+          confirmation,
+        },
+      })
+      .then(() => {
+        reset();
+        onClose();
+        toast({
+          ...toastSettings,
+          title: "Account deleted",
+          status: "info",
+        });
+      })
+      .catch(({ response }: AxiosError) => {
+        toast({
+          ...toastSettings,
+          title: `${response?.data.message}`,
+          status: "error",
+        });
+      });
+  };
+
+  return (
+    <>
+      <Button colorScheme="red" onClick={onOpen}>
+        Delete Account
+      </Button>
+
+      <Modal
+        isOpen={isOpen}
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus={false}
+        isCentered
+        initialFocusRef={undefined}
+        finalFocusRef={undefined}
+        returnFocusOnClose={false}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>You&apos;re trying to delete your account</ModalHeader>
+          <ModalBody>
+            <Text>
+              If you&apos;re just changing accounts, make sure you&apos;ve transfered everything you
+              need.
+            </Text>
+            <Text color="red">This action is irreversible.</Text>
+            <Divider marginY="2.5" />
+            <Text>
+              To delete your account, we need that you yourself confirm what is the account name
+            </Text>
+            <Input error={formState.errors.confirmation} {...register("confirmation")} />
+            <Divider marginY="2.5" />
+          </ModalBody>
+          <ModalFooter>
+            <HStack spacing="2.5">
+              <Button colorScheme="red" type="submit" width="full">
+                Delete
+              </Button>
+              <Button variant="ghost" onClick={onClose} width="full">
+                Don&apos;t delete
+              </Button>
+            </HStack>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
 
 export default Account;
