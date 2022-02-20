@@ -1,10 +1,10 @@
 import { Button, Heading, Icon, SimpleGrid, useToast, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CheckIcon, PlusIcon } from "@radix-ui/react-icons";
 import { AxiosError } from "axios";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { IoCheckmarkOutline, IoPersonAddOutline } from "react-icons/io5";
 import * as yup from "yup";
 
 import { Input } from "../components/input";
@@ -134,9 +134,9 @@ const Register: NextPage = () => {
           isLoading={formState.isSubmitting}
           leftIcon={
             formState.isSubmitSuccessful && !creationError ? (
-              <Icon as={CheckIcon} height={5} width={5} />
+              <Icon as={IoCheckmarkOutline} height={5} width={5} />
             ) : (
-              <Icon as={PlusIcon} height={5} width={5} />
+              <Icon as={IoPersonAddOutline} height={5} width={5} />
             )
           }
           type="submit"

@@ -1,8 +1,8 @@
 import { Button, Heading, Icon, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { EnterIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
 import { useForm } from "react-hook-form";
+import { IoLogInOutline } from "react-icons/io5";
 import * as yup from "yup";
 
 import { Input } from "../components/input";
@@ -45,7 +45,7 @@ const Login: NextPage = () => {
           type="password"
           {...register("password")}
         />
-        <Button leftIcon={<Icon as={EnterIcon} height={5} width={5} />}>Login</Button>
+        <Button leftIcon={<Icon as={IoLogInOutline} height={5} width={5} />}>Login</Button>
       </VStack>
     </Layout>
   );

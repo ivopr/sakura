@@ -42,7 +42,12 @@ export const Layout: FC<LayoutProps> = ({ children, pageTitle }): JSX.Element =>
           {children}
         </Container>
       </Box>
-      <Box backgroundColor="gray.900" borderTopColor="gray.700" borderTopWidth="1px" minHeight="xs">
+      <Box
+        backgroundColor="gray.800"
+        borderTopColor="whiteAlpha.300"
+        borderTopWidth="1px"
+        minHeight="xs"
+      >
         <Container marginY={{ base: "4", md: "8", xl: "12" }} maxWidth="container.lg">
           <Logo />
           <Divider marginY="2" />

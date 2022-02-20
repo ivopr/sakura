@@ -1,10 +1,10 @@
 import { Heading, HStack, Icon } from "@chakra-ui/react";
-import { CrumpledPaperIcon } from "@radix-ui/react-icons";
+import { IoWaterOutline } from "react-icons/io5";
 
 export function Logo(): JSX.Element {
   return (
     <HStack>
-      <Icon as={CrumpledPaperIcon} height="10" width="10" />
+      <Icon as={IoWaterOutline} height="10" width="10" />
       <Heading>Sword</Heading>
     </HStack>
   );
