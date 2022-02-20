@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/ivopr/sword/compare/v1.2.0...v1.3.0) (2022-02-20)
+
+
+### Features
+
+* added account deletion ([b8067f8](https://github.com/ivopr/sword/commit/b8067f816471f79b33b33a6877c28c01d98bb507))
+
 # [1.2.0](https://github.com/ivopr/sword/compare/v1.1.0...v1.2.0) (2022-02-20)
 
 
