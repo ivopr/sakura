@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/ivopr/sword/compare/v1.1.0...v1.2.0) (2022-02-20)
+
+
+### Features
+
+* view account page ([25cf291](https://github.com/ivopr/sword/commit/25cf29186c037cb74c7f62914f538eb910f9307c))
+
 # [1.1.0](https://github.com/ivopr/sword/compare/v1.0.0...v1.1.0) (2022-02-19)
 
 
