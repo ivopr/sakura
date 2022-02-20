@@ -1,7 +1,7 @@
 import { Box, chakra, Flex, HStack, IconButton, useDisclosure, VStack } from "@chakra-ui/react";
-import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import NextLink from "next/link";
 import React from "react";
+import { IoCloseOutline, IoMenuOutline } from "react-icons/io5";
 
 import { Logo } from "../logo";
 import { NAV_ITEMS } from "./items";
@@ -13,13 +13,14 @@ export function Navigation(): JSX.Element {
   return (
     <React.Fragment>
       <chakra.header
-        background="gray.900"
+        backgroundColor="gray.800"
+        borderBottomColor="whiteAlpha.300"
+        borderBottomWidth="1px"
         display="flex"
         height="24"
         paddingX={{ base: 2, md: 4, xl: 6 }}
         position="sticky"
         top={0}
-        shadow="xl"
         width="full"
         zIndex="sticky"
       >
@@ -48,7 +49,7 @@ export function Navigation(): JSX.Element {
                 color="inherit"
                 display={{ base: "flex", md: "none" }}
                 fontSize="20px"
-                icon={<HamburgerMenuIcon />}
+                icon={<IoMenuOutline />}
                 onClick={mobileNav.onOpen}
                 variant="ghost"
               />
@@ -73,7 +74,7 @@ export function Navigation(): JSX.Element {
                   aria-label="Open menu"
                   color="inherit"
                   fontSize="20px"
-                  icon={<Cross1Icon />}
+                  icon={<IoCloseOutline />}
                   onClick={mobileNav.onClose}
                   variant="ghost"
                   width="full"

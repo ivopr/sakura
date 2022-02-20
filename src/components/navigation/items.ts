@@ -1,26 +1,26 @@
-import { EnterIcon, HomeIcon, PlusIcon } from "@radix-ui/react-icons";
-import { IconProps } from "@radix-ui/react-icons/dist/types";
+import { IconType } from "react-icons";
+import { IoHomeOutline, IoLogInOutline, IoPersonAddOutline } from "react-icons/io5";
 
 export interface NavItem {
   label: string;
-  Icon?: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<SVGSVGElement>>;
+  Icon?: IconType;
   href: string;
 }
 
 export const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Home",
-    Icon: HomeIcon,
+    Icon: IoHomeOutline,
     href: "/",
   },
   {
     label: "Login",
-    Icon: EnterIcon,
+    Icon: IoLogInOutline,
     href: "/login",
   },
   {
     label: "Register",
-    Icon: PlusIcon,
+    Icon: IoPersonAddOutline,
     href: "/register",
   },
 ];

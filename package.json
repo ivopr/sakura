@@ -15,9 +15,9 @@
     "@emotion/styled": "^11",
     "@hookform/resolvers": "^2.8.8",
     "@prisma/client": "^3.9.2",
-    "@radix-ui/react-icons": "^1.0.3",
     "axios": "^0.26.0",
     "framer-motion": "^6",
+    "luxon": "^2.3.0",
     "next": "12.1.0",
     "nextjs-progressbar": "^0.0.13",
     "prisma": "^3.9.2",
@@ -31,6 +31,7 @@
     "@chakra-ui/cli": "^1.8.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
+    "@types/luxon": "^2.0.9",
     "@types/node": "17.0.18",
     "@types/react": "17.0.39",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
@@ -56,7 +57,6 @@
       {
         "path": "@semantic-release/git",
         "assets": [
-          "package.json",
           "package-lock.json",
           "yarn.lock",
           "CHANGELOG.md"
