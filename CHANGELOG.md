@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/ivopr/sword/compare/v1.3.0...v1.4.0) (2022-02-20)
+
+
+### Features
+
+* crude authentication ([43091a5](https://github.com/ivopr/sword/commit/43091a5a45cf9b854cd6126593d1dfe6bb4d8f12))
+
 # [1.3.0](https://github.com/ivopr/sword/compare/v1.2.0...v1.3.0) (2022-02-20)
 
 
