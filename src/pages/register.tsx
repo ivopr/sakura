@@ -123,13 +123,7 @@ const Register: NextPage = () => {
           />
         </SimpleGrid>
         <Button
-          _hover={{
-            backgroundColor:
-              formState.isSubmitSuccessful && !creationError ? "green.600" : "primary.600",
-          }}
-          backgroundColor={
-            formState.isSubmitSuccessful && !creationError ? "green.500" : "primary.500"
-          }
+          colorScheme={formState.isSubmitSuccessful && !creationError ? "green" : undefined}
           disabled={formState.isSubmitSuccessful && !creationError}
           isLoading={formState.isSubmitting}
           leftIcon={
