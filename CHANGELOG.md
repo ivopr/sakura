@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/ivopr/sword/compare/v1.5.0...v1.6.0) (2022-02-21)
+
+
+### Features
+
+* starting homepage ([651d5aa](https://github.com/ivopr/sword/commit/651d5aa32715824afd62df7a74422cc880a1485b))
+
 # [1.5.0](https://github.com/ivopr/sword/compare/v1.4.0...v1.5.0) (2022-02-21)
 
 
