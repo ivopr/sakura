@@ -1,9 +1,10 @@
 import { Box, Container, Divider, SimpleGrid, Spinner } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import NextHead from "next/head";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
 import { Logo } from "../logo";
+import { LayoutProps } from "./layout.props";
 
 const Navigation = dynamic<unknown>(() => import("../navigation").then((mod) => mod.Navigation), {
   ssr: false,
@@ -20,12 +21,7 @@ const Navigation = dynamic<unknown>(() => import("../navigation").then((mod) => 
   ),
 });
 
-type LayoutProps = {
-  children: ReactNode;
-  pageTitle: string;
-};
-
-export const Layout: FC<LayoutProps> = ({ children, pageTitle }): JSX.Element => {
+export const Layout: FC<LayoutProps> = ({ children, pageTitle, ...rest }): JSX.Element => {
   return (
     <Box display="flex" flexDirection="column" height="100vh" justifyContent="space-between">
       <NextHead>
@@ -38,6 +34,7 @@ export const Layout: FC<LayoutProps> = ({ children, pageTitle }): JSX.Element =>
           minHeight="fit-content"
           paddingX={{ base: "2", md: "4", xl: "6" }}
           paddingY={{ base: "2", md: "4", xl: "6" }}
+          {...rest}
         >
           {children}
         </Container>
