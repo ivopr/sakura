@@ -25,7 +25,7 @@ export const theme = extendTheme(
       },
       Button: {
         baseStyle: {
-          borderRadius: "sm",
+          borderRadius: "md",
         },
         defaultProps: {
           size: "lg",

@@ -61,6 +61,7 @@ type SingleAccount = {
 const Account: NextPage = () => {
   const [account, setAccount] = useState<SingleAccount>();
   const router = useRouter();
+  const accountLabelSize = "lg";
 
   useEffect(() => {
     (async () => {
@@ -109,7 +110,7 @@ const Account: NextPage = () => {
           size="2xl"
         />
         <VStack marginY="auto" spacing="1">
-          <Heading>{account.name}</Heading>
+          <Heading textTransform="capitalize">{account.name}</Heading>
           <Text>{account.email}</Text>
         </VStack>
       </SimpleGrid>
@@ -137,40 +138,46 @@ const Account: NextPage = () => {
         <TabPanels>
           <TabPanel>
             <VStack alignItems="flex-start" spacing="1.5">
-              <Text display="flex">
-                <Text fontWeight="semibold" marginRight="1.5">
+              <HStack spacing="1.5">
+                <Text fontSize={accountLabelSize} fontWeight="semibold" marginRight="1.5">
                   Group:
                 </Text>
-                {account.type}
-              </Text>
-              <Text display="flex">
-                <Text fontWeight="semibold" marginRight="1.5">
+                <Text>{account.type}</Text>
+              </HStack>
+              <HStack spacing="1.5">
+                <Text fontSize={accountLabelSize} fontWeight="semibold" marginRight="1.5">
                   Premium:
                 </Text>
-                {account.premium_ends_at !== 0
-                  ? `Ends in ${DateTime.fromSeconds(account.premium_ends_at).toLocaleString({
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    })}`
-                  : "No"}
-              </Text>
-              <Text display="flex">
-                <Text fontWeight="semibold" marginRight="1.5">
+                <Text>
+                  {account.premium_ends_at !== 0
+                    ? `Ends in ${DateTime.fromSeconds(account.premium_ends_at).toLocaleString({
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}`
+                    : "No"}
+                </Text>
+              </HStack>
+              <HStack spacing="1.5">
+                <Text fontSize={accountLabelSize} fontWeight="semibold" marginRight="1.5">
                   Total characters:
                 </Text>
-                {account.players && account.players.length > 0 ? account.players.length : 0}
-              </Text>
-              <Text display="flex">
-                <Text fontWeight="semibold" marginRight="1.5">
+                <Text>
+                  {account.players && account.players.length > 0 ? account.players.length : 0}
+                </Text>
+              </HStack>
+              <HStack spacing="1.5">
+                <Text fontSize={accountLabelSize} fontWeight="semibold" marginRight="1.5">
                   Created at:
                 </Text>
-                {DateTime.fromSeconds(account.creation).toLocaleString({
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </Text>
+                <Text>
+                  {DateTime.fromSeconds(account.creation).toLocaleString({
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </Text>
+              </HStack>
             </VStack>
           </TabPanel>
           <TabPanel>
@@ -180,36 +187,35 @@ const Account: NextPage = () => {
             <p>Friends</p>
           </TabPanel>
           <TabPanel>
-            <Alert
-              alignItems="center"
-              flexDirection={{
-                base: "column",
-                md: "row",
-              }}
-              justifyContent="space-between"
-              status="error"
-              variant="left-accent"
-            >
-              <AlertIcon boxSize="40px" marginRight="2.5" />
+            <Alert flexDir="column" alignItems="center" status="error" variant="left-accent">
               <Box
+                justifyContent="space-between"
                 marginY={{
                   base: "2.5",
                   md: "0",
                 }}
+                flexDirection={{
+                  base: "column",
+                  md: "row",
+                }}
+                display="flex"
               >
-                <AlertTitle
-                  fontSize="lg"
-                  textAlign={{
-                    base: "center",
-                    md: "left",
-                  }}
-                >
-                  Delete Account
-                </AlertTitle>
-                <AlertDescription maxWidth="sm">
-                  Note that every single thing you achieved, your characters, in-game items,
-                  EVERYTHING, will be lost FOREVER.
-                </AlertDescription>
+                <AlertIcon boxSize="40px" marginRight="2.5" />
+                <Box marginBottom="2.5">
+                  <AlertTitle
+                    fontSize="lg"
+                    textAlign={{
+                      base: "center",
+                      md: "left",
+                    }}
+                  >
+                    Delete Account
+                  </AlertTitle>
+                  <AlertDescription maxWidth="xs">
+                    Note that every single thing you achieved, your characters, in-game items,
+                    EVERYTHING, will be lost FOREVER.
+                  </AlertDescription>
+                </Box>
               </Box>
               <DeleteAccountModal accountId={account.id} accountName={account.name} />
             </Alert>
