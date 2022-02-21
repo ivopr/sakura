@@ -1,14 +1,14 @@
-import { Box, Heading, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import React, { FC } from "react";
 
-import { FunnyMenu, SideMenuProps } from "./side-menu.props";
+import { SideMenuProps } from "./side-menu.props";
 import { Option } from "./side-menu-options";
 
-export const SideMenu: FC<SideMenuProps> = ({ options, ...rest }): JSX.Element => {
+export const SideMenu: FC<SideMenuProps> = ({ options }): JSX.Element => {
   return (
-    <VStack width="100%">
+    <VStack width="100%" maxW="xs">
       {options.map((option, index) => (
-        <Option option={option} key={index} hasDivider={options.length !== index + 1} />
+        <Option option={option} key={index} layer={1} />
       ))}
     </VStack>
   );
