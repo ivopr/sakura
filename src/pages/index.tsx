@@ -1,6 +1,7 @@
-import { Box, Divider, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Box, Divider, Heading, SimpleGrid, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { Layout } from "@sword/components/layout";
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
+import { useEffect, useState } from "react";
 
 import { SideMenu } from "../components/side-menu-options";
 
@@ -16,27 +17,11 @@ const MenuArray: FunnyMenu[] = [
     childs: [
       {
         name: "Sub-Option 1",
-        action: () => console.log("Ivo gay"),
       },
     ],
   },
   {
     name: "Option 2",
-    childs: [
-      {
-        name: "Sub-Option 1",
-        action: () => console.log("Ivo gay"),
-        childs: [
-          {
-            name: "Sub-Sub-Option 1",
-          },
-        ],
-      },
-      {
-        name: "Sub-Option 2",
-        action: () => console.log("Ivo gay"),
-      },
-    ],
   },
   {
     name: "Option 3",
@@ -50,6 +35,14 @@ const MenuArray: FunnyMenu[] = [
 ];
 
 const Home: NextPage = () => {
+  const [orientation, setOrientation] = useState<"horizontal" | "vertical">("vertical");
+  const dividerOrientation = useBreakpointValue({ base: "horizontal", md: "vertical" }) as
+    | "horizontal"
+    | "vertical";
+
+  useEffect(() => {
+    setOrientation(dividerOrientation);
+  }, [dividerOrientation]);
   return (
     <Layout pageTitle="Home" maxW="full" maxH="full">
       <SimpleGrid
@@ -61,14 +54,22 @@ const Home: NextPage = () => {
         gap="5"
         height="full"
       >
-        <Box flexDir={{ base: "column", md: "row" }} width="full" maxW="xs" display="flex">
+        <Box flexDir={{ base: "column", md: "row" }} width="full" display="flex">
           <SideMenu options={MenuArray} />
-          <Divider orientation="vertical" />
+          <Divider orientation={dividerOrientation} />
         </Box>
         <Heading>Home</Heading>
       </SimpleGrid>
     </Layout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: (await import(`@sword/locales/${locale}.json`)).default,
+    },
+  };
 };
 
 export default Home;
