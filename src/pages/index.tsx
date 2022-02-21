@@ -69,10 +69,10 @@ const Home: NextPage = () => {
           <Divider
             display={{ base: "flex", md: "none" }}
             orientation="horizontal"
-            borderStartWidth={5}
+            borderBottomWidth={5}
           />
         </Box>
-        <Heading>Home</Heading>
+        <Heading textAlign={{ base: "center", md: "initial" }}>Home</Heading>
       </SimpleGrid>
     </Layout>
   );

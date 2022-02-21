@@ -61,7 +61,7 @@ export const Option: FC<OptionProps> = ({
           <Heading
             textAlign="left"
             marginY="1"
-            marginLeft="3.5"
+            marginLeft="4"
             fontSize={fontSize}
             onClick={option.action}
             _hover={{
