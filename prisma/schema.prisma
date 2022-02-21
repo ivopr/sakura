@@ -1,18 +1,20 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model sword_sessions {
-  id          Int  @id @default(autoincrement())
-  account_id  Int
-  accessed_at Int
+  id            Int  @id @default(autoincrement())
+  account_id    Int
+  refresh_token String
+  accessed_at   Int
 }
-
 
 model account_ban_history {
   id         Int      @id @default(autoincrement()) @db.UnsignedInt

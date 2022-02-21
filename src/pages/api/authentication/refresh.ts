@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { sign } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { createHash } from "node:crypto";
 
 import { prisma } from "../../../services/prisma";
 
@@ -14,9 +13,12 @@ type Data = {
 };
 
 type BodyData = {
-  name: string;
-  password: string;
-  rememberMe?: "true" | "false";
+  refreshToken: string;
+};
+
+type TokenPayload = {
+  email: string;
+  type: number;
 };
 
 export default async function handler(
@@ -26,35 +28,38 @@ export default async function handler(
   if (req.method === "POST") {
     const data: BodyData = req.body;
 
-    const account = await prisma.accounts.findFirst({
+    if (!data.refreshToken) {
+      return res.status(401).json({
+        message: "Missing token to refresh",
+      });
+    }
+
+    const oldTokenPayload = verify(
+      data.refreshToken,
+      process.env.JWTOKEN_REFRESH_SECRET as string
+    ) as TokenPayload;
+
+    if (!oldTokenPayload.email) {
+      return res.status(400).json({
+        message: "This token isn't one emitted by Sword Athentication or is invalid",
+      });
+    }
+
+    const swordSession = await prisma.sword_sessions.findFirst({
       where: {
-        name: { equals: data.name },
+        refresh_token: { equals: data.refreshToken },
       },
     });
 
-    if (!account) {
-      return res.status(400).json({
-        message: "Couldn't find the specified account.",
-      });
-    }
-
-    if (data.password.length < 5) {
-      return res.status(400).json({
-        message: "Your password must be at least 5 chacarters long",
-      });
-    }
-
-    const hashedPassword = createHash("sha1").update(data.password).digest("hex");
-
-    if (account.password !== hashedPassword) {
+    if (!swordSession) {
       return res.status(401).json({
-        message: "Incorrect account name or password",
+        message: "This token isn't one emitted by Sword Athentication or is invalid or revoked",
       });
     }
 
     const JWTPayload = {
-      email: account.email,
-      type: account.type,
+      email: oldTokenPayload.email,
+      type: oldTokenPayload.type,
     };
 
     const token = sign(JWTPayload, `${process.env.JWTOKEN_SECRET}`, {
@@ -67,7 +72,7 @@ export default async function handler(
 
     await prisma.sword_sessions.create({
       data: {
-        account_id: account.id,
+        account_id: swordSession.account_id,
         refresh_token: refreshToken,
         accessed_at: Number(Date.now().toString().slice(0, 10)),
       },
