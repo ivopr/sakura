@@ -13,6 +13,26 @@
 				"mustConfirm": "You must confirm this action",
 				"title": "Delete Account",
 				"wrongConfirmation": "This isn't the name of the account you're trying to delete"
+			},
+			"tabs": {
+				"accountTab": {
+					"createdAt": "Created at:",
+					"group": "Group:",
+					"notPremium": "Not activated",
+					"premium": "Premium:",
+					"premiumEnds": "Ends in {date}",
+					"totalCharacters": "Total characters:"
+				},
+				"accountTabTitle": "Account",
+				"charactersTabTitle": "Characters",
+				"friendsTabTitle": "Friends",
+				"settingsTab": {
+					"delete": {
+						"content": "Note that every single thing you achieved, your characters, in-game items, EVERYTHING, will be lost FOREVER.",
+						"title": "Delete Account"
+					}
+				},
+				"settingsTabTitle": "Settings"
 			}
 		}
 	},

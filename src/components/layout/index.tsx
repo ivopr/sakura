@@ -9,13 +9,7 @@ import { LayoutProps } from "./layout.props";
 const Navigation = dynamic<unknown>(() => import("../navigation").then((mod) => mod.Navigation), {
   ssr: false,
   loading: () => (
-    <Box
-      alignItems="center"
-      backgroundColor="gray.900"
-      display="flex"
-      justifyContent="center"
-      height="24"
-    >
+    <Box alignItems="center" display="flex" justifyContent="center" height="24">
       <Spinner color="primary.500" emptyColor="gray.500" size="xl" />
     </Box>
   ),
