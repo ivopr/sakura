@@ -1,7 +1,6 @@
-import { Layout } from "@sword/components/layout";
 import { Box, Divider, Heading, SimpleGrid, useBreakpointValue, VStack } from "@chakra-ui/react";
-
-import type { NextPage } from "next";
+import { Layout } from "@sword/components/layout";
+import type { GetStaticProps, NextPage } from "next";
 import { useEffect, useState } from "react";
 
 import { SideMenu } from "../components/side-menu-options";
@@ -63,6 +62,14 @@ const Home: NextPage = () => {
       </SimpleGrid>
     </Layout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: (await import(`@sword/locales/${locale}.json`)).default,
+    },
+  };
 };
 
 export default Home;

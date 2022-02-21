@@ -56,11 +56,11 @@ export const theme = extendTheme(
       Modal: {
         baseStyle: {
           closeButton: {
-            borderRadius: "sm",
+            borderRadius: "md",
           },
           dialog: {
             backgroundColor: "gray.800",
-            borderRadius: "sm",
+            borderRadius: "md",
             padding: 2.5,
             paddingX: 5,
           },

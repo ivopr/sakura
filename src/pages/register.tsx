@@ -5,7 +5,7 @@ import { Layout } from "@sword/components/layout";
 import { setupApiClient } from "@sword/services/axios";
 import { toastSettings } from "@sword/utils/toast";
 import { AxiosError } from "axios";
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IoCheckmarkOutline, IoPersonAddOutline } from "react-icons/io5";
@@ -140,6 +140,14 @@ const Register: NextPage = () => {
       </VStack>
     </Layout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: (await import(`@sword/locales/${locale}.json`)).default,
+    },
+  };
 };
 
 export default Register;

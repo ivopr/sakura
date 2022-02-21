@@ -118,7 +118,7 @@ const Login: NextPage = () => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      messages: (await import(`@sword/locales/pages/${locale}.json`)).default,
+      messages: (await import(`@sword/locales/${locale}.json`)).default,
     },
   };
 };

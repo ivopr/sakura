@@ -7,16 +7,23 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen:tt": "chakra-cli tokens src/theme/index.ts"
+    "gen:tt": "chakra-cli tokens src/theme/index.ts",
+    "prepare": "husky install",
+    "commit": "git-cz"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.8.3",
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@hookform/resolvers": "^2.8.8",
     "@prisma/client": "^3.9.2",
     "axios": "^0.26.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
     "framer-motion": "^6",
+    "husky": "^7.0.4",
     "jsonwebtoken": "^8.5.1",
     "luxon": "^2.3.0",
     "next": "12.1.0",
@@ -67,5 +74,10 @@
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

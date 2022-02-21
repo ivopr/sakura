@@ -1,0 +1,31 @@
+{
+	"account": {
+		"view": {
+			"delete": {
+				"cancel": "Don't delete",
+				"confirmationContent": "To delete your account, we need that you yourself confirm what is the account name",
+				"content": "You're trying to delete your account.\nIf you're just changing accounts, make sure you've transfered everything you need.",
+				"deleted": "Your account has been deleted",
+				"errors": {
+
+				},
+				"irreversible": "This action is irreversible.",
+				"mustConfirm": "You must confirm this action",
+				"title": "Delete Account",
+				"wrongConfirmation": "This isn't the name of the account you're trying to delete"
+			}
+		}
+	},
+	"login": {
+		"accountName": "Account Name",
+		"accountNameRequired": "Account Name is a required field",
+		"loggedIn": "Logged In",
+		"password": "Password",
+		"passwordRequired": "Password is a required field",
+		"title": "Login",
+		"requestErrors": {
+			"passwordLength": "Your password must be at least 5 characters long",
+			"wrongCredentials": "This Account Name and Password combination is invalid"
+		}
+	}
+}
