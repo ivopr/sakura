@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/ivopr/sword/compare/v1.6.0...v1.7.0) (2022-02-21)
+
+
+### Features
+
+* intl implementation, absolute imports via ([64ce6af](https://github.com/ivopr/sword/commit/64ce6afa1eee168d3c5b2446eb4e5b56771884ca))
+
 # [1.6.0](https://github.com/ivopr/sword/compare/v1.5.0...v1.6.0) (2022-02-21)
 
 
