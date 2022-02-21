@@ -1,8 +1,9 @@
+import { Layout } from "@sword/components/layout";
 import { Box, Divider, Heading, SimpleGrid, useBreakpointValue, VStack } from "@chakra-ui/react";
+
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 
-import { Layout } from "../components/layout";
 import { SideMenu } from "../components/side-menu-options";
 
 type FunnyMenu = {

@@ -29,7 +29,7 @@ export function NavigationButton({
       <Button
         as="a"
         _hover={{
-          color: "primary.600",
+          color: "primary.500",
           backgroundColor: "transparent",
         }}
         _focus={{

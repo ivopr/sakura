@@ -1,9 +1,9 @@
 import { Box, Container, Divider, SimpleGrid, Spinner } from "@chakra-ui/react";
+import { Logo } from "@sword/components/logo";
 import dynamic from "next/dynamic";
 import NextHead from "next/head";
 import { FC } from "react";
 
-import { Logo } from "../logo";
 import { LayoutProps } from "./layout.props";
 
 const Navigation = dynamic<unknown>(() => import("../navigation").then((mod) => mod.Navigation), {

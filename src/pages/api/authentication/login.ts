@@ -34,13 +34,13 @@ export default async function handler(
 
     if (!account) {
       return res.status(400).json({
-        message: "Couldn't find the specified account.",
+        message: "wrongCredentials",
       });
     }
 
     if (data.password.length < 5) {
       return res.status(400).json({
-        message: "Your password must be at least 5 chacarters long",
+        message: "passwordLength",
       });
     }
 
@@ -48,7 +48,7 @@ export default async function handler(
 
     if (account.password !== hashedPassword) {
       return res.status(401).json({
-        message: "Incorrect account name or password",
+        message: "wrongCredentials",
       });
     }
 

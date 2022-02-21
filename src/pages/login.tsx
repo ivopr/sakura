@@ -1,29 +1,32 @@
 import { Button, Heading, Icon, SimpleGrid, useToast, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import type { NextPage } from "next";
+import { Input } from "@sword/components/input";
+import { Layout } from "@sword/components/layout";
+import { setupApiClient } from "@sword/services/axios";
+import { toastSettings } from "@sword/utils/toast";
+import type { GetStaticProps, NextPage } from "next";
+import { useTranslations } from "next-intl";
 import { setCookie } from "nookies";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IoCheckmarkOutline, IoLogInOutline } from "react-icons/io5";
 import * as yup from "yup";
 
-import { Input } from "../components/input";
-import { Layout } from "../components/layout";
-import { setupApiClient } from "../services/axios";
-import { toastSettings } from "../utils/toast";
-
 type LoginData = {
   name: string;
   password: string;
 };
 
-const LoginSchema = yup.object().shape({
-  name: yup.string().required("Account Name is required"),
-  password: yup.string().required("Password is required"),
-});
-
 const Login: NextPage = () => {
   const [loginError, setLoginError] = useState(false);
+
+  const translate = useTranslations("login");
+
+  const LoginSchema = yup.object().shape({
+    name: yup.string().required(translate("accountNameRequired")),
+    password: yup.string().required(translate("passwordRequired")),
+  });
+
   const { formState, handleSubmit, register } = useForm<LoginData>({
     mode: "onChange",
     resolver: yupResolver(LoginSchema),
@@ -42,10 +45,11 @@ const Login: NextPage = () => {
       })
       .then(({ data }) => {
         setCookie(undefined, "SERVERNAME_SWORD_AUTH_TOKEN", data.session.token);
+        setCookie(undefined, "SERVERNAME_SWORD_AUTH_REFRESH_TOKEN", data.session.refreshToken);
         setLoginError(false);
         toast({
           ...toastSettings,
-          title: "Logged In",
+          title: translate("loggedIn"),
           status: "success",
         });
       })
@@ -53,15 +57,15 @@ const Login: NextPage = () => {
         setLoginError(true);
         toast({
           ...toastSettings,
-          title: `${response?.data.message}`,
+          title: translate(`requestErrors.${response.data.message}`),
           status: "error",
         });
       });
   };
 
   return (
-    <Layout pageTitle="Login">
-      <Heading textAlign="center">Login</Heading>
+    <Layout pageTitle={translate("title")}>
+      <Heading textAlign="center">{translate("title")}</Heading>
 
       <VStack
         as="form"
@@ -70,7 +74,6 @@ const Login: NextPage = () => {
         maxWidth={{
           base: "full",
           md: "35%",
-          xl: "25%",
         }}
         onSubmit={handleSubmit(onSubmit)}
         spacing="5"
@@ -79,14 +82,14 @@ const Login: NextPage = () => {
           <Input
             error={formState.errors.name}
             isDisabled={formState.isSubmitSuccessful && !loginError}
-            label="Account Name"
+            label={translate("accountName")}
             type="text"
             {...register("name")}
           />
           <Input
             error={formState.errors.password}
             isDisabled={formState.isSubmitSuccessful && !loginError}
-            label="Password"
+            label={translate("password")}
             type="password"
             {...register("password")}
           />
@@ -105,11 +108,19 @@ const Login: NextPage = () => {
           type="submit"
           width="full"
         >
-          {formState.isSubmitSuccessful && !loginError ? "Logged In" : "Login"}
+          {formState.isSubmitSuccessful && !loginError ? translate("loggedIn") : translate("title")}
         </Button>
       </VStack>
     </Layout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: (await import(`@sword/locales/pages/${locale}.json`)).default,
+    },
+  };
 };
 
 export default Login;

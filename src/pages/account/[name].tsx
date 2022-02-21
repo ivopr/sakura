@@ -29,6 +29,10 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { players } from "@prisma/client";
+import { Input } from "@sword/components/input";
+import { Layout } from "@sword/components/layout";
+import { setupApiClient } from "@sword/services/axios";
+import { toastSettings } from "@sword/utils/toast";
 import { AxiosError } from "axios";
 import { DateTime } from "luxon";
 import { NextPage } from "next";
@@ -42,11 +46,6 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import * as yup from "yup";
-
-import { Input } from "../../components/input";
-import { Layout } from "../../components/layout";
-import { setupApiClient } from "../../services/axios";
-import { toastSettings } from "../../utils/toast";
 
 type SingleAccount = {
   id: number;

@@ -1,16 +1,15 @@
 import { Button, Heading, Icon, SimpleGrid, useToast, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Input } from "@sword/components/input";
+import { Layout } from "@sword/components/layout";
+import { setupApiClient } from "@sword/services/axios";
+import { toastSettings } from "@sword/utils/toast";
 import { AxiosError } from "axios";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IoCheckmarkOutline, IoPersonAddOutline } from "react-icons/io5";
 import * as yup from "yup";
-
-import { Input } from "../components/input";
-import { Layout } from "../components/layout";
-import { setupApiClient } from "../services/axios";
-import { toastSettings } from "../utils/toast";
 
 type RegisterData = {
   name: string;
