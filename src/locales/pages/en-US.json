@@ -1,0 +1,14 @@
+{
+	"login": {
+		"accountName": "Account Name",
+		"accountNameRequired": "Account Name is a required field",
+		"loggedIn": "Logged In",
+		"password": "Password",
+		"passwordRequired": "Password is a required field",
+		"title": "Login",
+		"requestErrors": {
+			"passwordLength": "Your password must be at least 5 characters long",
+			"wrongCredentials": "This Account Name and Password combination is invalid"
+		}
+	}
+}

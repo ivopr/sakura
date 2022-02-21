@@ -1,9 +1,9 @@
 import { Box, chakra, Flex, HStack, IconButton, useDisclosure, VStack } from "@chakra-ui/react";
+import { Logo } from "@sword/components/logo";
 import NextLink from "next/link";
 import React from "react";
 import { IoCloseOutline, IoMenuOutline } from "react-icons/io5";
 
-import { Logo } from "../logo";
 import { NAV_ITEMS } from "./items";
 import { NavigationButton } from "./navigation-button";
 

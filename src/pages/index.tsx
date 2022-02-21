@@ -1,7 +1,6 @@
 import { Heading } from "@chakra-ui/react";
+import { Layout } from "@sword/components/layout";
 import type { NextPage } from "next";
-
-import { Layout } from "../components/layout";
 
 const Home: NextPage = () => {
   return (

@@ -43,7 +43,7 @@ export const theme = extendTheme(
                 borderColor: "primary.500",
               },
               backgroundColor: "gray.900",
-              borderRadius: "sm",
+              borderRadius: "md",
               color: "gray.100",
             },
           },
