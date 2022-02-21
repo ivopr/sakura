@@ -58,7 +58,16 @@ export const Option: FC<OptionProps> = ({
         </Accordion>
       ) : (
         <Box alignSelf="self-start" width="100%">
-          <Heading textAlign="left" marginY="1" marginLeft="3.5" fontSize={fontSize}>
+          <Heading
+            textAlign="left"
+            marginY="1"
+            marginLeft="3.5"
+            fontSize={fontSize}
+            onClick={option.action}
+            _hover={{
+              cursor: option.action ? "pointer" : "default",
+            }}
+          >
             {option.name}
           </Heading>
           {hasDivider && <Divider orientation="horizontal" />}

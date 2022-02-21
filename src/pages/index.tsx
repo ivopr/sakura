@@ -1,7 +1,6 @@
-import { Box, Divider, Heading, SimpleGrid, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { Box, Divider, Heading, SimpleGrid } from "@chakra-ui/react";
 import { Layout } from "@sword/components/layout";
 import type { GetStaticProps, NextPage } from "next";
-import { useEffect, useState } from "react";
 
 import { SideMenu } from "../components/side-menu-options";
 
@@ -17,11 +16,25 @@ const MenuArray: FunnyMenu[] = [
     childs: [
       {
         name: "Sub-Option 1",
+        action: () => console.log("IVO GAY"),
       },
     ],
   },
   {
     name: "Option 2",
+    childs: [
+      {
+        name: "Sub-Option 1",
+        childs: [
+          {
+            name: "Sub-Sub-Option 1",
+          },
+        ],
+      },
+      {
+        name: "Sub-Option 2",
+      },
+    ],
   },
   {
     name: "Option 3",
@@ -35,14 +48,6 @@ const MenuArray: FunnyMenu[] = [
 ];
 
 const Home: NextPage = () => {
-  const [orientation, setOrientation] = useState<"horizontal" | "vertical">("vertical");
-  const dividerOrientation = useBreakpointValue({ base: "horizontal", md: "vertical" }) as
-    | "horizontal"
-    | "vertical";
-
-  useEffect(() => {
-    setOrientation(dividerOrientation);
-  }, [dividerOrientation]);
   return (
     <Layout pageTitle="Home" maxW="full" maxH="full">
       <SimpleGrid
@@ -56,7 +61,16 @@ const Home: NextPage = () => {
       >
         <Box flexDir={{ base: "column", md: "row" }} width="full" display="flex">
           <SideMenu options={MenuArray} />
-          <Divider orientation={dividerOrientation} />
+          <Divider
+            display={{ base: "none", md: "flex" }}
+            orientation="vertical"
+            borderStartWidth={5}
+          />
+          <Divider
+            display={{ base: "flex", md: "none" }}
+            orientation="horizontal"
+            borderStartWidth={5}
+          />
         </Box>
         <Heading>Home</Heading>
       </SimpleGrid>
