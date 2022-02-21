@@ -5,17 +5,10 @@ import {
   AlertTitle,
   Avatar,
   Box,
-  Button,
   Divider,
   Heading,
   HStack,
   Icon,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   SimpleGrid,
   Tab,
   TabList,
@@ -23,29 +16,22 @@ import {
   TabPanels,
   Tabs,
   Text,
-  useDisclosure,
-  useToast,
   VStack,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { players } from "@prisma/client";
-import { Input } from "@sword/components/input";
 import { Layout } from "@sword/components/layout";
+import { DeleteAccountModal } from "@sword/components/modals/delete-account";
 import { setupApiClient } from "@sword/services/axios";
-import { toastSettings } from "@sword/utils/toast";
-import { AxiosError } from "axios";
 import { DateTime } from "luxon";
-import { NextPage } from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import {
   IoIdCardOutline,
   IoPeopleOutline,
   IoPersonOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
-import * as yup from "yup";
 
 type SingleAccount = {
   id: number;
@@ -226,107 +212,19 @@ const Account: NextPage = () => {
   );
 };
 
-type DeleteAccountData = {
-  confirmation: string;
-};
-
-type DeleteAccountModalProps = {
-  accountId: number;
-  accountName: string;
-};
-
-function DeleteAccountModal({ accountId, accountName }: DeleteAccountModalProps): JSX.Element {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
-
-  const DeleteAccountSchema = yup.object().shape({
-    confirmation: yup
-      .string()
-      .oneOf([accountName, null], "This isn't the name of the account you're trying to delete")
-      .required("You must confirm this action"),
-  });
-
-  const { formState, handleSubmit, register, reset } = useForm<DeleteAccountData>({
-    mode: "onChange",
-    resolver: yupResolver(DeleteAccountSchema),
-    reValidateMode: "onChange",
-  });
-
-  const onSubmit: SubmitHandler<DeleteAccountData> = async ({ confirmation }) => {
-    toast.closeAll();
-    const api = setupApiClient();
-
-    await api
-      .delete("/account/delete", {
-        data: {
-          idToDelete: accountId,
-          confirmation,
-        },
-      })
-      .then(() => {
-        reset();
-        onClose();
-        toast({
-          ...toastSettings,
-          title: "Account deleted",
-          status: "info",
-        });
-      })
-      .catch(({ response }: AxiosError) => {
-        toast({
-          ...toastSettings,
-          title: `${response?.data.message}`,
-          status: "error",
-        });
-      });
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    fallback: true,
+    paths: [],
   };
+};
 
-  return (
-    <>
-      <Button colorScheme="red" onClick={onOpen}>
-        Delete Account
-      </Button>
-
-      <Modal
-        isOpen={isOpen}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus={false}
-        isCentered
-        initialFocusRef={undefined}
-        finalFocusRef={undefined}
-        returnFocusOnClose={false}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>You&apos;re trying to delete your account</ModalHeader>
-          <ModalBody>
-            <Text>
-              If you&apos;re just changing accounts, make sure you&apos;ve transfered everything you
-              need.
-            </Text>
-            <Text color="red">This action is irreversible.</Text>
-            <Divider marginY="2.5" />
-            <Text>
-              To delete your account, we need that you yourself confirm what is the account name
-            </Text>
-            <Input error={formState.errors.confirmation} {...register("confirmation")} />
-            <Divider marginY="2.5" />
-          </ModalBody>
-          <ModalFooter>
-            <HStack spacing="2.5">
-              <Button colorScheme="red" type="submit" width="full">
-                Delete
-              </Button>
-              <Button variant="ghost" onClick={onClose} width="full">
-                Don&apos;t delete
-              </Button>
-            </HStack>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
-  );
-}
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: (await import(`@sword/locales/${locale}.json`)).default,
+    },
+  };
+};
 
 export default Account;
