@@ -60,7 +60,6 @@
       {
         "path": "@semantic-release/git",
         "assets": [
-          "package-lock.json",
           "yarn.lock",
           "CHANGELOG.md"
         ],
