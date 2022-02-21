@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/ivopr/sword/compare/v1.4.0...v1.5.0) (2022-02-21)
+
+
+### Features
+
+* crude refresh token ([09e0d1f](https://github.com/ivopr/sword/commit/09e0d1f32d5407829a9f17d8dab53f850a08a14c))
+
 # [1.4.0](https://github.com/ivopr/sword/compare/v1.3.0...v1.4.0) (2022-02-20)
 
 
