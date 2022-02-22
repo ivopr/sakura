@@ -12,8 +12,6 @@ export function AccountInfoTab({ account }: AccountInfoTabProps): JSX.Element {
 
   const accountLabelSize = "lg";
 
-  if (!account) return <></>;
-
   return (
     <VStack alignItems="flex-start" spacing="1.5">
       <HStack spacing="1.5">

@@ -1,12 +1,10 @@
 import { Avatar, Box, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
 import { Layout } from "@sword/components/layout";
 import { AccountTabsProps } from "@sword/components/tabs/account";
-import { setupApiClient } from "@sword/services/axios";
-import { SingleAccount } from "@sword/types/account";
+import { useGetAccountByNameQuery } from "@sword/store/apis/account";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 const AccountTabs = dynamic<AccountTabsProps>(
   () => import("@sword/components/tabs/account").then((mod) => mod.AccountTabs),
@@ -21,28 +19,10 @@ const AccountTabs = dynamic<AccountTabsProps>(
 );
 
 const Account: NextPage = () => {
-  const [account, setAccount] = useState<SingleAccount>();
   const router = useRouter();
+  const { data } = useGetAccountByNameQuery(router.query.name as string);
 
-  useEffect(() => {
-    (async () => {
-      const { name } = router.query;
-      if (!name) return;
-
-      const api = setupApiClient();
-
-      await api
-        .get<{ account: SingleAccount }>(
-          `/account/read?type=one&name=${name}&shouldBringRelations=true`
-        )
-        .then(({ data }) => {
-          setAccount(data.account);
-        })
-        .catch(({ response }) => console.log(response.data));
-    })();
-  }, [router]);
-
-  if (!account) {
+  if (!data) {
     return (
       <Layout pageTitle="Loading - Account">
         <Box alignItems="center" justifyContent="center" display="flex" height="24">
@@ -53,7 +33,7 @@ const Account: NextPage = () => {
   }
 
   return (
-    <Layout pageTitle={`${account.name} - Account`}>
+    <Layout pageTitle={`${data.account.name} - Account`}>
       {/** BEGIN Avatar, Name and Email */}
 
       <VStack marginY="auto" spacing="1">
@@ -65,13 +45,13 @@ const Account: NextPage = () => {
           }}
           size="2xl"
         />
-        <Heading textTransform="capitalize">{account.name}</Heading>
-        <Text>{account.email}</Text>
+        <Heading textTransform="capitalize">{data.account.name}</Heading>
+        <Text>{data.account.email}</Text>
       </VStack>
       {/** END Avatar, Name and Email */}
 
       {/** BEGIN Account Info Tabs */}
-      <AccountTabs account={account} />
+      <AccountTabs account={data.account} />
       {/** END Account Info Tabs */}
     </Layout>
   );

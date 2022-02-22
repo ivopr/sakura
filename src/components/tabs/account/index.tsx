@@ -18,8 +18,6 @@ export type AccountTabsProps = {
 export function AccountTabs({ account }: AccountTabsProps): JSX.Element {
   const translate = useTranslations("account.view.tabs");
 
-  if (!account) return <></>;
-
   return (
     <Tabs marginY="5" variant="solid-rounded">
       <TabList justifyContent="center" flexWrap="wrap" gap="2.5">

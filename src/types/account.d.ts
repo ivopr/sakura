@@ -8,4 +8,4 @@ export type SingleAccount = {
   premium_ends_at: number;
   creation: number;
   players?: players[];
-} | null;
+};

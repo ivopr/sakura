@@ -10,8 +10,6 @@ type AccountSettingsTabProps = {
 export function AccountSettingsTab({ account }: AccountSettingsTabProps): JSX.Element {
   const translate = useTranslations("account.view.tabs.settingsTab");
 
-  if (!account) return <></>;
-
   return (
     <VStack>
       <Alert alignItems="center" flexDirection="column" status="error" variant="left-accent">
