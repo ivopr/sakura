@@ -1,5 +1,6 @@
 import { Divider, Icon, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { SingleAccount } from "@sword/types/account";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import {
   IoIdCardOutline,
@@ -16,6 +17,8 @@ export type AccountTabsProps = {
 };
 
 export function AccountTabs({ account }: AccountTabsProps): JSX.Element {
+  const { data: session, status } = useSession();
+
   const translate = useTranslations("account.view.tabs");
 
   return (
@@ -33,10 +36,12 @@ export function AccountTabs({ account }: AccountTabsProps): JSX.Element {
           <Icon as={IoPeopleOutline} marginRight="1" />
           {translate("friendsTabTitle")}
         </Tab>
-        <Tab>
-          <Icon as={IoSettingsOutline} marginRight="1" />
-          {translate("settingsTabTitle")}
-        </Tab>
+        {status === "authenticated" && account.id === session?.id && (
+          <Tab>
+            <Icon as={IoSettingsOutline} marginRight="1" />
+            {translate("settingsTabTitle")}
+          </Tab>
+        )}
       </TabList>
       <Divider marginY="2" />
       <TabPanels>
@@ -45,9 +50,11 @@ export function AccountTabs({ account }: AccountTabsProps): JSX.Element {
         </TabPanel>
         <TabPanel></TabPanel>
         <TabPanel></TabPanel>
-        <TabPanel>
-          <AccountSettingsTab account={account} />
-        </TabPanel>
+        {status === "authenticated" && account.id === session?.id && (
+          <TabPanel>
+            <AccountSettingsTab account={account} />
+          </TabPanel>
+        )}
       </TabPanels>
     </Tabs>
   );

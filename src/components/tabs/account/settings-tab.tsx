@@ -2,7 +2,6 @@ import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, VStack } from "@ch
 import { DeleteAccountModal } from "@sword/components/modals/delete-account";
 import { SingleAccount } from "@sword/types/account";
 import { useTranslations } from "next-intl";
-
 type AccountSettingsTabProps = {
   account: SingleAccount;
 };

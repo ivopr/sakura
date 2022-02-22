@@ -5,6 +5,7 @@ import { useGetAccountByNameQuery } from "@sword/store/apis/account";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const AccountTabs = dynamic<AccountTabsProps>(
   () => import("@sword/components/tabs/account").then((mod) => mod.AccountTabs),
@@ -19,6 +20,7 @@ const AccountTabs = dynamic<AccountTabsProps>(
 );
 
 const Account: NextPage = () => {
+  const { data: session, status } = useSession();
   const router = useRouter();
   const { data } = useGetAccountByNameQuery(router.query.name as string);
 
@@ -36,7 +38,7 @@ const Account: NextPage = () => {
     <Layout pageTitle={`${data.account.name} - Account`}>
       {/** BEGIN Avatar, Name and Email */}
 
-      <VStack marginY="auto" spacing="1">
+      <VStack marginY="auto" spacing="5">
         <Avatar
           backgroundColor="primary.500"
           marginX={{
@@ -45,8 +47,14 @@ const Account: NextPage = () => {
           }}
           size="2xl"
         />
-        <Heading textTransform="capitalize">{data.account.name}</Heading>
-        <Text>{data.account.email}</Text>
+        <Box>
+          <Heading textAlign="center" textTransform="capitalize">
+            {status === "authenticated" && data.account.id === session?.id
+              ? `${data.account.name} (You)`
+              : data.account.name}
+          </Heading>
+          <Text>{data.account.email}</Text>
+        </Box>
       </VStack>
       {/** END Avatar, Name and Email */}
 

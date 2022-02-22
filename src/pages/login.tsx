@@ -13,14 +13,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@sword/components/input";
 import { PasswordField } from "@sword/components/input/password-input";
 import { Layout } from "@sword/components/layout";
-import { setupApiClient } from "@sword/services/axios";
 import { toastSettings } from "@sword/utils/toast";
 import { GetStaticProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { setCookie } from "nookies";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
-
 type LoginData = {
   name: string;
   password: string;
@@ -28,6 +27,8 @@ type LoginData = {
 
 const Login: NextPage = () => {
   const translate = useTranslations("login");
+  const toast = useToast();
+  const router = useRouter();
 
   const LoginSchema = yup.object().shape({
     name: yup.string().required(translate("accountNameRequired")),
@@ -43,33 +44,32 @@ const Login: NextPage = () => {
     reValidateMode: "onChange",
   });
 
-  const toast = useToast();
-
   const onSubmit: SubmitHandler<LoginData> = async ({ name, password }) => {
-    toast.closeAll();
-    const api = setupApiClient();
+    await signIn("credentials", {
+      name: name,
+      password: password,
+      redirect: false,
+      callbackUrl: "/",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }).then((data: any) => {
+      const { error } = data;
 
-    await api
-      .post("/authentication/login", {
-        name: name,
-        password: password,
-      })
-      .then(({ data }) => {
-        setCookie(undefined, "SERVERNAME_SWORD_AUTH_TOKEN", data.session.token);
-        setCookie(undefined, "SERVERNAME_SWORD_AUTH_REFRESH_TOKEN", data.session.refreshToken);
+      if (error) {
         toast({
           ...toastSettings,
-          title: translate("loggedIn"),
-          status: "success",
-        });
-      })
-      .catch(({ response }) => {
-        toast({
-          ...toastSettings,
-          title: translate(`requestErrors.${response.data.message}`),
+          title: translate(`requestErrors.${error}`),
           status: "error",
         });
-      });
+      } else {
+        toast({
+          ...toastSettings,
+          title: "Login successful",
+          status: "success",
+        });
+
+        router.push("/account/ivopr");
+      }
+    });
   };
 
   return (

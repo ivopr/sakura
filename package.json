@@ -28,6 +28,7 @@
     "jsonwebtoken": "^8.5.1",
     "luxon": "^2.3.0",
     "next": "12.1.0",
+    "next-auth": "^4.2.1",
     "next-intl": "^2.4.0",
     "nextjs-progressbar": "^0.0.13",
     "nookies": "^2.5.2",
