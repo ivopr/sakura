@@ -7,7 +7,6 @@ import { decrement, increment } from "@sword/store/slices/counter";
 import { RootState } from "@sword/store/store";
 import type { GetStaticProps, NextPage } from "next";
 import { useTranslations } from "next-intl";
-
 import { useDispatch, useSelector } from "react-redux";
 
 type FunnyMenu = {
@@ -70,25 +69,27 @@ const Home: NextPage = () => {
         marginX="auto"
       >
         <VStack justifyContent="left" width="fit-content" spacing="5">
-          <Box flexDir={{ base: "column", md: "row" }} width="full" display="flex">
+          <Box flexDirection={{ base: "column", md: "row" }} display="flex" width="full">
             <SideMenu options={MenuArray} />
             <Divider
               display={{ base: "none", md: "flex" }}
-              orientation="vertical"
               borderStartWidth={5}
+              orientation="vertical"
             />
             <Divider
               display={{ base: "flex", md: "none" }}
-              orientation="horizontal"
               borderBottomWidth={5}
+              orientation="horizontal"
             />
           </Box>
           <EventCard name="Capture The Flag" startAt={new Date()} />
           <GuildRanks />
         </VStack>
-        <Heading>{count}</Heading>
-        <Button onClick={() => dispatch(increment())}>Increment</Button>
-        <Button onClick={() => dispatch(decrement())}>Decrement</Button>
+        <Box>
+          <Heading>{count}</Heading>
+          <Button onClick={() => dispatch(increment())}>Increment</Button>
+          <Button onClick={() => dispatch(decrement())}>Decrement</Button>
+        </Box>
       </SimpleGrid>
     </Layout>
   );
