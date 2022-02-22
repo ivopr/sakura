@@ -81,6 +81,11 @@ const Home: NextPage = () => {
               orientation="horizontal"
             />
           </Box>
+          <Divider
+            display={{ base: "none", md: "flex" }}
+            borderBottomWidth={5}
+            orientation="horizontal"
+          />
           <EventCard name="Capture The Flag" startAt={DateTime.now()} />
           <GuildRanks />
         </VStack>
