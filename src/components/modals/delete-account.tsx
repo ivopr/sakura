@@ -31,10 +31,7 @@ type DeleteAccountData = {
   confirmation: string;
 };
 
-export function DeleteAccountModal({
-  accountId,
-  accountName,
-}: DeleteAccountModalProps): JSX.Element {
+export function DeleteAccountModal({ accountName }: DeleteAccountModalProps): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -60,7 +57,6 @@ export function DeleteAccountModal({
     await api
       .delete("/account/delete", {
         data: {
-          idToDelete: accountId,
           confirmation,
         },
       })
@@ -74,6 +70,7 @@ export function DeleteAccountModal({
         });
       })
       .catch(({ response }: AxiosError) => {
+        console.log(response?.data);
         toast({
           ...toastSettings,
           title: `errors.${response?.data.message}`,

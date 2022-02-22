@@ -6,6 +6,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 const AccountTabs = dynamic<AccountTabsProps>(
   () => import("@sword/components/tabs/account").then((mod) => mod.AccountTabs),
@@ -20,9 +21,19 @@ const AccountTabs = dynamic<AccountTabsProps>(
 );
 
 const Account: NextPage = () => {
+  const [skipFirstQueryOnMount, setSkipFirstQueryOnMount] = useState(true);
   const { data: session, status } = useSession();
   const router = useRouter();
-  const { data } = useGetAccountByNameQuery(router.query.name as string);
+  const { data } = useGetAccountByNameQuery(router.query.name as string, {
+    skip: skipFirstQueryOnMount,
+  });
+
+  useEffect(() => {
+    if (skipFirstQueryOnMount) {
+      setSkipFirstQueryOnMount(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!data) {
     return (

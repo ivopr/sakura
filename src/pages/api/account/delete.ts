@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { accounts } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 
 import { prisma } from "../../../services/prisma";
 
@@ -10,7 +11,6 @@ type Data = {
 };
 
 type BodyData = {
-  idToDelete: number;
   confirmation: string;
 };
 
@@ -19,11 +19,21 @@ export default async function handler(
   res: NextApiResponse<Data>
 ): Promise<void> {
   if (req.method === "DELETE") {
+    const session = await getSession({ req });
+
+    if (!session) {
+      return res.status(401).json({
+        message: "Not authenticated",
+      });
+    }
+
+    console.log(session);
+
     const data: BodyData = req.body;
 
     const account = await prisma.accounts.findFirst({
       where: {
-        id: { equals: data.idToDelete },
+        name: { equals: session.user?.name as string },
       },
     });
 
@@ -39,19 +49,13 @@ export default async function handler(
       });
     }
 
-    const deletedAccount = await prisma.accounts.delete({
+    await prisma.accounts.delete({
       where: {
-        id: data.idToDelete,
-      },
-      select: {
-        name: true,
-        creation: true,
+        name: session.user?.name as string,
       },
     });
 
-    return res.status(200).json({
-      account: deletedAccount,
-    });
+    return res.status(200).json({});
   } else {
     return res.status(405).json({
       message: `You can't ${req.method} this route.`,
