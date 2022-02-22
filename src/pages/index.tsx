@@ -1,8 +1,11 @@
-import { Box, Divider, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Box, Divider, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
+import { EventCard } from "@sword/components/event-card";
+import { GuildRanks } from "@sword/components/guild-rank";
 import { Layout } from "@sword/components/layout";
 import type { GetStaticProps, NextPage } from "next";
+import { useTranslations } from "next-intl";
 
-import { SideMenu } from "../components/side-menu-options";
+import { SideMenu } from "../components/side-menu";
 
 type FunnyMenu = {
   name: string;
@@ -48,6 +51,8 @@ const MenuArray: FunnyMenu[] = [
 ];
 
 const Home: NextPage = () => {
+  const translate = useTranslations("home");
+
   return (
     <Layout pageTitle="Home" maxW="full" maxH="full">
       <SimpleGrid
@@ -59,20 +64,24 @@ const Home: NextPage = () => {
         gap="5"
         height="full"
       >
-        <Box flexDir={{ base: "column", md: "row" }} width="full" display="flex">
-          <SideMenu options={MenuArray} />
-          <Divider
-            display={{ base: "none", md: "flex" }}
-            orientation="vertical"
-            borderStartWidth={5}
-          />
-          <Divider
-            display={{ base: "flex", md: "none" }}
-            orientation="horizontal"
-            borderBottomWidth={5}
-          />
-        </Box>
-        <Heading textAlign={{ base: "center", md: "initial" }}>Home</Heading>
+        <VStack justifyContent="left" width="fit-content" spacing="5">
+          <Box flexDir={{ base: "column", md: "row" }} width="full" display="flex">
+            <SideMenu options={MenuArray} />
+            <Divider
+              display={{ base: "none", md: "flex" }}
+              orientation="vertical"
+              borderStartWidth={5}
+            />
+            <Divider
+              display={{ base: "flex", md: "none" }}
+              orientation="horizontal"
+              borderBottomWidth={5}
+            />
+          </Box>
+          <EventCard name="Capture The Flag" startAt={new Date()} />
+          <GuildRanks />
+        </VStack>
+        <Heading textAlign={{ base: "center", md: "initial" }}>{translate("Home")}</Heading>
       </SimpleGrid>
     </Layout>
   );
