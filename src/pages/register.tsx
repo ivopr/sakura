@@ -75,22 +75,22 @@ const Register: NextPage = () => {
 
       <VStack
         as="form"
-        marginX="auto"
-        marginY="5"
         maxWidth={{
           base: "full",
           md: "75%",
         }}
+        marginX="auto"
+        marginY="5"
         onSubmit={handleSubmit(onSubmit)}
         spacing="5"
       >
         <SimpleGrid
+          rowGap="5"
           columnGap="2.5"
           columns={{
             base: 1,
             md: 2,
           }}
-          rowGap="5"
         >
           <Input
             error={formState.errors.name}
@@ -122,18 +122,18 @@ const Register: NextPage = () => {
           />
         </SimpleGrid>
         <Button
+          width="100%"
           colorScheme={formState.isSubmitSuccessful && !creationError ? "green" : undefined}
           disabled={formState.isSubmitSuccessful && !creationError}
           isLoading={formState.isSubmitting}
           leftIcon={
             formState.isSubmitSuccessful && !creationError ? (
-              <Icon as={IoCheckmarkOutline} height={5} width={5} />
+              <Icon as={IoCheckmarkOutline} width={5} height={5} />
             ) : (
-              <Icon as={IoPersonAddOutline} height={5} width={5} />
+              <Icon as={IoPersonAddOutline} width={5} height={5} />
             )
           }
           type="submit"
-          width="100%"
         >
           {formState.isSubmitSuccessful && !creationError ? "Registered" : "Register"}
         </Button>

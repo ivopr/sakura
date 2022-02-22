@@ -37,7 +37,7 @@ export const Option: FC<OptionProps> = ({
   return (
     <>
       {option.childs ? (
-        <Accordion allowToggle width="100%">
+        <Accordion width="100%" allowToggle>
           <AccordionItem border="none">
             <AccordionButton display="flex" width="full">
               <Heading fontSize={fontSize} textAlign="center">
@@ -65,10 +65,10 @@ export const Option: FC<OptionProps> = ({
             marginY="1"
             marginLeft="4"
             fontSize={fontSize}
-            onClick={option.action}
             _hover={{
               cursor: option.action ? "pointer" : "default",
             }}
+            onClick={option.action}
           >
             {translate(option.name)}
           </Heading>

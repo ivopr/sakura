@@ -1,15 +1,24 @@
-import { Button, Heading, Icon, SimpleGrid, useToast, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Stack,
+  Text,
+  useBreakpointValue,
+  useColorModeValue,
+  useToast,
+} from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@sword/components/input";
+import { PasswordField } from "@sword/components/input/password-input";
 import { Layout } from "@sword/components/layout";
 import { setupApiClient } from "@sword/services/axios";
 import { toastSettings } from "@sword/utils/toast";
-import type { GetStaticProps, NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import { useTranslations } from "next-intl";
 import { setCookie } from "nookies";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IoCheckmarkOutline, IoLogInOutline } from "react-icons/io5";
 import * as yup from "yup";
 
 type LoginData = {
@@ -18,13 +27,14 @@ type LoginData = {
 };
 
 const Login: NextPage = () => {
-  const [loginError, setLoginError] = useState(false);
-
   const translate = useTranslations("login");
 
   const LoginSchema = yup.object().shape({
     name: yup.string().required(translate("accountNameRequired")),
-    password: yup.string().required(translate("passwordRequired")),
+    password: yup
+      .string()
+      .min(5, translate("requestErrors.passwordLength"))
+      .required(translate("passwordRequired")),
   });
 
   const { formState, handleSubmit, register } = useForm<LoginData>({
@@ -32,6 +42,7 @@ const Login: NextPage = () => {
     resolver: yupResolver(LoginSchema),
     reValidateMode: "onChange",
   });
+
   const toast = useToast();
 
   const onSubmit: SubmitHandler<LoginData> = async ({ name, password }) => {
@@ -46,7 +57,6 @@ const Login: NextPage = () => {
       .then(({ data }) => {
         setCookie(undefined, "SERVERNAME_SWORD_AUTH_TOKEN", data.session.token);
         setCookie(undefined, "SERVERNAME_SWORD_AUTH_REFRESH_TOKEN", data.session.refreshToken);
-        setLoginError(false);
         toast({
           ...toastSettings,
           title: translate("loggedIn"),
@@ -54,7 +64,6 @@ const Login: NextPage = () => {
         });
       })
       .catch(({ response }) => {
-        setLoginError(true);
         toast({
           ...toastSettings,
           title: translate(`requestErrors.${response.data.message}`),
@@ -65,52 +74,42 @@ const Login: NextPage = () => {
 
   return (
     <Layout pageTitle={translate("title")}>
-      <Heading textAlign="center">{translate("title")}</Heading>
-
-      <VStack
-        as="form"
-        marginX="auto"
-        marginY="5"
-        maxWidth={{
-          base: "full",
-          md: "35%",
-        }}
-        onSubmit={handleSubmit(onSubmit)}
-        spacing="5"
-      >
-        <SimpleGrid columns={1} rowGap="2.5">
-          <Input
-            error={formState.errors.name}
-            isDisabled={formState.isSubmitSuccessful && !loginError}
-            label={translate("accountName")}
-            type="text"
-            {...register("name")}
-          />
-          <Input
-            error={formState.errors.password}
-            isDisabled={formState.isSubmitSuccessful && !loginError}
-            label={translate("password")}
-            type="password"
-            {...register("password")}
-          />
-        </SimpleGrid>
-        <Button
-          colorScheme={formState.isSubmitSuccessful && !loginError ? "green" : undefined}
-          disabled={formState.isSubmitSuccessful && !loginError}
-          isLoading={formState.isSubmitting}
-          leftIcon={
-            formState.isSubmitSuccessful && !loginError ? (
-              <Icon as={IoCheckmarkOutline} height={5} width={5} />
-            ) : (
-              <Icon as={IoLogInOutline} height={5} width={5} />
-            )
-          }
-          type="submit"
-          width="full"
+      <Stack maxWidth="md" marginX="auto" spacing="8">
+        <Stack spacing="6">
+          <Stack textAlign="center" spacing={{ base: "2", md: "3" }}>
+            <Heading size={useBreakpointValue({ base: "lg", md: "xl" })}>
+              {translate("title")}
+            </Heading>
+            <HStack justify="center" spacing="1">
+              <Text color="muted">{translate("needRegister")}</Text>
+              <Button colorScheme="blue" variant="link">
+                {translate("register")}
+              </Button>
+            </HStack>
+          </Stack>
+        </Stack>
+        <Box
+          borderRadius={{ base: "none", sm: "xl" }}
+          boxShadow={{ base: "none", sm: useColorModeValue("md", "md-dark") }}
+          backgroundColor={useBreakpointValue({ base: "transparent", sm: "bg-surface" })}
+          paddingX={{ base: "4", sm: "10" }}
+          paddingY={{ base: "0", sm: "8" }}
         >
-          {formState.isSubmitSuccessful && !loginError ? translate("loggedIn") : translate("title")}
-        </Button>
-      </VStack>
+          <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing="6">
+            <Stack spacing="5">
+              <Input
+                error={formState.errors.name}
+                label={translate("accountName")}
+                {...register("name")}
+              />
+              <PasswordField error={formState.errors.password} {...register("password")} />
+            </Stack>
+            <Button isLoading={formState.isSubmitting} type="submit">
+              Sign in
+            </Button>
+          </Stack>
+        </Box>
+      </Stack>
     </Layout>
   );
 };

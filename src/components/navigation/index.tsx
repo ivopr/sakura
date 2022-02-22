@@ -1,97 +1,117 @@
-import { Box, chakra, Flex, HStack, IconButton, useDisclosure, VStack } from "@chakra-ui/react";
-import { Logo } from "@sword/components/logo";
+import {
+  Avatar,
+  Box,
+  Button,
+  chakra,
+  CloseButton,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  useColorModeValue,
+  useDisclosure,
+  VisuallyHidden,
+  VStack,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
-import { IoCloseOutline, IoMenuOutline } from "react-icons/io5";
+import { IoMenuOutline, IoNotificationsOutline } from "react-icons/io5";
 
+import { Logo } from "../logo";
 import { NAV_ITEMS } from "./items";
-import { NavigationButton } from "./navigation-button";
 
 export function Navigation(): JSX.Element {
+  const bg = useColorModeValue("white", "gray.900");
   const mobileNav = useDisclosure();
 
   return (
-    <React.Fragment>
+    <Box position="sticky" zIndex="sticky" top="0" shadow="md">
       <chakra.header
-        backgroundColor="gray.800"
-        borderBottomColor="whiteAlpha.300"
-        borderBottomWidth="1px"
-        display="flex"
-        height="24"
-        paddingX={{ base: 2, md: 4, xl: 6 }}
-        position="sticky"
-        top={0}
+        backgroundColor={bg}
+        borderColor="gray.600"
+        borderBottomWidth={1}
         width="full"
-        zIndex="sticky"
+        paddingX={{ base: 2, sm: 4 }}
+        paddingY={4}
       >
-        <Flex
-          alignItems="center"
-          justifyContent="space-between"
-          height={12}
-          margin="auto"
-          width="100%"
-        >
-          <Flex as={NextLink} href="/" passHref>
-            <chakra.a alignItems="center" display="flex" title="Sword">
-              <Logo />
-            </chakra.a>
-          </Flex>
-          <HStack alignItems="center" display="flex" spacing={2}>
-            <HStack display={{ base: "none", md: "inline-flex" }} spacing={2}>
-              {NAV_ITEMS.map((item) => (
-                <NavigationButton key={item.label + item.href} {...item} />
-              ))}
-            </HStack>
-            {/*user !== undefined && <UserMenu />*/}
+        <Flex alignItems="center" justifyContent="space-between" marginX="auto">
+          <HStack alignItems="center" display="flex" spacing={1}>
             <Box display={{ base: "inline-flex", md: "none" }}>
               <IconButton
-                aria-label="Open menu"
-                color="inherit"
                 display={{ base: "flex", md: "none" }}
+                color={useColorModeValue("gray.800", "inherit")}
                 fontSize="20px"
+                aria-label="Open menu"
                 icon={<IoMenuOutline />}
                 onClick={mobileNav.onOpen}
                 variant="ghost"
               />
-
               <VStack
-                background="blackAlpha.900"
-                display={mobileNav.isOpen ? "flex" : "none"}
-                flexDirection="column"
-                left={0}
-                height="100vh"
-                padding={2}
-                paddingTop={24}
                 position="absolute"
-                right={0}
-                rounded="none"
-                spacing={1}
                 top={0}
-                zIndex={10}
+                right={0}
+                left={0}
+                flexDirection="column"
+                display={mobileNav.isOpen ? "flex" : "none"}
+                padding={2}
+                shadow="sm"
+                backgroundColor={bg}
+                paddingBottom={4}
+                rounded="sm"
+                spacing="2.5"
               >
-                <Logo />
-                <IconButton
-                  aria-label="Open menu"
-                  color="inherit"
-                  fontSize="20px"
-                  icon={<IoCloseOutline />}
+                <CloseButton
+                  justifySelf="self-start"
+                  aria-label="Close menu"
                   onClick={mobileNav.onClose}
-                  variant="ghost"
-                  width="full"
                 />
                 {NAV_ITEMS.map((item) => (
-                  <NavigationButton
-                    isMobile
-                    closeMobile={mobileNav.onClose}
-                    key={item.label + item.href}
-                    {...item}
-                  />
+                  <NextLink key={item.label + item.href} href={item.href} passHref>
+                    <chakra.a
+                      as={Button}
+                      width="full"
+                      leftIcon={<Icon as={item.Icon} />}
+                      variant="ghost"
+                    >
+                      {item.label}
+                    </chakra.a>
+                  </NextLink>
                 ))}
               </VStack>
             </Box>
+            <chakra.a href="/" title="Sword Home Page" display="flex" alignItems="center">
+              <Logo />
+              <VisuallyHidden>Sword</VisuallyHidden>
+            </chakra.a>
+          </HStack>
+          <HStack alignItems="center" display="flex" spacing={3}>
+            <HStack display={{ base: "none", md: "inline-flex" }} spacing={3}>
+              {NAV_ITEMS.map((item) => (
+                <NextLink key={item.label + item.href} href={item.href} passHref>
+                  <chakra.a
+                    as={Button}
+                    size="sm"
+                    leftIcon={<Icon as={item.Icon} />}
+                    variant="ghost"
+                  >
+                    {item.label}
+                  </chakra.a>
+                </NextLink>
+              ))}
+            </HStack>
+            <chakra.a
+              padding={3}
+              color={useColorModeValue("gray.800", "inherit")}
+              rounded="sm"
+              _hover={{ color: useColorModeValue("gray.800", "gray.600") }}
+            >
+              <IoNotificationsOutline />
+              <VisuallyHidden>Notifications</VisuallyHidden>
+            </chakra.a>
+
+            <Avatar name="Dan Abrahmov" size="sm" src="https://bit.ly/dan-abramov" />
           </HStack>
         </Flex>
       </chakra.header>
-    </React.Fragment>
+    </Box>
   );
 }

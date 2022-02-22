@@ -13,19 +13,42 @@
 				"mustConfirm": "You must confirm this action",
 				"title": "Delete Account",
 				"wrongConfirmation": "This isn't the name of the account you're trying to delete"
+			},
+			"tabs": {
+				"accountTab": {
+					"createdAt": "Created at:",
+					"group": "Group:",
+					"notPremium": "Not activated",
+					"premium": "Premium:",
+					"premiumEnds": "Ends in {date}",
+					"totalCharacters": "Total characters:"
+				},
+				"accountTabTitle": "Account",
+				"charactersTabTitle": "Characters",
+				"friendsTabTitle": "Friends",
+				"settingsTab": {
+					"delete": {
+						"content": "Note that every single thing you achieved, your characters, in-game items, EVERYTHING, will be lost FOREVER.",
+						"title": "Delete Account"
+					}
+				},
+				"settingsTabTitle": "Settings"
 			}
 		}
 	},
 	"login": {
 		"accountName": "Account Name",
 		"accountNameRequired": "Account Name is a required field",
-		"loggedIn": "Logged In",
+		"maskPassword": "Mask password",
+		"needRegister": "Don't have an account?",
 		"password": "Password",
 		"passwordRequired": "Password is a required field",
 		"title": "Login",
+		"register": "Register",
 		"requestErrors": {
 			"passwordLength": "Your password must be at least 5 characters long",
 			"wrongCredentials": "This Account Name and Password combination is invalid"
-		}
+		},
+		"revealPassword": "Reveal password"
 	}
 }

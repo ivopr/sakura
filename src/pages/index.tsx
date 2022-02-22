@@ -1,11 +1,14 @@
-import { Box, Divider, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Box, Button, Divider, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
 import { EventCard } from "@sword/components/event-card";
 import { GuildRanks } from "@sword/components/guild-rank";
 import { Layout } from "@sword/components/layout";
+import { SideMenu } from "@sword/components/side-menu";
+import { decrement, increment } from "@sword/store/slices/counter";
+import { RootState } from "@sword/store/store";
 import type { GetStaticProps, NextPage } from "next";
 import { useTranslations } from "next-intl";
 
-import { SideMenu } from "../components/side-menu";
+import { useDispatch, useSelector } from "react-redux";
 
 type FunnyMenu = {
   name: string;
@@ -52,17 +55,19 @@ const MenuArray: FunnyMenu[] = [
 
 const Home: NextPage = () => {
   const translate = useTranslations("home");
+  const count = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useDispatch();
 
   return (
     <Layout pageTitle="Home" maxW="full" maxH="full">
       <SimpleGrid
+        gap="5"
+        height="full"
         columns={{
           base: 1,
           md: 2,
         }}
         marginX="auto"
-        gap="5"
-        height="full"
       >
         <VStack justifyContent="left" width="fit-content" spacing="5">
           <Box flexDir={{ base: "column", md: "row" }} width="full" display="flex">
@@ -81,7 +86,9 @@ const Home: NextPage = () => {
           <EventCard name="Capture The Flag" startAt={new Date()} />
           <GuildRanks />
         </VStack>
-        <Heading textAlign={{ base: "center", md: "initial" }}>{translate("Home")}</Heading>
+        <Heading>{count}</Heading>
+        <Button onClick={() => dispatch(increment())}>Increment</Button>
+        <Button onClick={() => dispatch(decrement())}>Decrement</Button>
       </SimpleGrid>
     </Layout>
   );
