@@ -15,17 +15,17 @@ export const SimpleCard: FC<SimpleCardProps> = ({
 
   return (
     <Box
+      justifyContent="left"
+      width="full"
+      maxWidth="xs"
       borderRadius="xl"
       backgroundColor={cardBg}
-      width="full"
-      justifyContent="left"
-      maxW="xs"
       {...containerStyle}
     >
-      <Heading color={textColor} textAlign="center" padding="5" {...titleStyle}>
+      <Heading padding="5" color={textColor} {...titleStyle}>
         {title}
       </Heading>
-      <Divider bgColor={dividerColor} />
+      <Divider backgroundColor={dividerColor} />
       {children}
     </Box>
   );

@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { guild_membership, guilds } from "@prisma/client";
 import { setupApiClient } from "@sword/services/axios";
 import { useRouter } from "next/router";
@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import React, { FC, useEffect, useState } from "react";
 
 import { SimpleCard } from "../simple-card";
-import { GuildRankProps } from "./guild-rank.props";
 
 type Guild = {
   id: number;
@@ -17,11 +16,7 @@ type Guild = {
   guild_membership?: guild_membership[];
 };
 
-export const GuildRanks: FC<GuildRankProps> = ({
-  containerStyle,
-  ranksStyle,
-  titleStyle,
-}): JSX.Element => {
+export const GuildRanks: FC = (): JSX.Element => {
   const [guildRanks, setGuildRanks] = useState<Guild[]>([] as Guild[]);
   const router = useRouter();
   const translate = useTranslations("guildRanks");
@@ -31,28 +26,63 @@ export const GuildRanks: FC<GuildRankProps> = ({
       const api = setupApiClient();
 
       await api
-        .get<{ guilds: Guild[] }>(`/guild_ranks/read?type=all`)
+        .get<{ guildsRank: Guild[] }>(`/guildRanks/read?type=all`)
         .then(({ data }) => {
-          setGuildRanks(data.guilds);
+          console.log(data.guildsRank);
+          setGuildRanks(data.guildsRank);
         })
-        .catch(({ response }) => console.log(response.data));
+        .catch(({ response }) => console.log(response));
     })();
   }, [router]);
 
   return (
     <SimpleCard
       title={translate("Guild Ranks")}
-      titleStyle={titleStyle}
-      containerStyle={containerStyle}
+      titleStyle={{
+        textAlign: "center",
+        fontSize: { base: 15, md: 30 },
+      }}
+      containerStyle={{
+        width: { base: "fit-content", md: "initial" },
+        justifyContent: "center",
+      }}
     >
       {guildRanks.length > 0 ? (
         guildRanks.map((guild, index) => (
-          <Text {...ranksStyle} key={guild.name + index}>{`${index + 1}. ${guild.name} - ${
-            guild.level
-          }`}</Text>
+          <Box
+            key={guild.name + index}
+            justifyContent="space-evenly"
+            flexDirection="row"
+            display="flex"
+          >
+            <Text
+              width={{ base: "fit-content", md: "initial" }}
+              fontSize={{ base: 12, md: 20 }}
+              paddingX="10"
+              paddingY="2"
+            >{`${index + 1}.`}</Text>
+            <Text
+              width={{ base: "fit-content", md: "initial" }}
+              fontSize={{ base: 12, md: 16 }}
+              paddingX="10"
+              paddingY="2"
+            >{`${guild.name}`}</Text>
+            <Text
+              width={{ base: "fit-content", md: "initial" }}
+              fontSize={{ base: 12, md: 20 }}
+              paddingX="10"
+              paddingY="2"
+            >{`${guild.level}`}</Text>
+          </Box>
         ))
       ) : (
-        <Text textAlign="center" {...ranksStyle}>
+        <Text
+          width={{ base: "fit-content", md: "initial" }}
+          fontSize={{ base: 12, md: 20 }}
+          textAlign="center"
+          paddingX="10"
+          paddingY="2"
+        >
           {translate("There are no guilds in the rank")}
         </Text>
       )}
