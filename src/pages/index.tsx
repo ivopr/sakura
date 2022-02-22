@@ -6,7 +6,7 @@ import { SideMenu } from "@sword/components/side-menu";
 import { decrement, increment } from "@sword/store/slices/counter";
 import { RootState } from "@sword/store/store";
 import { DateTime } from "luxon";
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useDispatch, useSelector } from "react-redux";
 
 type FunnyMenu = {
@@ -103,7 +103,7 @@ const Home: NextPage = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
       messages: (await import(`@sword/locales/${locale}.json`)).default,

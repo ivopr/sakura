@@ -13,9 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { setupApiClient } from "@sword/services/axios";
 import { toastSettings } from "@sword/utils/toast";
-import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -44,39 +42,19 @@ export function DeleteAccountModal({ accountName }: DeleteAccountModalProps): JS
       .required(translate("mustConfirm")),
   });
 
-  const { formState, handleSubmit, register, reset } = useForm<DeleteAccountData>({
+  const { formState, handleSubmit, register } = useForm<DeleteAccountData>({
     mode: "onChange",
     resolver: yupResolver(DeleteAccountSchema),
     reValidateMode: "onChange",
   });
 
-  const onSubmit: SubmitHandler<DeleteAccountData> = async ({ confirmation }) => {
+  const onSubmit: SubmitHandler<DeleteAccountData> = async () => {
     toast.closeAll();
-    const api = setupApiClient();
-
-    await api
-      .delete("/account/delete", {
-        data: {
-          confirmation,
-        },
-      })
-      .then(() => {
-        reset();
-        onClose();
-        toast({
-          ...toastSettings,
-          title: translate("deleted"),
-          status: "info",
-        });
-      })
-      .catch(({ response }: AxiosError) => {
-        console.log(response?.data);
-        toast({
-          ...toastSettings,
-          title: `errors.${response?.data.message}`,
-          status: "error",
-        });
-      });
+    toast({
+      ...toastSettings,
+      title: "No Delete",
+      status: "info",
+    });
   };
 
   return (

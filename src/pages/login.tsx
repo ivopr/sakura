@@ -14,7 +14,7 @@ import { Input } from "@sword/components/input";
 import { PasswordField } from "@sword/components/input/password-input";
 import { Layout } from "@sword/components/layout";
 import { toastSettings } from "@sword/utils/toast";
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
@@ -114,7 +114,7 @@ const Login: NextPage = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
       messages: (await import(`@sword/locales/${locale}.json`)).default,

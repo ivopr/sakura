@@ -2,7 +2,7 @@ import { Avatar, Box, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
 import { Layout } from "@sword/components/layout";
 import { AccountTabsProps } from "@sword/components/tabs/account";
 import { useGetAccountByNameQuery } from "@sword/store/apis/account";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -76,14 +76,7 @@ const Account: NextPage = () => {
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    fallback: true,
-    paths: [],
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
       messages: (await import(`@sword/locales/${locale}.json`)).default,
