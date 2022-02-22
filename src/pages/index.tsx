@@ -1,9 +1,12 @@
-import { Box, Button, Divider, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, Divider, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
+import { EventCard } from "@sword/components/event-card";
+import { GuildRanks } from "@sword/components/guild-rank";
 import { Layout } from "@sword/components/layout";
-import { SideMenu } from "@sword/components/side-menu-options";
+import { SideMenu } from "@sword/components/side-menu";
 import { decrement, increment } from "@sword/store/slices/counter";
 import { RootState } from "@sword/store/store";
 import type { GetStaticProps, NextPage } from "next";
+import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 
 type FunnyMenu = {
@@ -50,6 +53,7 @@ const MenuArray: FunnyMenu[] = [
 ];
 
 const Home: NextPage = () => {
+  const translate = useTranslations("home");
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
 
@@ -64,22 +68,28 @@ const Home: NextPage = () => {
         }}
         marginX="auto"
       >
-        <Box flexDirection={{ base: "column", md: "row" }} display="flex" width="full">
-          <SideMenu options={MenuArray} />
-          <Divider
-            display={{ base: "none", md: "flex" }}
-            borderStartWidth={5}
-            orientation="vertical"
-          />
-          <Divider
-            display={{ base: "flex", md: "none" }}
-            borderStartWidth={5}
-            orientation="horizontal"
-          />
+        <VStack justifyContent="left" width="fit-content" spacing="5">
+          <Box flexDirection={{ base: "column", md: "row" }} display="flex" width="full">
+            <SideMenu options={MenuArray} />
+            <Divider
+              display={{ base: "none", md: "flex" }}
+              borderStartWidth={5}
+              orientation="vertical"
+            />
+            <Divider
+              display={{ base: "flex", md: "none" }}
+              borderBottomWidth={5}
+              orientation="horizontal"
+            />
+          </Box>
+          <EventCard name="Capture The Flag" startAt={new Date()} />
+          <GuildRanks />
+        </VStack>
+        <Box>
+          <Heading>{count}</Heading>
+          <Button onClick={() => dispatch(increment())}>Increment</Button>
+          <Button onClick={() => dispatch(decrement())}>Decrement</Button>
         </Box>
-        <Heading>{count}</Heading>
-        <Button onClick={() => dispatch(increment())}>Increment</Button>
-        <Button onClick={() => dispatch(decrement())}>Decrement</Button>
       </SimpleGrid>
     </Layout>
   );
