@@ -5,8 +5,8 @@ import { Layout } from "@sword/components/layout";
 import { SideMenu } from "@sword/components/side-menu";
 import { decrement, increment } from "@sword/store/slices/counter";
 import { RootState } from "@sword/store/store";
+import { DateTime } from "luxon";
 import type { GetStaticProps, NextPage } from "next";
-import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 
 type FunnyMenu = {
@@ -53,12 +53,11 @@ const MenuArray: FunnyMenu[] = [
 ];
 
 const Home: NextPage = () => {
-  const translate = useTranslations("home");
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
 
   return (
-    <Layout pageTitle="Home" maxW="full" maxH="full">
+    <Layout pageTitle="Home" maxWidth="full" maxHeight="full">
       <SimpleGrid
         gap="5"
         height="full"
@@ -68,7 +67,7 @@ const Home: NextPage = () => {
         }}
         marginX="auto"
       >
-        <VStack justifyContent="left" width="fit-content" spacing="5">
+        <VStack justifyContent="left" width={{ base: "full", md: "fit-content" }} spacing="5">
           <Box flexDirection={{ base: "column", md: "row" }} display="flex" width="full">
             <SideMenu options={MenuArray} />
             <Divider
@@ -82,11 +81,15 @@ const Home: NextPage = () => {
               orientation="horizontal"
             />
           </Box>
-          <EventCard name="Capture The Flag" startAt={new Date()} />
+          <EventCard name="Capture The Flag" startAt={DateTime.now()} />
           <GuildRanks />
         </VStack>
-        <Box>
-          <Heading>{count}</Heading>
+        <Box
+          flexDirection="column"
+          display={{ base: "flex", md: "initial" }}
+          width={{ base: "full", md: "initial" }}
+        >
+          <Heading textAlign={{ base: "center", md: "initial" }}>{count}</Heading>
           <Button onClick={() => dispatch(increment())}>Increment</Button>
           <Button onClick={() => dispatch(decrement())}>Decrement</Button>
         </Box>
