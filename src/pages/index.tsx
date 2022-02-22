@@ -1,8 +1,10 @@
-import { Box, Divider, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, Divider, Heading, SimpleGrid } from "@chakra-ui/react";
 import { Layout } from "@sword/components/layout";
+import { SideMenu } from "@sword/components/side-menu-options";
+import { decrement, increment } from "@sword/store/slices/counter";
+import { RootState } from "@sword/store/store";
 import type { GetStaticProps, NextPage } from "next";
-
-import { SideMenu } from "../components/side-menu-options";
+import { useDispatch, useSelector } from "react-redux";
 
 type FunnyMenu = {
   name: string;
@@ -48,6 +50,9 @@ const MenuArray: FunnyMenu[] = [
 ];
 
 const Home: NextPage = () => {
+  const count = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useDispatch();
+
   return (
     <Layout pageTitle="Home" maxW="full" maxH="full">
       <SimpleGrid
@@ -72,7 +77,9 @@ const Home: NextPage = () => {
             orientation="horizontal"
           />
         </Box>
-        <Heading>Home</Heading>
+        <Heading>{count}</Heading>
+        <Button onClick={() => dispatch(increment())}>Increment</Button>
+        <Button onClick={() => dispatch(decrement())}>Decrement</Button>
       </SimpleGrid>
     </Layout>
   );
