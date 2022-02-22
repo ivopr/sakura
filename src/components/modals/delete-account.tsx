@@ -89,14 +89,12 @@ export function DeleteAccountModal({
       </Button>
 
       <Modal
-        isOpen={isOpen}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus={false}
-        isCentered
-        initialFocusRef={undefined}
         finalFocusRef={undefined}
-        returnFocusOnClose={false}
+        initialFocusRef={undefined}
+        isCentered
+        isOpen={isOpen}
         onClose={onClose}
+        returnFocusOnClose={false}
       >
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -111,10 +109,10 @@ export function DeleteAccountModal({
           </ModalBody>
           <ModalFooter>
             <HStack spacing="2.5">
-              <Button colorScheme="red" type="submit" width="full">
+              <Button width="full" colorScheme="red" type="submit">
                 {translate("title")}
               </Button>
-              <Button variant="ghost" onClick={onClose} width="full">
+              <Button width="full" onClick={onClose} variant="ghost">
                 {translate("cancel")}
               </Button>
             </HStack>

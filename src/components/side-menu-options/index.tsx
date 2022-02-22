@@ -6,7 +6,7 @@ import { Option } from "./side-menu-options";
 
 export const SideMenu: FC<SideMenuProps> = ({ options }): JSX.Element => {
   return (
-    <VStack width="100%" maxW="xs">
+    <VStack width="100%" maxWidth="xs">
       {options.map((option, index) => (
         <Option option={option} key={index} layer={1} />
       ))}

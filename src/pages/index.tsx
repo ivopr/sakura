@@ -51,25 +51,25 @@ const Home: NextPage = () => {
   return (
     <Layout pageTitle="Home" maxW="full" maxH="full">
       <SimpleGrid
+        gap="5"
+        height="full"
         columns={{
           base: 1,
           md: 2,
         }}
         marginX="auto"
-        gap="5"
-        height="full"
       >
-        <Box flexDir={{ base: "column", md: "row" }} width="full" display="flex">
+        <Box flexDirection={{ base: "column", md: "row" }} display="flex" width="full">
           <SideMenu options={MenuArray} />
           <Divider
             display={{ base: "none", md: "flex" }}
-            orientation="vertical"
             borderStartWidth={5}
+            orientation="vertical"
           />
           <Divider
             display={{ base: "flex", md: "none" }}
-            orientation="horizontal"
             borderStartWidth={5}
+            orientation="horizontal"
           />
         </Box>
         <Heading>Home</Heading>

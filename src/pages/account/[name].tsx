@@ -13,7 +13,7 @@ const AccountTabs = dynamic<AccountTabsProps>(
   {
     ssr: false,
     loading: () => (
-      <Box alignItems="center" display="flex" justifyContent="center" height="24">
+      <Box alignItems="center" justifyContent="center" display="flex" height="24">
         <Spinner color="primary.500" emptyColor="gray.500" size="xl" />
       </Box>
     ),
@@ -45,7 +45,7 @@ const Account: NextPage = () => {
   if (!account) {
     return (
       <Layout pageTitle="Loading - Account">
-        <Box alignItems="center" display="flex" justifyContent="center" height="24">
+        <Box alignItems="center" justifyContent="center" display="flex" height="24">
           <Spinner color="primary.500" emptyColor="gray.500" size="xl" />
         </Box>
       </Layout>

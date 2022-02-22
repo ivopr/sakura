@@ -14,18 +14,18 @@ export function AccountSettingsTab({ account }: AccountSettingsTabProps): JSX.El
 
   return (
     <VStack>
-      <Alert flexDirection="column" alignItems="center" status="error" variant="left-accent">
+      <Alert alignItems="center" flexDirection="column" status="error" variant="left-accent">
         <Box
           justifyContent="space-between"
-          marginY={{
-            base: "2.5",
-            md: "0",
-          }}
           flexDirection={{
             base: "column",
             md: "row",
           }}
           display="flex"
+          marginY={{
+            base: "2.5",
+            md: "0",
+          }}
         >
           <AlertIcon boxSize="40px" marginRight="2.5" />
           <Box marginBottom="2.5">

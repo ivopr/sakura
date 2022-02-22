@@ -17,13 +17,13 @@ export function AccountInfoTab({ account }: AccountInfoTabProps): JSX.Element {
   return (
     <VStack alignItems="flex-start" spacing="1.5">
       <HStack spacing="1.5">
-        <Text fontSize={accountLabelSize} fontWeight="semibold" marginRight="1.5">
+        <Text marginRight="1.5" fontSize={accountLabelSize} fontWeight="semibold">
           {translate("group")}
         </Text>
         <Text>{account.type}</Text>
       </HStack>
       <HStack spacing="1.5">
-        <Text fontSize={accountLabelSize} fontWeight="semibold" marginRight="1.5">
+        <Text marginRight="1.5" fontSize={accountLabelSize} fontWeight="semibold">
           {translate("premium")}
         </Text>
         <Text>
@@ -39,13 +39,13 @@ export function AccountInfoTab({ account }: AccountInfoTabProps): JSX.Element {
         </Text>
       </HStack>
       <HStack spacing="1.5">
-        <Text fontSize={accountLabelSize} fontWeight="semibold" marginRight="1.5">
+        <Text marginRight="1.5" fontSize={accountLabelSize} fontWeight="semibold">
           {translate("totalCharacters")}
         </Text>
         <Text>{account.players && account.players.length > 0 ? account.players.length : 0}</Text>
       </HStack>
       <HStack spacing="1.5">
-        <Text fontSize={accountLabelSize} fontWeight="semibold" marginRight="1.5">
+        <Text marginRight="1.5" fontSize={accountLabelSize} fontWeight="semibold">
           {translate("createdAt")}
         </Text>
         <Text>

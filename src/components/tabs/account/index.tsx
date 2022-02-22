@@ -22,7 +22,7 @@ export function AccountTabs({ account }: AccountTabsProps): JSX.Element {
 
   return (
     <Tabs marginY="5" variant="solid-rounded">
-      <TabList gap="2.5" justifyContent="center" flexWrap="wrap">
+      <TabList justifyContent="center" flexWrap="wrap" gap="2.5">
         <Tab>
           <Icon as={IoIdCardOutline} marginRight="1" />
           {translate("accountTabTitle")}
