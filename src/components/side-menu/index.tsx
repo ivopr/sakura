@@ -9,7 +9,7 @@ export const SideMenu: FC<SideMenuProps> = ({ options }): JSX.Element => {
   return (
     <>
       {/* Desktop Menu */}
-      <VStack width="100%" maxW="xs" display={{ base: "none", md: "flex" }}>
+      <VStack display={{ base: "none", md: "flex" }} width="100%" maxWidth="xs">
         {options.map((option, index) => (
           <Option option={option} key={index} layer={1} />
         ))}

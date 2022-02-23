@@ -12,8 +12,8 @@ import React, { FC } from "react";
 
 export const MobileSideMenu: FC<ContainerProps> = ({ children, display }) => {
   return (
-    <Accordion allowToggle display={display} width="100%">
-      <AccordionItem border="none" width="100%">
+    <Accordion display={display} width="100%" allowToggle>
+      <AccordionItem width="100%" border="none">
         <AccordionButton justifyContent="center">
           <Heading textAlign="center">Menu</Heading>
           <AccordionIcon />

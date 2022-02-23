@@ -40,7 +40,7 @@ export const Option: FC<OptionProps> = ({
         <Accordion width="100%" allowToggle>
           <AccordionItem border="none">
             <AccordionButton display="flex" width="full">
-              <Heading fontSize={fontSize} textAlign="center">
+              <Heading fontSize={fontSize} textAlign="left">
                 {translate(option.name)}
               </Heading>
               <AccordionIcon marginStart="2.5" />
@@ -61,13 +61,13 @@ export const Option: FC<OptionProps> = ({
       ) : (
         <Box alignSelf="self-start" width="100%">
           <Heading
-            textAlign="left"
-            marginY="1"
             marginLeft="4"
             fontSize={fontSize}
+            textAlign="left"
             _hover={{
               cursor: option.action ? "pointer" : "default",
             }}
+            marginY="1"
             onClick={option.action}
           >
             {translate(option.name)}
