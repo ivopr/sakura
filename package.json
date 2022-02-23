@@ -81,7 +81,30 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "./node_modules/cz-conventional-changelog",
+      "types": {
+        "breaking": {
+          "description": "Made some change that breaks anything that worked before (bump major version on CI run)"
+        },
+        "feat": {
+          "description": "Fully ended some feature (bump minor version on CI run)"
+        },
+        "part": {
+          "description": "Added part of a feature"
+        },
+        "remove": {
+          "description": "Removed some piece of code or some other thing"
+        },
+        "fix": {
+          "description": "Fixed some error in one or more existing features (bump patch version on CI run)"
+        },
+        "ci": {
+          "description": "Changes in our Github Actions workflows"
+        },
+        "chore": {
+          "description": "Repo modifications, releases, anything that doesn't change the code directly"
+        }
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { Divider, Icon, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { players } from "@prisma/client";
 import { SingleAccount } from "@sword/types/account";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
@@ -9,6 +10,7 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 
+import { AccountCharactersTab } from "./characters-tab";
 import { AccountInfoTab } from "./info-tab";
 import { AccountSettingsTab } from "./settings-tab";
 
@@ -48,7 +50,9 @@ export function AccountTabs({ account }: AccountTabsProps): JSX.Element {
         <TabPanel>
           <AccountInfoTab account={account} />
         </TabPanel>
-        <TabPanel></TabPanel>
+        <TabPanel>
+          <AccountCharactersTab characters={account.players as players[]} />
+        </TabPanel>
         <TabPanel></TabPanel>
         {status === "authenticated" && account.id === session?.id && (
           <TabPanel>

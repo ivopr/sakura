@@ -14,12 +14,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useSession } from "next-auth/react";
 import { IoMenuOutline, IoNotificationsOutline } from "react-icons/io5";
 
 import { Logo } from "../logo";
 import { NAV_ITEMS } from "./items";
 
 export function Navigation(): JSX.Element {
+  const { status } = useSession();
   const bg = useColorModeValue("white", "gray.900");
   const mobileNav = useDisclosure();
 
@@ -64,18 +66,23 @@ export function Navigation(): JSX.Element {
                   aria-label="Close menu"
                   onClick={mobileNav.onClose}
                 />
-                {NAV_ITEMS.map((item) => (
-                  <NextLink key={item.label + item.href} href={item.href} passHref>
-                    <chakra.a
-                      as={Button}
-                      width="full"
-                      leftIcon={<Icon as={item.Icon} />}
-                      variant="ghost"
-                    >
-                      {item.label}
-                    </chakra.a>
-                  </NextLink>
-                ))}
+                {NAV_ITEMS.map((item) => {
+                  if (item.onlyAuth && status !== "authenticated") return;
+                  if (item.onlyGuest && status === "authenticated") return;
+
+                  return (
+                    <NextLink key={item.label + item.href} href={item.href} passHref>
+                      <chakra.a
+                        as={Button}
+                        width="full"
+                        leftIcon={<Icon as={item.Icon} />}
+                        variant="ghost"
+                      >
+                        {item.label}
+                      </chakra.a>
+                    </NextLink>
+                  );
+                })}
               </VStack>
             </Box>
             <chakra.a href="/" title="Sword Home Page" display="flex" alignItems="center">
@@ -85,21 +92,27 @@ export function Navigation(): JSX.Element {
           </HStack>
           <HStack alignItems="center" display="flex" spacing={3}>
             <HStack display={{ base: "none", md: "inline-flex" }} spacing={3}>
-              {NAV_ITEMS.map((item) => (
-                <NextLink key={item.label + item.href} href={item.href} passHref>
-                  <chakra.a
-                    as={Button}
-                    size="sm"
-                    leftIcon={<Icon as={item.Icon} />}
-                    variant="ghost"
-                  >
-                    {item.label}
-                  </chakra.a>
-                </NextLink>
-              ))}
+              {NAV_ITEMS.map((item) => {
+                if (item.onlyAuth && status !== "authenticated") return;
+                if (item.onlyGuest && status === "authenticated") return;
+
+                return (
+                  <NextLink key={item.label + item.href} href={item.href} passHref>
+                    <chakra.a
+                      as={Button}
+                      size="sm"
+                      leftIcon={<Icon as={item.Icon} />}
+                      variant="ghost"
+                    >
+                      {item.label}
+                    </chakra.a>
+                  </NextLink>
+                );
+              })}
             </HStack>
             <chakra.a
               padding={3}
+              cursor="pointer"
               color={useColorModeValue("gray.800", "inherit")}
               rounded="sm"
               _hover={{ color: useColorModeValue("gray.800", "gray.600") }}
