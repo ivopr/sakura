@@ -1,39 +1,13 @@
 import { Box, Text } from "@chakra-ui/react";
-import { guild_membership, guilds } from "@prisma/client";
-import { setupApiClient } from "@sword/services/axios";
-import { useRouter } from "next/router";
+import { useGetGuildRanksQuery } from "@sword/store/apis/guildRanks";
 import { useTranslations } from "next-intl";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 
 import { SimpleCard } from "../simple-card";
 
-type Guild = {
-  id: number;
-  guild_id: number;
-  name: string;
-  level: number;
-  guilds?: guilds[];
-  guild_membership?: guild_membership[];
-};
-
 export const GuildRanks: FC = (): JSX.Element => {
-  const [guildRanks, setGuildRanks] = useState<Guild[]>([] as Guild[]);
-  const router = useRouter();
   const translate = useTranslations("guildRanks");
-
-  useEffect(() => {
-    (async () => {
-      const api = setupApiClient();
-
-      await api
-        .get<{ guildsRank: Guild[] }>(`/guildRanks/read?type=all`)
-        .then(({ data }) => {
-          console.log(data.guildsRank);
-          setGuildRanks(data.guildsRank);
-        })
-        .catch(({ response }) => console.log(response));
-    })();
-  }, [router]);
+  const { data } = useGetGuildRanksQuery("");
 
   return (
     <SimpleCard
@@ -47,8 +21,8 @@ export const GuildRanks: FC = (): JSX.Element => {
         justifyContent: "center",
       }}
     >
-      {guildRanks.length > 0 ? (
-        guildRanks.map((guild, index) => (
+      {data && data.guildsRank?.length > 0 ? (
+        data.guildsRank.map((guild, index) => (
           <Box
             key={guild.name + index}
             justifyContent="space-evenly"

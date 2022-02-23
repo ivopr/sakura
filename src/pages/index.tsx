@@ -58,16 +58,13 @@ const Home: NextPage = () => {
 
   return (
     <Layout pageTitle="Home" maxWidth="full" maxHeight="full">
-      <SimpleGrid
-        gap="5"
-        height="full"
-        columns={{
-          base: 1,
-          md: 2,
-        }}
-        marginX="auto"
-      >
-        <VStack justifyContent="left" width={{ base: "full", md: "fit-content" }} spacing="5">
+      <Box flexDirection="row" display="flex" width="full" maxWidth="full">
+        <VStack
+          justifyContent="left"
+          alignSelf="left"
+          width={{ base: "full", md: "fit-content" }}
+          spacing="5"
+        >
           <Box flexDirection={{ base: "column", md: "row" }} display="flex" width="full">
             <SideMenu options={MenuArray} />
             <Divider
@@ -91,6 +88,7 @@ const Home: NextPage = () => {
         </VStack>
         <Box
           flexDirection="column"
+          justifySelf="center"
           display={{ base: "flex", md: "initial" }}
           width={{ base: "full", md: "initial" }}
         >
@@ -98,7 +96,7 @@ const Home: NextPage = () => {
           <Button onClick={() => dispatch(increment())}>Increment</Button>
           <Button onClick={() => dispatch(decrement())}>Decrement</Button>
         </Box>
-      </SimpleGrid>
+      </Box>
     </Layout>
   );
 };
