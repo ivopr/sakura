@@ -1,8 +1,11 @@
 {
 	"account": {
 		"create-character": {
+			"alreadyExists": "There's already someone using this name",
 			"characterName": "Character Name",
 			"characterNameRequired": "Your new character must have a name",
+			"invalidSession": "This session is invalid, log in again",
+			"notLoggedIn": "You must be logged in to create a character",
 			"title": "Create Character"
 		},
 		"view": {
@@ -29,7 +32,10 @@
 					"totalCharacters": "Total characters:"
 				},
 				"accountTabTitle": "Account",
-				"charactersTab": {},
+				"charactersTab": {
+					"create": "Create character",
+					"no-character": "Your account doesn't have any character"
+				},
 				"charactersTabTitle": "Characters",
 				"friendsTabTitle": "Friends",
 				"settingsTab": {
@@ -40,6 +46,12 @@
 				},
 				"settingsTabTitle": "Settings"
 			}
+		}
+	},
+	"character": {
+		"card": {
+			"vocation": "Vocation: {vocation}",
+			"level": "Level: {level}"
 		}
 	},
 	"login": {
@@ -56,5 +68,22 @@
 			"wrongCredentials": "This Account Name and Password combination is invalid"
 		},
 		"revealPassword": "Reveal password"
+	},
+	"register": {
+		"accountName": "Account Name",
+		"accountNameEmailNotUnique": "Account name or email already used",
+		"accountNameRequired": "You must provide an account name",
+		"alreadyRegistered": "Already have an account?",
+		"confirmPassword": "Confirm Password",
+		"confirmPasswordRequired": "Your must confirm your password",
+		"email": "Email",
+		"emailInvalid": "The email you entered is invalid",
+		"emailRequired": "You must provide an email",
+		"login": "Login",
+		"password": "Password",
+		"passwordRequired": "Your account must have a password",
+		"passwordsNotMatch": "Your passwords doesn't match",
+		"shortPassword": "Your password must be 5 characters or more",
+		"title": "Register"
 	}
 }

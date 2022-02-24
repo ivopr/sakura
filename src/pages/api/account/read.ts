@@ -47,6 +47,7 @@ export default async function handler(
                 name: true,
                 level: true,
                 looktype: true,
+                vocation: true,
               },
             }
           : false;
@@ -72,7 +73,7 @@ export default async function handler(
 
       if (!account) {
         return res.status(400).json({
-          message: "Couldn't find the specified account",
+          message: "accountNotFound",
         });
       }
 
@@ -83,7 +84,7 @@ export default async function handler(
       });
     }
     return res.status(400).json({
-      message: "Malformed request, verify your filters and/or the requested search type",
+      message: "badReq",
     });
   } else {
     return res.status(405).json({

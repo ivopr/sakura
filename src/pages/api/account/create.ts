@@ -25,13 +25,13 @@ export default async function handler(
 
     if (existingAccount) {
       return res.status(409).json({
-        message: "Account Name or Email already in use.",
+        message: "accountNameEmailNotUnique",
       });
     }
 
     if (data.password.length < 5) {
       return res.status(400).json({
-        message: "Your password must be at least 5 chacarters long",
+        message: "shortPassword",
       });
     }
 

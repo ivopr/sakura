@@ -17,10 +17,11 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 
 type PasswordFieldProps = InputProps & {
   error?: FieldError;
+  label: string;
 };
 
 export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
-  ({ error, ...rest }, ref) => {
+  ({ error, label, ...rest }, ref) => {
     const { isOpen, onToggle } = useDisclosure();
     const translate = useTranslations("login");
     const inputRef = useRef<HTMLInputElement>(null);
@@ -44,7 +45,7 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
 
     return (
       <FormControl isInvalid={!!error}>
-        <FormLabel htmlFor="password">{translate("password")}</FormLabel>
+        <FormLabel htmlFor="password">{label}</FormLabel>
         <InputGroup>
           <InputRightElement>
             <IconButton

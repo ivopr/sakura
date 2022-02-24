@@ -10,8 +10,10 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@sword/components/input";
 import { Layout } from "@sword/components/layout";
+import { withSSRAuth } from "@sword/hocs/with-ssr-auth";
 import { setupApiClient } from "@sword/services/axios";
 import { toastSettings } from "@sword/utils/toast";
+import { AxiosError } from "axios";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
@@ -53,10 +55,10 @@ const CreateCharacter: NextPage = () => {
         });
         router.push("/account");
       })
-      .catch(() => {
+      .catch(({ response }: AxiosError) => {
         toast({
           ...toastSettings,
-          title: translate("not-created"),
+          title: translate(`${response?.data.message}`),
           status: "error",
         });
       });
@@ -97,12 +99,12 @@ const CreateCharacter: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ locale }) => {
   return {
     props: {
       messages: (await import(`@sword/locales/${locale}.json`)).default,
     },
   };
-};
+});
 
 export default CreateCharacter;

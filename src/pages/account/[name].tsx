@@ -48,7 +48,6 @@ const Account: NextPage = () => {
   return (
     <Layout pageTitle={`${data.account.name} - Account`}>
       {/** BEGIN Avatar, Name and Email */}
-
       <VStack marginY="auto" spacing="5">
         <Avatar
           backgroundColor="primary.500"

@@ -72,14 +72,14 @@ export function Navigation(): JSX.Element {
 
                   return (
                     <NextLink key={item.label + item.href} href={item.href} passHref>
-                      <chakra.a
-                        as={Button}
+                      <Button
+                        as="a"
                         width="full"
                         leftIcon={<Icon as={item.Icon} />}
                         variant="ghost"
                       >
                         {item.label}
-                      </chakra.a>
+                      </Button>
                     </NextLink>
                   );
                 })}
@@ -98,14 +98,9 @@ export function Navigation(): JSX.Element {
 
                 return (
                   <NextLink key={item.label + item.href} href={item.href} passHref>
-                    <chakra.a
-                      as={Button}
-                      size="sm"
-                      leftIcon={<Icon as={item.Icon} />}
-                      variant="ghost"
-                    >
+                    <Button as="a" leftIcon={<Icon as={item.Icon} />} size="sm" variant="ghost">
                       {item.label}
-                    </chakra.a>
+                    </Button>
                   </NextLink>
                 );
               })}

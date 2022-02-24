@@ -1,5 +1,4 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { players } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 
@@ -8,8 +7,8 @@ import { prisma } from "../../../services/prisma";
 type BodyData = {
   name: string;
 };
+
 type Data = {
-  character?: Partial<players>;
   message?: string;
 };
 
@@ -22,7 +21,7 @@ export default async function handler(
 
     if (!session) {
       return res.status(401).json({
-        message: "not-logged-in",
+        message: "notLoggedIn",
       });
     }
 
@@ -34,13 +33,25 @@ export default async function handler(
 
     if (!account) {
       return res.status(401).json({
-        message: "invalid-session",
+        message: "invalidSession",
       });
     }
 
     const data = req.body as BodyData;
 
-    const character = await prisma.players.create({
+    const character = await prisma.players.findFirst({
+      where: {
+        name: { equals: data.name },
+      },
+    });
+
+    if (character) {
+      return res.status(400).json({
+        message: "alreadyExists",
+      });
+    }
+
+    await prisma.players.create({
       data: {
         conditions: Buffer.from([]),
         name: data.name,
@@ -52,9 +63,7 @@ export default async function handler(
       },
     });
 
-    return res.status(201).json({
-      character: character,
-    });
+    return res.status(201).json({});
   } else {
     return res.status(405).json({
       message: `You can't ${req.method} this route.`,
