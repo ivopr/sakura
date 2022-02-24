@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@sword/components/input";
 import { PasswordField } from "@sword/components/input/password-input";
 import { Layout } from "@sword/components/layout";
+import { withSSRGuest } from "@sword/hocs/with-ssr-guest";
 import { toastSettings } from "@sword/utils/toast";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
@@ -67,7 +68,7 @@ const Login: NextPage = () => {
           status: "success",
         });
 
-        router.push("/account/ivopr");
+        router.push("/account");
       }
     });
   };
@@ -114,12 +115,12 @@ const Login: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async ({ locale }) => {
   return {
     props: {
       messages: (await import(`@sword/locales/${locale}.json`)).default,
     },
   };
-};
+});
 
 export default Login;

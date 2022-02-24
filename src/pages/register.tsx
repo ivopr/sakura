@@ -2,6 +2,7 @@ import { Button, Heading, Icon, SimpleGrid, useToast, VStack } from "@chakra-ui/
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@sword/components/input";
 import { Layout } from "@sword/components/layout";
+import { withSSRGuest } from "@sword/hocs/with-ssr-guest";
 import { setupApiClient } from "@sword/services/axios";
 import { toastSettings } from "@sword/utils/toast";
 import { AxiosError } from "axios";
@@ -142,12 +143,12 @@ const Register: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async ({ locale }) => {
   return {
     props: {
       messages: (await import(`@sword/locales/${locale}.json`)).default,
     },
   };
-};
+});
 
 export default Register;
