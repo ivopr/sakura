@@ -5,6 +5,7 @@ import { SingleAccount } from "@sword/types/account";
 export const accountApi = createApi({
   reducerPath: "accountApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/" }),
+  refetchOnMountOrArgChange: 60,
   endpoints: (builder) => ({
     getAccountByName: builder.query<{ account: SingleAccount }, string>({
       query: (name) => ({ url: `account/read?type=one&name=${name}&shouldBringRelations=true` }),

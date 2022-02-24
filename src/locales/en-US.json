@@ -4,6 +4,7 @@
 			"alreadyExists": "There's already someone using this name",
 			"characterName": "Character Name",
 			"characterNameRequired": "Your new character must have a name",
+			"created": "Character created",
 			"invalidSession": "This session is invalid, log in again",
 			"notLoggedIn": "You must be logged in to create a character",
 			"title": "Create Character"
@@ -22,6 +23,7 @@
 				"title": "Delete Account",
 				"wrongConfirmation": "This isn't the name of the account you're trying to delete"
 			},
+			"itsYou": "(You)",
 			"tabs": {
 				"accountTab": {
 					"createdAt": "Created at:",
@@ -39,10 +41,7 @@
 				"charactersTabTitle": "Characters",
 				"friendsTabTitle": "Friends",
 				"settingsTab": {
-					"delete": {
-						"content": "Note that every single thing you achieved, your characters, in-game items, EVERYTHING, will be lost FOREVER.",
-						"title": "Delete Account"
-					}
+					"logout": "Log out"
 				},
 				"settingsTabTitle": "Settings"
 			}

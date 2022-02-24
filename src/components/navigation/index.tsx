@@ -33,9 +33,8 @@ export function Navigation(): JSX.Element {
         borderBottomWidth={1}
         width="full"
         paddingX={{ base: 2, sm: 4 }}
-        paddingY={4}
       >
-        <Flex alignItems="center" justifyContent="space-between" marginX="auto">
+        <Flex alignItems="center" justifyContent="space-between" height="24" marginX="auto">
           <HStack alignItems="center" display="flex" spacing={1}>
             <Box display={{ base: "inline-flex", md: "none" }}>
               <IconButton
