@@ -40,6 +40,17 @@ export default async function handler(
 
       return res.status(200).json({ accounts });
     } else if (data.type === "one") {
+      const player =
+        data.shouldBringRelations === "true"
+          ? {
+              select: {
+                name: true,
+                level: true,
+                looktype: true,
+              },
+            }
+          : false;
+
       const account = await prisma.accounts.findFirst({
         where: {
           OR: [
@@ -55,7 +66,7 @@ export default async function handler(
           creation: true,
           premium_ends_at: true,
           type: true,
-          players: data.shouldBringRelations === "true",
+          players: player,
         },
       });
 

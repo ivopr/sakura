@@ -21,6 +21,7 @@ import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
+
 type LoginData = {
   name: string;
   password: string;

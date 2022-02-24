@@ -1,5 +1,10 @@
 {
 	"account": {
+		"create-character": {
+			"characterName": "Character Name",
+			"characterNameRequired": "Your new character must have a name",
+			"title": "Create Character"
+		},
 		"view": {
 			"delete": {
 				"cancel": "Don't delete",
@@ -24,6 +29,7 @@
 					"totalCharacters": "Total characters:"
 				},
 				"accountTabTitle": "Account",
+				"charactersTab": {},
 				"charactersTabTitle": "Characters",
 				"friendsTabTitle": "Friends",
 				"settingsTab": {
