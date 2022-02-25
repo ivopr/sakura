@@ -5,6 +5,8 @@ export interface NavItem {
   label: string;
   Icon?: IconType;
   href: string;
+  onlyGuest?: boolean;
+  onlyAuth?: boolean;
 }
 
 export const NAV_ITEMS: Array<NavItem> = [
@@ -17,10 +19,12 @@ export const NAV_ITEMS: Array<NavItem> = [
     label: "Login",
     Icon: IoLogInOutline,
     href: "/login",
+    onlyGuest: true,
   },
   {
     label: "Register",
     Icon: IoPersonAddOutline,
     href: "/register",
+    onlyGuest: true,
   },
 ];

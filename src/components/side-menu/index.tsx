@@ -5,13 +5,13 @@ import { MobileSideMenu } from "./mobile-side-menu";
 import { SideMenuProps } from "./side-menu.props";
 import { Option } from "./side-menu-options";
 
-export const SideMenu: FC<SideMenuProps> = ({ options }): JSX.Element => {
+export const SideMenu: FC<SideMenuProps> = ({ options, maxLayer }): JSX.Element => {
   return (
     <>
       {/* Desktop Menu */}
-      <VStack width="100%" maxW="xs" display={{ base: "none", md: "flex" }}>
+      <VStack display={{ base: "none", md: "flex" }} width="100%" maxWidth="xs">
         {options.map((option, index) => (
-          <Option option={option} key={index} layer={1} />
+          <Option option={option} key={index} layer={1} maxLayer={maxLayer} />
         ))}
       </VStack>
       {/* Desktop Menu */}

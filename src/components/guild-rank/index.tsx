@@ -32,19 +32,16 @@ export const GuildRanks: FC = (): JSX.Element => {
             <Text
               width={{ base: "fit-content", md: "initial" }}
               fontSize={{ base: 12, md: 20 }}
-              paddingX="10"
               paddingY="2"
             >{`${index + 1}.`}</Text>
             <Text
               width={{ base: "fit-content", md: "initial" }}
               fontSize={{ base: 12, md: 16 }}
-              paddingX="10"
               paddingY="2"
             >{`${guild.name}`}</Text>
             <Text
               width={{ base: "fit-content", md: "initial" }}
               fontSize={{ base: 12, md: 20 }}
-              paddingX="10"
               paddingY="2"
             >{`${guild.level}`}</Text>
           </Box>
