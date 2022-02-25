@@ -1,5 +1,5 @@
 import { Heading, HStack, IconButton, Image, VStack } from "@chakra-ui/react";
-import { useGetNewsImagesQuery } from "@sword/store/apis/newsImages";
+import { useGetNewsImagesQuery } from "@sword/store/apis/news";
 import React, { FC, useState } from "react";
 import { BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
 
