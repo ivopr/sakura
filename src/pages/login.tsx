@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@sword/components/input";
 import { PasswordField } from "@sword/components/input/password-input";
 import { Layout } from "@sword/components/layout";
+import { withSSRGuest } from "@sword/hocs/with-ssr-guest";
 import { toastSettings } from "@sword/utils/toast";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
@@ -20,6 +21,7 @@ import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
+
 type LoginData = {
   name: string;
   password: string;
@@ -67,7 +69,7 @@ const Login: NextPage = () => {
           status: "success",
         });
 
-        router.push("/account/ivopr");
+        router.push("/account");
       }
     });
   };
@@ -102,7 +104,11 @@ const Login: NextPage = () => {
                 label={translate("accountName")}
                 {...register("name")}
               />
-              <PasswordField error={formState.errors.password} {...register("password")} />
+              <PasswordField
+                error={formState.errors.password}
+                label={translate("password")}
+                {...register("password")}
+              />
             </Stack>
             <Button isLoading={formState.isSubmitting} type="submit">
               Sign in
@@ -114,12 +120,12 @@ const Login: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async ({ locale }) => {
   return {
     props: {
       messages: (await import(`@sword/locales/${locale}.json`)).default,
     },
   };
-};
+});
 
 export default Login;

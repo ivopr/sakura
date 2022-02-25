@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   chakra,
@@ -19,11 +18,15 @@ import { IoMenuOutline, IoNotificationsOutline } from "react-icons/io5";
 
 import { Logo } from "../logo";
 import { NAV_ITEMS } from "./items";
+import { UserMenu } from "./user-menu";
 
 export function Navigation(): JSX.Element {
   const { status } = useSession();
   const bg = useColorModeValue("white", "gray.900");
   const mobileNav = useDisclosure();
+
+  const color = useColorModeValue("gray.800", "inherit");
+  const colorHover = useColorModeValue("gray.800", "gray.600");
 
   return (
     <Box position="sticky" zIndex="sticky" top="0" shadow="md">
@@ -33,9 +36,8 @@ export function Navigation(): JSX.Element {
         borderBottomWidth={1}
         width="full"
         paddingX={{ base: 2, sm: 4 }}
-        paddingY={4}
       >
-        <Flex alignItems="center" justifyContent="space-between" marginX="auto">
+        <Flex alignItems="center" justifyContent="space-between" height="24" marginX="auto">
           <HStack alignItems="center" display="flex" spacing={1}>
             <Box display={{ base: "inline-flex", md: "none" }}>
               <IconButton
@@ -72,14 +74,14 @@ export function Navigation(): JSX.Element {
 
                   return (
                     <NextLink key={item.label + item.href} href={item.href} passHref>
-                      <chakra.a
-                        as={Button}
+                      <Button
+                        as="a"
                         width="full"
                         leftIcon={<Icon as={item.Icon} />}
                         variant="ghost"
                       >
                         {item.label}
-                      </chakra.a>
+                      </Button>
                     </NextLink>
                   );
                 })}
@@ -98,30 +100,29 @@ export function Navigation(): JSX.Element {
 
                 return (
                   <NextLink key={item.label + item.href} href={item.href} passHref>
-                    <chakra.a
-                      as={Button}
-                      size="sm"
-                      leftIcon={<Icon as={item.Icon} />}
-                      variant="ghost"
-                    >
+                    <Button as="a" leftIcon={<Icon as={item.Icon} />} size="sm" variant="ghost">
                       {item.label}
-                    </chakra.a>
+                    </Button>
                   </NextLink>
                 );
               })}
             </HStack>
-            <chakra.a
-              padding={3}
-              cursor="pointer"
-              color={useColorModeValue("gray.800", "inherit")}
-              rounded="sm"
-              _hover={{ color: useColorModeValue("gray.800", "gray.600") }}
-            >
-              <IoNotificationsOutline />
-              <VisuallyHidden>Notifications</VisuallyHidden>
-            </chakra.a>
+            {status === "authenticated" && (
+              <>
+                <chakra.a
+                  padding={3}
+                  cursor="pointer"
+                  color={color}
+                  rounded="sm"
+                  _hover={{ color: colorHover }}
+                >
+                  <IoNotificationsOutline />
+                  <VisuallyHidden>Notifications</VisuallyHidden>
+                </chakra.a>
 
-            <Avatar name="Dan Abrahmov" size="sm" src="https://bit.ly/dan-abramov" />
+                <UserMenu />
+              </>
+            )}
           </HStack>
         </Flex>
       </chakra.header>

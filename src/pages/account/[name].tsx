@@ -6,6 +6,7 @@ import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 const AccountTabs = dynamic<AccountTabsProps>(
@@ -27,6 +28,7 @@ const Account: NextPage = () => {
   const { data } = useGetAccountByNameQuery(router.query.name as string, {
     skip: skipFirstQueryOnMount,
   });
+  const translate = useTranslations("account.view");
 
   useEffect(() => {
     if (skipFirstQueryOnMount) {
@@ -48,7 +50,6 @@ const Account: NextPage = () => {
   return (
     <Layout pageTitle={`${data.account.name} - Account`}>
       {/** BEGIN Avatar, Name and Email */}
-
       <VStack marginY="auto" spacing="5">
         <Avatar
           backgroundColor="primary.500"
@@ -61,7 +62,7 @@ const Account: NextPage = () => {
         <Box>
           <Heading textAlign="center" textTransform="capitalize">
             {status === "authenticated" && data.account.id === session?.id
-              ? `${data.account.name} (You)`
+              ? `${data.account.name} ${translate("itsYou")}`
               : data.account.name}
           </Heading>
           <Text>{data.account.email}</Text>

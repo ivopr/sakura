@@ -40,6 +40,18 @@ export default async function handler(
 
       return res.status(200).json({ accounts });
     } else if (data.type === "one") {
+      const player =
+        data.shouldBringRelations === "true"
+          ? {
+              select: {
+                name: true,
+                level: true,
+                looktype: true,
+                vocation: true,
+              },
+            }
+          : false;
+
       const account = await prisma.accounts.findFirst({
         where: {
           OR: [
@@ -55,13 +67,13 @@ export default async function handler(
           creation: true,
           premium_ends_at: true,
           type: true,
-          players: data.shouldBringRelations === "true",
+          players: player,
         },
       });
 
       if (!account) {
         return res.status(400).json({
-          message: "Couldn't find the specified account",
+          message: "accountNotFound",
         });
       }
 
@@ -72,7 +84,7 @@ export default async function handler(
       });
     }
     return res.status(400).json({
-      message: "Malformed request, verify your filters and/or the requested search type",
+      message: "badReq",
     });
   } else {
     return res.status(405).json({

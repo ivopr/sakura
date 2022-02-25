@@ -1,10 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { SingleAccount } from "@sword/types/account";
 
-type AccountCreateData = {
-  email: string;
+type CharacterCreateData = {
   name: string;
-  password: string;
 };
 
 type PostResponse = {
@@ -12,16 +10,16 @@ type PostResponse = {
 };
 
 // Define a service using a base URL and expected endpoints
-export const accountApi = createApi({
-  reducerPath: "accountApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/account/" }),
+export const characterApi = createApi({
+  reducerPath: "characterApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/character/" }),
   refetchOnFocus: true,
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
-    getAccountByName: builder.query<{ account: SingleAccount }, string>({
+    getCharacterByName: builder.query<{ account: SingleAccount }, string>({
       query: (name) => ({ url: `read?type=one&name=${name}&shouldBringRelations=true` }),
     }),
-    postCreateAccount: builder.mutation<PostResponse, AccountCreateData>({
+    postCreateCharacter: builder.mutation<PostResponse, CharacterCreateData>({
       query: (body) => ({
         url: "create",
         body,
@@ -33,4 +31,4 @@ export const accountApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAccountByNameQuery, usePostCreateAccountMutation } = accountApi;
+export const { useGetCharacterByNameQuery, usePostCreateCharacterMutation } = characterApi;
