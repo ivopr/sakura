@@ -11,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@sword/components/input";
 import { Layout } from "@sword/components/layout";
 import { withSSRAuth } from "@sword/hocs/with-ssr-auth";
-import { usePostCreateCharacterMutation } from "@sword/store/apis/account";
+import { usePostCreateCharacterMutation } from "@sword/store/apis/character";
 import { toastSettings } from "@sword/utils/toast";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";

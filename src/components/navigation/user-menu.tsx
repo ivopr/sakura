@@ -8,10 +8,12 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
-import { IoChevronDownOutline, IoLogOutOutline } from "react-icons/io5";
+import { IoAddOutline, IoChevronDownOutline, IoLogOutOutline } from "react-icons/io5";
 
 export function UserMenu(): JSX.Element {
+  const router = useRouter();
   const { data } = useSession();
 
   return (
@@ -54,6 +56,10 @@ export function UserMenu(): JSX.Element {
             src="https://placekitten.com/120/120"
           />
           <span>Simon the pensive</span>
+        </MenuItem>
+        <MenuItem onClick={() => router.push("/account/create-character")}>
+          <Icon as={IoAddOutline} marginRight="1" />
+          Create Character
         </MenuItem>
         <MenuItem
           onClick={() =>
