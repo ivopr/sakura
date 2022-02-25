@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
 import { Carousel } from "@sword/components/carousel";
 import { EventCard } from "@sword/components/event-card";
 import { GuildRanks } from "@sword/components/guild-rank";
@@ -83,10 +83,9 @@ const Home: NextPage = () => {
             <GuildRanks />
           </SimpleGrid>
         </VStack>
-        <Box
+        <VStack
           flexDirection="column"
           justifySelf="center"
-          display="flex"
           width="full"
           marginTop={{
             base: "5",
@@ -97,9 +96,14 @@ const Home: NextPage = () => {
             md: "5",
           }}
           background="whiteAlpha.100"
+          spacing={10}
         >
           <Carousel />
-        </Box>
+          <Heading textAlign="center">News & Changes</Heading>
+          <Heading color="red.500" fontSize={25} textAlign="center">
+            This site is currently under development
+          </Heading>
+        </VStack>
       </Flex>
     </Layout>
   );
