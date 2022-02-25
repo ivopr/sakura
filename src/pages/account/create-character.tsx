@@ -11,9 +11,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@sword/components/input";
 import { Layout } from "@sword/components/layout";
 import { withSSRAuth } from "@sword/hocs/with-ssr-auth";
-import { setupApiClient } from "@sword/services/axios";
+import { usePostCreateCharacterMutation } from "@sword/store/apis/account";
 import { toastSettings } from "@sword/utils/toast";
-import { AxiosError } from "axios";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
@@ -25,6 +24,8 @@ type CharacterData = {
 };
 
 const CreateCharacter: NextPage = () => {
+  const [createCharacter] = usePostCreateCharacterMutation();
+
   const translate = useTranslations("account.create-character");
 
   const toast = useToast();
@@ -41,27 +42,22 @@ const CreateCharacter: NextPage = () => {
   });
 
   const onSubmit: SubmitHandler<CharacterData> = async ({ name }) => {
-    const api = setupApiClient();
+    const response = await createCharacter({ name }).unwrap();
 
-    await api
-      .post("/character/create", {
-        name: name,
-      })
-      .then(() => {
-        toast({
-          ...toastSettings,
-          title: translate("created"),
-          status: "success",
-        });
-        router.push("/account");
-      })
-      .catch(({ response }: AxiosError) => {
-        toast({
-          ...toastSettings,
-          title: translate(`${response?.data.message}`),
-          status: "error",
-        });
+    if (response.message === "created") {
+      toast({
+        ...toastSettings,
+        title: translate("created"),
+        status: "success",
       });
+      router.push("/account");
+    } else {
+      toast({
+        ...toastSettings,
+        title: translate(`${response.message}`),
+        status: "error",
+      });
+    }
   };
 
   return (

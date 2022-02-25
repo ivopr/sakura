@@ -104,7 +104,11 @@ const Login: NextPage = () => {
                 label={translate("accountName")}
                 {...register("name")}
               />
-              <PasswordField error={formState.errors.password} {...register("password")} />
+              <PasswordField
+                error={formState.errors.password}
+                label={translate("password")}
+                {...register("password")}
+              />
             </Stack>
             <Button isLoading={formState.isSubmitting} type="submit">
               Sign in
