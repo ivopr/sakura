@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   chakra,
@@ -22,7 +21,7 @@ import { NAV_ITEMS } from "./items";
 import { UserMenu } from "./user-menu";
 
 export function Navigation(): JSX.Element {
-  const { data, status } = useSession();
+  const { status } = useSession();
   const bg = useColorModeValue("white", "gray.900");
   const mobileNav = useDisclosure();
 

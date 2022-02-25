@@ -7,10 +7,9 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Text,
 } from "@chakra-ui/react";
 import { signOut, useSession } from "next-auth/react";
-import { IoChevronDownOutline } from "react-icons/io5";
+import { IoChevronDownOutline, IoLogOutOutline } from "react-icons/io5";
 
 export function UserMenu(): JSX.Element {
   const { data } = useSession();
@@ -63,6 +62,7 @@ export function UserMenu(): JSX.Element {
             })
           }
         >
+          <Icon as={IoLogOutOutline} marginRight="1" />
           Log out
         </MenuItem>
       </MenuList>
