@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-import { IoHomeOutline, IoLogInOutline, IoPerson, IoPersonAddOutline } from "react-icons/io5";
+import { IoHomeOutline, IoLogInOutline, IoPersonAddOutline } from "react-icons/io5";
 
 export interface NavItem {
   label: string;
@@ -14,12 +14,6 @@ export const NAV_ITEMS: Array<NavItem> = [
     label: "Home",
     Icon: IoHomeOutline,
     href: "/",
-  },
-  {
-    label: "My Account",
-    Icon: IoPerson,
-    href: "/account",
-    onlyAuth: true,
   },
   {
     label: "Login",
