@@ -1,15 +1,12 @@
 import { Box, Heading, Image, LinkBox, LinkOverlay, Text } from "@chakra-ui/react";
 import { players } from "@prisma/client";
 import NextLink from "next/link";
-import { useTranslations } from "next-intl";
 
 type CharacterCardProps = {
   character: Partial<players>;
 };
 
 export function CharacterCard({ character }: CharacterCardProps): JSX.Element {
-  const translate = useTranslations("character.card");
-
   return (
     <NextLink href={`/character/${character.name}`} passHref>
       <LinkBox
@@ -27,8 +24,7 @@ export function CharacterCard({ character }: CharacterCardProps): JSX.Element {
             <LinkOverlay>{character.name}</LinkOverlay>
           </Heading>
           <Text>
-            {translate("vocation", { vocation: character.vocation })} &bull;{" "}
-            {translate("level", { level: character.level })}
+            Vocation: {character.vocation} &bull; Level: {character.level}
           </Text>
         </Box>
       </LinkBox>

@@ -18,7 +18,6 @@ import { usePostCreateAccountMutation } from "@sword/store/apis/account";
 import { toastSettings } from "@sword/utils/toast";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 
@@ -31,21 +30,20 @@ type RegisterData = {
 
 const Register: NextPage = () => {
   const [createAccount] = usePostCreateAccountMutation();
-  const translate = useTranslations("register");
   const router = useRouter();
 
   const RegisterSchema = yup.object().shape({
-    name: yup.string().required(translate("accountNameRequired")),
-    email: yup.string().required(translate("emailRequired")).email("emailInvalid"),
+    name: yup.string().required("You must set an Account Name"),
+    email: yup.string().required("You must set an Email").email("The Email must be a valid one"),
     password: yup
       .string()
-      .min(5, translate("shortPassword"))
-      .required(translate("passwordRequired")),
+      .min(5, "Your password must be at least 5 characters long")
+      .required("Your account should have a password"),
     confirmPassword: yup
       .string()
-      .min(5, translate("shortPassword"))
-      .oneOf([yup.ref("password"), null], translate("passwordsNotMatch"))
-      .required(translate("confirmPasswordRequired")),
+      .min(5, "Your password must be at least 5 characters long")
+      .required("Your account should have a password")
+      .oneOf([yup.ref("password"), null], "Passwords doesn't match"),
   });
 
   const { formState, handleSubmit, register } = useForm<RegisterData>({
@@ -63,14 +61,14 @@ const Register: NextPage = () => {
     if (response.message === "created") {
       toast({
         ...toastSettings,
-        title: translate("created"),
+        title: "Account created",
         status: "success",
       });
       router.push("/login");
     } else {
       toast({
         ...toastSettings,
-        title: translate(response.message),
+        title: response.message,
         status: "error",
       });
     }
@@ -81,13 +79,11 @@ const Register: NextPage = () => {
       <Stack maxWidth="md" marginX="auto" spacing="8">
         <Stack spacing="6">
           <Stack textAlign="center" spacing={{ base: "2", md: "3" }}>
-            <Heading size={useBreakpointValue({ base: "lg", md: "xl" })}>
-              {translate("title")}
-            </Heading>
+            <Heading size={useBreakpointValue({ base: "lg", md: "xl" })}>Create Account</Heading>
             <HStack justify="center" spacing="1">
-              <Text color="muted">{translate("alreadyRegistered")}</Text>
+              <Text color="muted">Already have an account?</Text>
               <Button colorScheme="blue" variant="link">
-                {translate("login")}
+                Login
               </Button>
             </HStack>
           </Stack>
@@ -101,29 +97,21 @@ const Register: NextPage = () => {
         >
           <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing="6">
             <Stack spacing="5">
-              <Input
-                error={formState.errors.name}
-                label={translate("accountName")}
-                {...register("name")}
-              />
-              <Input
-                error={formState.errors.email}
-                label={translate("email")}
-                {...register("email")}
-              />
+              <Input error={formState.errors.name} label="Account Name" {...register("name")} />
+              <Input error={formState.errors.email} label="Email" {...register("email")} />
               <PasswordField
-                label={translate("password")}
+                label="Password"
                 error={formState.errors.password}
                 {...register("password")}
               />
               <PasswordField
-                label={translate("confirmPassword")}
+                label="Confirm Password"
                 error={formState.errors.confirmPassword}
                 {...register("confirmPassword")}
               />
             </Stack>
             <Button isLoading={formState.isSubmitting} type="submit">
-              {translate("title")}
+              Create Account
             </Button>
           </Stack>
         </Box>
@@ -132,11 +120,9 @@ const Register: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withSSRGuest(async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
   return {
-    props: {
-      messages: (await import(`@sword/locales/${locale}.json`)).default,
-    },
+    props: {},
   };
 });
 

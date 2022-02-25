@@ -1,17 +1,15 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useGetGuildRanksQuery } from "@sword/store/apis/guildRanks";
-import { useTranslations } from "next-intl";
 import React, { FC } from "react";
 
 import { SimpleCard } from "../simple-card";
 
 export const GuildRanks: FC = (): JSX.Element => {
-  const translate = useTranslations("guildRanks");
   const { data } = useGetGuildRanksQuery("");
 
   return (
     <SimpleCard
-      title={translate("Guild Ranks")}
+      title="Guild Ranks"
       titleStyle={{
         textAlign: "center",
         fontSize: { base: 15, md: 30 },
@@ -55,7 +53,7 @@ export const GuildRanks: FC = (): JSX.Element => {
           paddingX="10"
           paddingY="2"
         >
-          {translate("There are no guilds in the rank")}
+          There are no guilds in the rank
         </Text>
       )}
     </SimpleCard>

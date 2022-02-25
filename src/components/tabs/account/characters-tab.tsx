@@ -2,7 +2,6 @@ import { Button, Flex, Heading, Icon, VStack } from "@chakra-ui/react";
 import { players } from "@prisma/client";
 import { CharacterCard } from "@sword/components/character-card";
 import NextLink from "next/link";
-import { useTranslations } from "next-intl";
 import { IoAddOutline } from "react-icons/io5";
 
 type AccountCharactersTabProps = {
@@ -10,12 +9,10 @@ type AccountCharactersTabProps = {
 };
 
 export function AccountCharactersTab({ characters }: AccountCharactersTabProps): JSX.Element {
-  const translate = useTranslations("account.view.tabs.charactersTab");
-
   return characters.length === 0 ? (
     <Flex flexDirection="column">
       <Heading marginBottom="2.5" textAlign="center">
-        {translate("no-character")}
+        No characters to show
       </Heading>
       <NextLink href="/account/create-character" passHref>
         <Button
@@ -25,7 +22,7 @@ export function AccountCharactersTab({ characters }: AccountCharactersTabProps):
           marginBottom="2.5"
           leftIcon={<Icon as={IoAddOutline} />}
         >
-          {translate("create")}
+          Create character
         </Button>
       </NextLink>
     </Flex>
@@ -39,7 +36,7 @@ export function AccountCharactersTab({ characters }: AccountCharactersTabProps):
           marginBottom="2.5"
           leftIcon={<Icon as={IoAddOutline} />}
         >
-          {translate("create")}
+          Create character
         </Button>
       </NextLink>
       <VStack width="full" spacing="2.5">

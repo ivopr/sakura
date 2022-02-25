@@ -10,7 +10,6 @@ import {
   useDisclosure,
   useMergeRefs,
 } from "@chakra-ui/react";
-import { useTranslations } from "next-intl";
 import { forwardRef, useCallback, useEffect, useRef } from "react";
 import { FieldError } from "react-hook-form";
 import { HiEye, HiEyeOff } from "react-icons/hi";
@@ -23,7 +22,6 @@ type PasswordFieldProps = InputProps & {
 export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
   ({ error, label, ...rest }, ref) => {
     const { isOpen, onToggle } = useDisclosure();
-    const translate = useTranslations("login");
     const inputRef = useRef<HTMLInputElement>(null);
 
     const mergeRef = useMergeRefs(inputRef, ref);
@@ -49,7 +47,7 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
         <InputGroup>
           <InputRightElement>
             <IconButton
-              aria-label={isOpen ? translate("maskPassword") : translate("revealPassword")}
+              aria-label={isOpen ? "Mask Password" : "Reveal Password"}
               icon={isOpen ? <HiEyeOff /> : <HiEye />}
               onClick={onClickReveal}
               variant="link"

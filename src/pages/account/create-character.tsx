@@ -15,7 +15,6 @@ import { usePostCreateCharacterMutation } from "@sword/store/apis/character";
 import { toastSettings } from "@sword/utils/toast";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 
@@ -26,13 +25,11 @@ type CharacterData = {
 const CreateCharacter: NextPage = () => {
   const [createCharacter] = usePostCreateCharacterMutation();
 
-  const translate = useTranslations("account.create-character");
-
   const toast = useToast();
   const router = useRouter();
 
   const CharacterSchema = yup.object().shape({
-    name: yup.string().required(translate("characterNameRequired")),
+    name: yup.string().required("Your character must have a name"),
   });
 
   const { formState, handleSubmit, register } = useForm<CharacterData>({
@@ -47,27 +44,25 @@ const CreateCharacter: NextPage = () => {
     if (response.message === "created") {
       toast({
         ...toastSettings,
-        title: translate("created"),
+        title: "Account created",
         status: "success",
       });
       router.push("/account");
     } else {
       toast({
         ...toastSettings,
-        title: translate(`${response.message}`),
+        title: response.message,
         status: "error",
       });
     }
   };
 
   return (
-    <Layout pageTitle={translate("title")}>
+    <Layout pageTitle="Create Character">
       <Stack maxWidth="md" marginX="auto" spacing="8">
         <Stack spacing="6">
           <Stack textAlign="center" spacing={{ base: "2", md: "3" }}>
-            <Heading size={useBreakpointValue({ base: "lg", md: "xl" })}>
-              {translate("title")}
-            </Heading>
+            <Heading size={useBreakpointValue({ base: "lg", md: "xl" })}>Create Character</Heading>
           </Stack>
         </Stack>
         <Box
@@ -79,14 +74,10 @@ const CreateCharacter: NextPage = () => {
         >
           <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing="6">
             <Stack spacing="5">
-              <Input
-                error={formState.errors.name}
-                label={translate("characterName")}
-                {...register("name")}
-              />
+              <Input error={formState.errors.name} label="Character Name" {...register("name")} />
             </Stack>
             <Button isLoading={formState.isSubmitting} type="submit">
-              {translate("title")}
+              Create Character
             </Button>
           </Stack>
         </Box>
@@ -95,11 +86,9 @@ const CreateCharacter: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async () => {
   return {
-    props: {
-      messages: (await import(`@sword/locales/${locale}.json`)).default,
-    },
+    props: {},
   };
 });
 

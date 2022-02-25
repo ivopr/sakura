@@ -2,15 +2,21 @@ import {
   Avatar,
   Button,
   Icon,
-  Image,
   Menu,
   MenuButton,
+  MenuGroup,
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
-import { IoAddOutline, IoChevronDownOutline, IoLogOutOutline } from "react-icons/io5";
+import {
+  IoAddOutline,
+  IoBuildOutline,
+  IoChevronDownOutline,
+  IoLogOutOutline,
+  IoPersonCircleOutline,
+} from "react-icons/io5";
 
 export function UserMenu(): JSX.Element {
   const router = useRouter();
@@ -27,7 +33,7 @@ export function UserMenu(): JSX.Element {
             marginRight="2"
             name={data?.user?.name as string}
             size="xs"
-            src="https://bit.ly/dan-abramov"
+            src="https://github.com/ivopr.png"
           />
         }
         rightIcon={<Icon as={IoChevronDownOutline} marginLeft="2" />}
@@ -37,40 +43,35 @@ export function UserMenu(): JSX.Element {
         {data?.user?.name}
       </MenuButton>
       <MenuList>
-        <MenuItem minHeight="48px">
-          <Image
-            boxSize="2rem"
-            marginRight="12px"
-            borderRadius="full"
-            alt="Fluffybuns the destroyer"
-            src="https://placekitten.com/100/100"
-          />
-          <span>Fluffybuns the Destroyer</span>
-        </MenuItem>
-        <MenuItem minHeight="40px">
-          <Image
-            boxSize="2rem"
-            marginRight="12px"
-            borderRadius="full"
-            alt="Simon the pensive"
-            src="https://placekitten.com/120/120"
-          />
-          <span>Simon the pensive</span>
-        </MenuItem>
-        <MenuItem onClick={() => router.push("/account/create-character")}>
-          <Icon as={IoAddOutline} marginRight="1" />
-          Create Character
-        </MenuItem>
-        <MenuItem
-          onClick={() =>
-            signOut({
-              redirect: false,
-            })
-          }
-        >
-          <Icon as={IoLogOutOutline} marginRight="1" />
-          Log out
-        </MenuItem>
+        {Number(data?.groupId) > -1 && (
+          <MenuGroup title="Administration">
+            <MenuItem onClick={() => router.push("/admin/dashboard")}>
+              <Icon as={IoBuildOutline} marginRight="1" />
+              Admin Panel
+            </MenuItem>
+          </MenuGroup>
+        )}
+
+        <MenuGroup title="My Account">
+          <MenuItem onClick={() => router.push("/account")}>
+            <Icon as={IoPersonCircleOutline} marginRight="1" />
+            My Profile
+          </MenuItem>
+          <MenuItem onClick={() => router.push("/account/create-character")}>
+            <Icon as={IoAddOutline} marginRight="1" />
+            Create Character
+          </MenuItem>
+          <MenuItem
+            onClick={() =>
+              signOut({
+                redirect: false,
+              })
+            }
+          >
+            <Icon as={IoLogOutOutline} marginRight="1" />
+            Log out
+          </MenuItem>
+        </MenuGroup>
       </MenuList>
     </Menu>
   );

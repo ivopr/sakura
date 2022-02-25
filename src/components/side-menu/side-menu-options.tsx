@@ -9,7 +9,6 @@ import {
   Divider,
   Heading,
 } from "@chakra-ui/react";
-import { useTranslations } from "next-intl";
 import React, { FC } from "react";
 
 import { FunnyMenu } from "./side-menu.props";
@@ -23,7 +22,6 @@ type OptionProps = ContainerProps & {
 export const Option: FC<OptionProps> = ({ option, hasDivider = false, fontSize = "lg" }) => {
   const fontSizeArray = ["xs", "sm", "md", "lg", "xl"];
   const nextFontSize = fontSizeArray[fontSizeArray.indexOf(fontSize) - 1];
-  const translate = useTranslations("options");
 
   return (
     <>
@@ -32,7 +30,7 @@ export const Option: FC<OptionProps> = ({ option, hasDivider = false, fontSize =
           <AccordionItem border="none">
             <AccordionButton display="flex" width="full">
               <Heading fontSize={fontSize} textAlign="left">
-                {translate(option.name)}
+                {option.name}
               </Heading>
               <AccordionIcon marginStart="2.5" />
             </AccordionButton>
@@ -56,7 +54,7 @@ export const Option: FC<OptionProps> = ({ option, hasDivider = false, fontSize =
             marginY="1"
             onClick={option.action}
           >
-            {translate(option.name)}
+            {option.name}
           </Heading>
           {hasDivider && <Divider orientation="horizontal" />}
         </Box>

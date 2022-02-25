@@ -18,7 +18,6 @@ import { toastSettings } from "@sword/utils/toast";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 
@@ -28,16 +27,15 @@ type LoginData = {
 };
 
 const Login: NextPage = () => {
-  const translate = useTranslations("login");
   const toast = useToast();
   const router = useRouter();
 
   const LoginSchema = yup.object().shape({
-    name: yup.string().required(translate("accountNameRequired")),
+    name: yup.string().required("You must set an Account Nmae"),
     password: yup
       .string()
-      .min(5, translate("requestErrors.passwordLength"))
-      .required(translate("passwordRequired")),
+      .min(5, "Your password must be 5 characters long")
+      .required("Your account should have a password"),
   });
 
   const { formState, handleSubmit, register } = useForm<LoginData>({
@@ -59,7 +57,7 @@ const Login: NextPage = () => {
       if (error) {
         toast({
           ...toastSettings,
-          title: translate(`requestErrors.${error}`),
+          title: error,
           status: "error",
         });
       } else {
@@ -75,17 +73,15 @@ const Login: NextPage = () => {
   };
 
   return (
-    <Layout pageTitle={translate("title")}>
+    <Layout pageTitle="Login">
       <Stack maxWidth="md" marginX="auto" spacing="8">
         <Stack spacing="6">
           <Stack textAlign="center" spacing={{ base: "2", md: "3" }}>
-            <Heading size={useBreakpointValue({ base: "lg", md: "xl" })}>
-              {translate("title")}
-            </Heading>
+            <Heading size={useBreakpointValue({ base: "lg", md: "xl" })}>Login</Heading>
             <HStack justify="center" spacing="1">
-              <Text color="muted">{translate("needRegister")}</Text>
+              <Text color="muted">Don&rsquo;t have an account?</Text>
               <Button colorScheme="blue" variant="link">
-                {translate("register")}
+                Create one
               </Button>
             </HStack>
           </Stack>
@@ -99,19 +95,15 @@ const Login: NextPage = () => {
         >
           <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing="6">
             <Stack spacing="5">
-              <Input
-                error={formState.errors.name}
-                label={translate("accountName")}
-                {...register("name")}
-              />
+              <Input error={formState.errors.name} label="Account Name" {...register("name")} />
               <PasswordField
                 error={formState.errors.password}
-                label={translate("password")}
+                label="Password"
                 {...register("password")}
               />
             </Stack>
             <Button isLoading={formState.isSubmitting} type="submit">
-              Sign in
+              Login
             </Button>
           </Stack>
         </Box>
@@ -120,11 +112,9 @@ const Login: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withSSRGuest(async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
   return {
-    props: {
-      messages: (await import(`@sword/locales/${locale}.json`)).default,
-    },
+    props: {},
   };
 });
 

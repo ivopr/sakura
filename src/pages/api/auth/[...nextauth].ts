@@ -13,6 +13,7 @@ export default NextAuth({
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
+        token.groupId = user.type;
       }
 
       return token;
@@ -20,6 +21,7 @@ export default NextAuth({
     session: ({ token, session }) => {
       if (token) {
         session.id = token.id;
+        session.groupId = token.groupId;
       }
 
       return session;

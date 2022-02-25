@@ -6,7 +6,6 @@ import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 const AccountTabs = dynamic<AccountTabsProps>(
@@ -28,7 +27,6 @@ const Account: NextPage = () => {
   const { data } = useGetAccountByNameQuery(router.query.name as string, {
     skip: skipFirstQueryOnMount,
   });
-  const translate = useTranslations("account.view");
 
   useEffect(() => {
     if (skipFirstQueryOnMount) {
@@ -62,7 +60,7 @@ const Account: NextPage = () => {
         <Box>
           <Heading textAlign="center" textTransform="capitalize">
             {status === "authenticated" && data.account.id === session?.id
-              ? `${data.account.name} ${translate("itsYou")}`
+              ? `${data.account.name} (You)`
               : data.account.name}
           </Heading>
           <Text>{data.account.email}</Text>
@@ -77,11 +75,9 @@ const Account: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   return {
-    props: {
-      messages: (await import(`@sword/locales/${locale}.json`)).default,
-    },
+    props: {},
   };
 };
 

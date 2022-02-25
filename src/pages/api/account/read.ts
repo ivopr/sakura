@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { accounts } from "@prisma/client";
+import { ParseBigInt } from "@sword/utils/bigint-parser";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../services/prisma";
@@ -26,32 +27,26 @@ export default async function handler(
     const data = req.query as unknown as QueryData;
 
     if (data.type === "all") {
-      const accounts = await prisma.accounts.findMany({
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          creation: true,
-          premium_ends_at: true,
-          type: true,
-          players: data.shouldBringRelations === "true",
-        },
-      });
+      try {
+        const accounts = await prisma.accounts.findMany({
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            creation: true,
+            premium_ends_at: true,
+            type: true,
+            players: data.shouldBringRelations === "true",
+          },
+        });
 
-      return res.status(200).json({ accounts });
+        return res.status(200).json({
+          accounts: ParseBigInt(accounts),
+        });
+      } catch {
+        return res.status(400).json({ message: "notPossible" });
+      }
     } else if (data.type === "one") {
-      const player =
-        data.shouldBringRelations === "true"
-          ? {
-              select: {
-                name: true,
-                level: true,
-                looktype: true,
-                vocation: true,
-              },
-            }
-          : false;
-
       const account = await prisma.accounts.findFirst({
         where: {
           OR: [
@@ -67,7 +62,7 @@ export default async function handler(
           creation: true,
           premium_ends_at: true,
           type: true,
-          players: player,
+          players: data.shouldBringRelations === "true",
         },
       });
 
@@ -77,7 +72,7 @@ export default async function handler(
         });
       }
 
-      return res.status(200).json({ account });
+      return res.status(200).json({ account: ParseBigInt(account) });
     } else if (data.type === "filtered") {
       return res.status(200).json({
         message: "The 'filtered' search type is in development",

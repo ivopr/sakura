@@ -2,7 +2,6 @@ import { Divider, Icon, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-
 import { players } from "@prisma/client";
 import { SingleAccount } from "@sword/types/account";
 import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
 import {
   IoIdCardOutline,
   IoPeopleOutline,
@@ -21,27 +20,25 @@ export type AccountTabsProps = {
 export function AccountTabs({ account }: AccountTabsProps): JSX.Element {
   const { data: session, status } = useSession();
 
-  const translate = useTranslations("account.view.tabs");
-
   return (
     <Tabs marginY="5" variant="solid-rounded">
       <TabList justifyContent="center" flexWrap="wrap" gap="2.5">
         <Tab>
           <Icon as={IoIdCardOutline} marginRight="1" />
-          {translate("accountTabTitle")}
+          Account
         </Tab>
         <Tab>
           <Icon as={IoPersonOutline} marginRight="1" />
-          {translate("charactersTabTitle")}
+          Characters
         </Tab>
         <Tab>
           <Icon as={IoPeopleOutline} marginRight="1" />
-          {translate("friendsTabTitle")}
+          Friends
         </Tab>
         {status === "authenticated" && account.id === session?.id && (
           <Tab>
             <Icon as={IoSettingsOutline} marginRight="1" />
-            {translate("settingsTabTitle")}
+            Settings
           </Tab>
         )}
       </TabList>

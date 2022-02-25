@@ -109,11 +109,9 @@ const Home: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   return {
-    props: {
-      messages: (await import(`@sword/locales/${locale}.json`)).default,
-    },
+    props: {},
   };
 };
 
