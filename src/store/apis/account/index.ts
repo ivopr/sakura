@@ -10,9 +10,19 @@ export const accountApi = createApi({
     getAccountByName: builder.query<{ account: SingleAccount }, string>({
       query: (name) => ({ url: `account/read?type=one&name=${name}&shouldBringRelations=true` }),
     }),
+    postCreateAccount: builder.mutation<
+      { message: string },
+      { email: string; password: string; name: string }
+    >({
+      query: (body) => ({
+        url: "account/create",
+        body,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAccountByNameQuery } = accountApi;
+export const { useGetAccountByNameQuery, usePostCreateAccountMutation } = accountApi;

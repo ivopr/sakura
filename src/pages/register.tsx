@@ -14,9 +14,8 @@ import { Input } from "@sword/components/input";
 import { PasswordField } from "@sword/components/input/password-input";
 import { Layout } from "@sword/components/layout";
 import { withSSRGuest } from "@sword/hocs/with-ssr-guest";
-import { setupApiClient } from "@sword/services/axios";
+import { usePostCreateAccountMutation } from "@sword/store/apis/account";
 import { toastSettings } from "@sword/utils/toast";
-import { AxiosError } from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
@@ -31,6 +30,7 @@ type RegisterData = {
 };
 
 const Register: NextPage = () => {
+  const [createAccount] = usePostCreateAccountMutation();
   const translate = useTranslations("register");
   const router = useRouter();
 
@@ -57,29 +57,23 @@ const Register: NextPage = () => {
 
   const onSubmit: SubmitHandler<RegisterData> = async ({ email, password, name }) => {
     toast.closeAll();
-    const api = setupApiClient();
 
-    await api
-      .post("/account/create", {
-        name,
-        email,
-        password,
-      })
-      .then(() => {
-        toast({
-          ...toastSettings,
-          title: translate("created"),
-          status: "success",
-        });
-        router.push("/login");
-      })
-      .catch(({ response }: AxiosError) => {
-        toast({
-          ...toastSettings,
-          title: translate(response?.data.message),
-          status: "error",
-        });
+    const response = await createAccount({ email, name, password }).unwrap();
+
+    if (response.message === "created") {
+      toast({
+        ...toastSettings,
+        title: translate("created"),
+        status: "success",
       });
+      router.push("/login");
+    } else {
+      toast({
+        ...toastSettings,
+        title: translate(response.message),
+        status: "error",
+      });
+    }
   };
 
   return (

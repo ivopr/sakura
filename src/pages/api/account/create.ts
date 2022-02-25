@@ -15,45 +15,51 @@ export default async function handler(
   res: NextApiResponse<Data>
 ): Promise<void> {
   if (req.method === "POST") {
-    const data: Prisma.accountsCreateInput = req.body;
+    try {
+      const data: Prisma.accountsCreateInput = req.body;
 
-    const existingAccount = await prisma.accounts.findFirst({
-      where: {
-        OR: [{ email: { equals: data.email } }, { name: { equals: data.name } }],
-      },
-    });
-
-    if (existingAccount) {
-      return res.status(409).json({
-        message: "accountNameEmailNotUnique",
+      const existingAccount = await prisma.accounts.findFirst({
+        where: {
+          OR: [{ email: { equals: data.email } }, { name: { equals: data.name } }],
+        },
       });
-    }
 
-    if (data.password.length < 5) {
+      if (existingAccount) {
+        return res.status(409).json({
+          message: "accountNameEmailNotUnique",
+        });
+      }
+
+      if (data.password.length < 5) {
+        return res.status(400).json({
+          message: "shortPassword",
+        });
+      }
+
+      const hashedPassword = createHash("sha1").update(data.password).digest("hex");
+
+      await prisma.accounts.create({
+        data: {
+          ...data,
+          password: hashedPassword,
+          creation: Number(Date.now().toString().slice(0, 10)),
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          creation: true,
+        },
+      });
+
+      return res.status(201).json({
+        message: "created",
+      });
+    } catch {
       return res.status(400).json({
-        message: "shortPassword",
+        message: "notCreated",
       });
     }
-
-    const hashedPassword = createHash("sha1").update(data.password).digest("hex");
-
-    const account = await prisma.accounts.create({
-      data: {
-        ...data,
-        password: hashedPassword,
-        creation: Number(Date.now().toString().slice(0, 10)),
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        creation: true,
-      },
-    });
-
-    return res.status(201).json({
-      account,
-    });
   } else {
     return res.status(405).json({
       message: `You can't ${req.method} this route.`,
