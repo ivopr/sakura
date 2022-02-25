@@ -4,6 +4,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { accountApi } from "./apis/account";
 import { characterApi } from "./apis/character";
 import { guildRanksApi } from "./apis/guildRanks";
+import { newsImagesApi } from "./apis/newsImages";
 import { counterReducer } from "./slices/counter";
 
 export const store = configureStore({
@@ -11,13 +12,15 @@ export const store = configureStore({
     [accountApi.reducerPath]: accountApi.reducer,
     [guildRanksApi.reducerPath]: guildRanksApi.reducer,
     [characterApi.reducerPath]: characterApi.reducer,
+    [newsImagesApi.reducerPath]: newsImagesApi.reducer,
     counter: counterReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       accountApi.middleware,
       characterApi.middleware,
-      guildRanksApi.middleware
+      guildRanksApi.middleware,
+      newsImagesApi.middleware
     ),
 });
 

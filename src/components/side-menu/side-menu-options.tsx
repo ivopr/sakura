@@ -17,20 +17,11 @@ import { FunnyMenu } from "./side-menu.props";
 type OptionProps = ContainerProps & {
   option: FunnyMenu;
   hasDivider?: boolean;
-  layer: number;
-  maxLayer?: number;
   fontSize?: string;
 };
 
-export const Option: FC<OptionProps> = ({
-  option,
-  hasDivider = false,
-  layer,
-  maxLayer = 3,
-  fontSize = "lg",
-}) => {
+export const Option: FC<OptionProps> = ({ option, hasDivider = false, fontSize = "lg" }) => {
   const fontSizeArray = ["xs", "sm", "md", "lg", "xl"];
-  const nextLayer = layer + 1;
   const nextFontSize = fontSizeArray[fontSizeArray.indexOf(fontSize) - 1];
   const translate = useTranslations("options");
 
@@ -46,14 +37,9 @@ export const Option: FC<OptionProps> = ({
               <AccordionIcon marginStart="2.5" />
             </AccordionButton>
             <AccordionPanel>
-              {layer <= maxLayer &&
+              {option.childs &&
                 option.childs.map((suboption, index) => (
-                  <Option
-                    option={suboption}
-                    key={index}
-                    layer={nextLayer}
-                    fontSize={nextFontSize || "xs"}
-                  />
+                  <Option option={suboption} key={index} fontSize={nextFontSize || "xs"} />
                 ))}
             </AccordionPanel>
           </AccordionItem>

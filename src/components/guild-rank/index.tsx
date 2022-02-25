@@ -25,9 +25,10 @@ export const GuildRanks: FC = (): JSX.Element => {
         data.guildsRank.map((guild, index) => (
           <Box
             key={guild.name + index}
-            justifyContent="space-evenly"
+            justifyContent="space-between"
             flexDirection="row"
             display="flex"
+            paddingX={5}
           >
             <Text
               width={{ base: "fit-content", md: "initial" }}

@@ -8,5 +8,4 @@ export type FunnyMenu = {
 
 export type SideMenuProps = ContainerProps & {
   options: FunnyMenu[];
-  maxLayer?: number;
 };

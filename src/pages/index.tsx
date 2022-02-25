@@ -1,13 +1,11 @@
-import { Box, Button, Divider, Flex, Heading, SimpleGrid, Stack, VStack } from "@chakra-ui/react";
+import { Box, Divider, Flex, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Carousel } from "@sword/components/carousel";
 import { EventCard } from "@sword/components/event-card";
 import { GuildRanks } from "@sword/components/guild-rank";
 import { Layout } from "@sword/components/layout";
 import { SideMenu } from "@sword/components/side-menu";
-import { decrement, increment } from "@sword/store/slices/counter";
-import { RootState } from "@sword/store/store";
 import { DateTime } from "luxon";
 import type { GetServerSideProps, NextPage } from "next";
-import { useDispatch, useSelector } from "react-redux";
 
 type FunnyMenu = {
   name: string;
@@ -58,9 +56,6 @@ const MenuArray: FunnyMenu[] = [
 ];
 
 const Home: NextPage = () => {
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
-
   return (
     <Layout pageTitle="Home" maxWidth="full" maxHeight="full">
       <Flex
@@ -73,7 +68,7 @@ const Home: NextPage = () => {
       >
         <VStack justifyContent="left" width={{ base: "full", md: "fit-content" }} spacing="5">
           <Box flexDirection={{ base: "column", md: "row" }} display="flex" width="full">
-            <SideMenu options={MenuArray} maxLayer={2} />
+            <SideMenu options={MenuArray} />
             <Divider display={{ base: "none", md: "flex" }} marginX="0.5" orientation="vertical" />
             <Divider display={{ base: "flex", md: "none" }} orientation="horizontal" />
           </Box>
@@ -91,8 +86,8 @@ const Home: NextPage = () => {
         <Box
           flexDirection="column"
           justifySelf="center"
-          display={{ base: "flex", md: "initial" }}
-          width={{ base: "full" }}
+          display="flex"
+          width="full"
           marginTop={{
             base: "5",
             md: "0",
@@ -103,9 +98,7 @@ const Home: NextPage = () => {
           }}
           background="whiteAlpha.100"
         >
-          <Heading textAlign={{ base: "center", md: "initial" }}>{count}</Heading>
-          <Button onClick={() => dispatch(increment())}>Increment</Button>
-          <Button onClick={() => dispatch(decrement())}>Decrement</Button>
+          <Carousel />
         </Box>
       </Flex>
     </Layout>

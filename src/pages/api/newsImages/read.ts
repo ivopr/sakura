@@ -11,8 +11,7 @@ type QueryData = {
 };
 
 type Data = {
-  guildRank?: Partial<guild_ranks>;
-  guildsRank?: Partial<guild_ranks>[];
+  images?: Partial<string>[];
   message?: string;
 };
 
@@ -24,22 +23,12 @@ export default async function handler(
     const data = req.query as unknown as QueryData;
 
     if (data.type === "all") {
-      const guildsRank: guild_ranks[] = [
-        {
-          name: "Ivo gay",
-          level: 1,
-          guild_id: 1,
-          id: 1,
-        },
-        {
-          name: "Uma guilda",
-          level: 1,
-          guild_id: 2,
-          id: 2,
-        },
+      const images: string[] = [
+        "https://cdn.pixabay.com/photo/2018/03/11/12/53/magic-3216677_960_720.png",
+        "https://i.pinimg.com/originals/af/23/d7/af23d77daf8a8b32587f3f436e3c3806.jpg",
       ];
 
-      return res.status(200).json({ guildsRank });
+      return res.status(200).json({ images });
     }
     return res.status(400).json({
       message: "Malformed request, verify your filters and/or the requested search type",
