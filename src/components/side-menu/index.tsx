@@ -11,13 +11,13 @@ export const SideMenu: FC<SideMenuProps> = ({ options }): JSX.Element => {
       {/* Desktop Menu */}
       <VStack display={{ base: "none", md: "flex" }} width="100%" maxWidth="xs">
         {options.map((option, index) => (
-          <Option option={option} key={index} layer={1} />
+          <Option option={option} key={index} />
         ))}
       </VStack>
       {/* Desktop Menu */}
       <MobileSideMenu width="100%" display={{ base: "flex", md: "none" }}>
         {options.map((option, index) => (
-          <Option option={option} key={index} layer={1} />
+          <Option option={option} key={index} />
         ))}
       </MobileSideMenu>
     </>

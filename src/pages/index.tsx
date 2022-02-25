@@ -1,13 +1,11 @@
-import { Box, Button, Divider, Flex, Heading, SimpleGrid, Stack, VStack } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Carousel } from "@sword/components/carousel";
 import { EventCard } from "@sword/components/event-card";
 import { GuildRanks } from "@sword/components/guild-rank";
 import { Layout } from "@sword/components/layout";
 import { SideMenu } from "@sword/components/side-menu";
-import { decrement, increment } from "@sword/store/slices/counter";
-import { RootState } from "@sword/store/store";
 import { DateTime } from "luxon";
 import type { GetServerSideProps, NextPage } from "next";
-import { useDispatch, useSelector } from "react-redux";
 
 type FunnyMenu = {
   name: string;
@@ -33,6 +31,11 @@ const MenuArray: FunnyMenu[] = [
         childs: [
           {
             name: "Sub-Sub-Option 1",
+            childs: [
+              {
+                name: "Sub-Sub-Sub-Option 1",
+              },
+            ],
           },
         ],
       },
@@ -53,9 +56,6 @@ const MenuArray: FunnyMenu[] = [
 ];
 
 const Home: NextPage = () => {
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
-
   return (
     <Layout pageTitle="Home" maxWidth="full" maxHeight="full">
       <Flex
@@ -83,10 +83,10 @@ const Home: NextPage = () => {
             <GuildRanks />
           </SimpleGrid>
         </VStack>
-        <Box
+        <VStack
           flexDirection="column"
-          display={{ base: "flex", md: "initial" }}
-          width={{ base: "full" }}
+          justifySelf="center"
+          width="full"
           marginTop={{
             base: "5",
             md: "0",
@@ -96,11 +96,14 @@ const Home: NextPage = () => {
             md: "5",
           }}
           background="whiteAlpha.100"
+          spacing={10}
         >
-          <Heading textAlign={{ base: "center", md: "initial" }}>{count}</Heading>
-          <Button onClick={() => dispatch(increment())}>Increment</Button>
-          <Button onClick={() => dispatch(decrement())}>Decrement</Button>
-        </Box>
+          <Carousel />
+          <Heading textAlign="center">News & Changes</Heading>
+          <Heading color="red.500" fontSize={25} textAlign="center">
+            This site is currently under development
+          </Heading>
+        </VStack>
       </Flex>
     </Layout>
   );
