@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { SingleAccount } from "@sword/types/account";
+import { SingleAccount } from "@mantis/types/account";
 
 type CharacterCreateData = {
   name: string;

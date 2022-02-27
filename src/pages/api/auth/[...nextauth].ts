@@ -6,8 +6,8 @@ import { prisma } from "../../../services/prisma";
 
 export default NextAuth({
   pages: {
-    signIn: "/login",
-    error: "/login",
+    signIn: "/account/login",
+    error: "/account/login",
   },
   callbacks: {
     jwt: ({ token, user }) => {

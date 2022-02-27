@@ -3,9 +3,8 @@ import { getSession } from "next-auth/react";
 
 export function withSSRAuth<P>(fn: GetServerSideProps<P>): GetServerSideProps {
   return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
-    const session = await getSession({ ctx: context });
+    const session = await getSession(context);
 
-    console.log(session);
     if (session) {
       try {
         return await fn(context);
@@ -18,7 +17,7 @@ export function withSSRAuth<P>(fn: GetServerSideProps<P>): GetServerSideProps {
 
     return {
       redirect: {
-        destination: "/login",
+        destination: "/account/login",
         permanent: false,
       },
     };

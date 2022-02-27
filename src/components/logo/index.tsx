@@ -1,11 +1,20 @@
-import { Heading, HStack, Icon } from "@chakra-ui/react";
-import { IoWaterOutline } from "react-icons/io5";
+import { GiPrayingMantis } from "react-icons/gi";
+
+import { ButtonLink } from "../button-link";
 
 export function Logo(): JSX.Element {
   return (
-    <HStack>
-      <Icon as={IoWaterOutline} width="10" height="10" />
-      <Heading>Sword</Heading>
-    </HStack>
+    <ButtonLink
+      sx={{
+        color: "#69DB7C",
+        width: "auto",
+      }}
+      size="xl"
+      href="/"
+      compact
+      leftIcon={<GiPrayingMantis size={26} />}
+    >
+      Mantis
+    </ButtonLink>
   );
 }

@@ -5,7 +5,7 @@ import { accountApi } from "./apis/account";
 import { characterApi } from "./apis/character";
 import { guildRanksApi } from "./apis/guildRanks";
 import { newsApi } from "./apis/news";
-import { counterReducer } from "./slices/counter";
+import { generalReducer } from "./slices/counter";
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +13,7 @@ export const store = configureStore({
     [guildRanksApi.reducerPath]: guildRanksApi.reducer,
     [characterApi.reducerPath]: characterApi.reducer,
     [newsApi.reducerPath]: newsApi.reducer,
-    counter: counterReducer,
+    general: generalReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

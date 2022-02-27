@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { accounts } from "@prisma/client";
-import { ParseBigInt } from "@sword/utils/bigint-parser";
+import { ParseBigInt } from "@mantis/utils/bigint-parser";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../services/prisma";

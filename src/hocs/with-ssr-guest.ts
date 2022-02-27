@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 
 export function withSSRGuest<P>(fn: GetServerSideProps<P>): GetServerSideProps {
   return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
-    const session = await getSession({ ctx: context });
+    const session = await getSession(context);
 
     if (!session) {
       try {

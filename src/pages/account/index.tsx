@@ -1,35 +1,37 @@
-import { Spinner } from "@chakra-ui/react";
-import { Layout } from "@sword/components/layout";
+import { Box, Loader, Title } from "@mantine/core";
+import { AppShell } from "@mantis/components/app-shell";
+import { withSSRAuth } from "@mantis/hocs/with-ssr-auth";
 import { GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 
-const AccountRedirect: NextPage = () => {
+export default function AccountRedirect(props: NextPage): JSX.Element {
   return (
-    <Layout pageTitle="redirecting...">
-      <Spinner color="primary.500" emptyColor="gray.600" size="xl" />
-    </Layout>
+    <AppShell title="Redirecting">
+      <Box
+        sx={{
+          alignItems: "center",
+          marginLeft: "auto",
+          marginRight: "auto",
+          width: "fit-content",
+        }}
+      >
+        <Loader size="xl" />
+      </Box>
+      <Title align="center" order={3}>
+        Redirecting...
+      </Title>
+    </AppShell>
   );
-};
+}
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession({ ctx });
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
+  const session = await getSession(context);
 
-  if (!session) {
-    return {
-      props: {},
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
   return {
     props: {},
     redirect: {
-      destination: `/account/${session.user?.name}`,
+      destination: `/account/${session?.user?.name}`,
       permanent: false,
     },
   };
-};
-
-export default AccountRedirect;
+});

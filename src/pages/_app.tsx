@@ -1,28 +1,67 @@
-import { ChakraProvider } from "@chakra-ui/provider";
-import { cookieStorageManager, localStorageManager } from "@chakra-ui/react";
-import { store } from "@sword/store/store";
-import { theme } from "@sword/theme";
-import type { AppProps } from "next/app";
+import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
+import { useLocalStorageValue } from "@mantine/hooks";
+import { NotificationsProvider } from "@mantine/notifications";
+import { store } from "@mantis/store/store";
+import { AppProps } from "next/app";
+import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 import NextNProgress from "nextjs-progressbar";
+import { ReactNode } from "react";
 import { Provider } from "react-redux";
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  const colorModeManager =
-    typeof pageProps.cookies === "string"
-      ? cookieStorageManager(pageProps.cookies)
-      : localStorageManager;
+export default function App(props: AppProps): JSX.Element {
+  const { Component, pageProps } = props;
 
   return (
-    <Provider store={store}>
-      <SessionProvider session={pageProps.session}>
-        <ChakraProvider colorModeManager={colorModeManager} theme={theme}>
-          <NextNProgress color="#4169E1" startPosition={0.5} stopDelayMs={100} height={5} />
-          <Component {...pageProps} />
-        </ChakraProvider>
-      </SessionProvider>
-    </Provider>
+    <>
+      <Head>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+      </Head>
+      <Provider store={store}>
+        <SessionProvider session={pageProps.session}>
+          <AppAux>
+            <NextNProgress
+              options={{ showSpinner: false }}
+              color="#69DB7C"
+              startPosition={0.5}
+              stopDelayMs={100}
+              height={5}
+            />
+            <Component {...pageProps} />
+          </AppAux>
+        </SessionProvider>
+      </Provider>
+    </>
   );
 }
 
-export default MyApp;
+type AppAuxProps = {
+  children: ReactNode;
+};
+
+function AppAux({ children }: AppAuxProps): JSX.Element {
+  const [colorScheme, setColorScheme] = useLocalStorageValue<ColorScheme>({
+    key: "mantine-color-scheme",
+    defaultValue: "light",
+  });
+
+  const toggleColorScheme = (value?: ColorScheme): void =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+
+  return (
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          /** Put your mantine theme override here */
+          colorScheme: colorScheme,
+          fontFamily: "Poppins",
+          loader: "dots",
+        }}
+      >
+        <NotificationsProvider position="top-left">{children}</NotificationsProvider>
+      </MantineProvider>
+    </ColorSchemeProvider>
+  );
+}
