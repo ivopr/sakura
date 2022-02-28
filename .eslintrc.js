@@ -27,7 +27,7 @@ module.exports = {
         "plugin:jsx-a11y/recommended", // Accessibility rules
         "plugin:prettier/recommended", // Prettier plugin
       ],
-      plugins: ["simple-import-sort", "chakra-ui"],
+      plugins: ["simple-import-sort"],
       rules: {
         // We will use TypeScript's types for component props instead
         "react/prop-types": "off",
@@ -68,10 +68,6 @@ module.exports = {
         // Import Sort
         "simple-import-sort/imports": "warn",
         "simple-import-sort/exports": "warn",
-
-        // Chakra UI
-        "chakra-ui/props-order": "warn",
-        "chakra-ui/props-shorthand": ["warn", { noShorthand: true }],
       },
     },
   ],

@@ -7,17 +7,17 @@ import {
   ThemeIcon,
 } from "@mantine/core";
 import { signOut, useSession } from "next-auth/react";
-import { IoBeaker, IoBook, IoDesktop, IoPersonSharp } from "react-icons/io5";
+import { IoBeaker, IoBook, IoDesktop, IoLogOut, IoPersonSharp } from "react-icons/io5";
 
 import { Button } from "../button";
 import { ButtonLink } from "../button-link";
 import { Copyright } from "./copyright";
 import { ExperimentalSection, GeneralSection, LibrarySection } from "./sections";
 
-type NavbarProps = Omit<MantineNavbarProps, "children">;
+export type NavbarProps = Omit<MantineNavbarProps, "children">;
 
 export function Navbar({ ...rest }: NavbarProps): JSX.Element {
-  const { status } = useSession();
+  const { status, data } = useSession();
 
   return (
     <MantineNavbar {...rest}>
@@ -55,7 +55,7 @@ export function Navbar({ ...rest }: NavbarProps): JSX.Element {
                 >
                   <IoPersonSharp />
                 </ThemeIcon>
-                Account
+                {status === "authenticated" ? data?.user?.name : "Account"}
               </>
             }
           >
@@ -64,7 +64,9 @@ export function Navbar({ ...rest }: NavbarProps): JSX.Element {
                 <ButtonLink href="/account">Profile</ButtonLink>
                 <ButtonLink href="/account/create-character">Create Character</ButtonLink>
                 <ButtonLink href="/account/settings">Settings</ButtonLink>
-                <Button onClick={() => signOut({ redirect: false })}>Logout</Button>
+                <Button leftIcon={<IoLogOut />} onClick={() => signOut({ redirect: false })}>
+                  Logout
+                </Button>
               </>
             ) : status === "loading" ? (
               <Button>Loading...</Button>

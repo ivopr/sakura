@@ -1,6 +1,7 @@
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { useLocalStorageValue } from "@mantine/hooks";
 import { NotificationsProvider } from "@mantine/notifications";
+import { AppShell } from "@mantis/components/app-shell";
 import { store } from "@mantis/store/store";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -27,7 +28,9 @@ export default function App(props: AppProps): JSX.Element {
               stopDelayMs={100}
               height={5}
             />
-            <Component {...pageProps} />
+            <AppShell>
+              <Component {...pageProps} />
+            </AppShell>
           </AppAux>
         </SessionProvider>
       </Provider>

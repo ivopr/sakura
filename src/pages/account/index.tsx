@@ -1,12 +1,16 @@
 import { Box, Loader, Title } from "@mantine/core";
-import { AppShell } from "@mantis/components/app-shell";
+import { staticInfo } from "@mantis/config";
 import { withSSRAuth } from "@mantis/hocs/with-ssr-auth";
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { getSession } from "next-auth/react";
 
-export default function AccountRedirect(props: NextPage): JSX.Element {
+export default function AccountRedirect(): JSX.Element {
   return (
-    <AppShell title="Redirecting">
+    <>
+      <Head>
+        <title>Redirecting &bull; {staticInfo.serverName}</title>
+      </Head>
       <Box
         sx={{
           alignItems: "center",
@@ -20,7 +24,7 @@ export default function AccountRedirect(props: NextPage): JSX.Element {
       <Title align="center" order={3}>
         Redirecting...
       </Title>
-    </AppShell>
+    </>
   );
 }
 

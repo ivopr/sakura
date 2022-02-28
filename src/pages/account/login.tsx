@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Title } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
-import { AppShell } from "@mantis/components/app-shell";
 import { PasswordInput } from "@mantis/components/input/password";
 import { TextInput } from "@mantis/components/input/text";
+import { staticInfo } from "@mantis/config";
 import { withSSRGuest } from "@mantis/hocs/with-ssr-guest";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -65,46 +66,47 @@ export default function AccountLogin(): JSX.Element {
   };
 
   return (
-    <AppShell title="Login">
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        sx={(theme) => ({
-          maxWidth: theme.breakpoints.xs / 1.5,
-          marginLeft: "auto",
-          marginRight: "auto",
-        })}
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      sx={(theme) => ({
+        maxWidth: theme.breakpoints.xs / 1.5,
+        marginLeft: "auto",
+        marginRight: "auto",
+      })}
+    >
+      <Head>
+        <title>Login &bull; {staticInfo.serverName}</title>
+      </Head>
+      <Title align="center" my="xs">
+        Login
+      </Title>
+      <TextInput
+        error={errors.name?.message}
+        my="xs"
+        label="Account Name"
+        size="lg"
+        {...register("name")}
+      />
+      <PasswordInput
+        error={errors.password?.message}
+        my="xs"
+        size="lg"
+        label="Password"
+        {...register("password")}
+      />
+      <Button
+        color="green"
+        size="lg"
+        loading={isSubmitting}
+        leftIcon={<IoLogIn size={18} />}
+        my="xs"
+        type="submit"
+        fullWidth
       >
-        <Title align="center" my="xs">
-          Login
-        </Title>
-        <TextInput
-          error={errors.name?.message}
-          my="xs"
-          label="Account Name"
-          size="lg"
-          {...register("name")}
-        />
-        <PasswordInput
-          error={errors.password?.message}
-          my="xs"
-          size="lg"
-          label="Password"
-          {...register("password")}
-        />
-        <Button
-          color="green"
-          size="lg"
-          loading={isSubmitting}
-          leftIcon={<IoLogIn size={18} />}
-          my="xs"
-          type="submit"
-          fullWidth
-        >
-          Login
-        </Button>
-      </Box>
-    </AppShell>
+        Login
+      </Button>
+    </Box>
   );
 }
 

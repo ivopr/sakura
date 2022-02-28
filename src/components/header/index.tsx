@@ -7,12 +7,15 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
+import dynamic from "next/dynamic";
 import { Dispatch, SetStateAction } from "react";
 import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 
-import { Logo } from "../logo";
+const Logo = dynamic<unknown>(() => import("../logo").then((mod) => mod.Logo), {
+  ssr: false,
+});
 
-type HeaderProps = Omit<MantineHeaderProps, "children"> & {
+export type HeaderProps = Omit<MantineHeaderProps, "children"> & {
   isOpened: boolean;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
 };

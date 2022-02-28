@@ -1,33 +1,60 @@
-import { AppShell as MantineAppShell, AppShellProps as MantineAppShellProps } from "@mantine/core";
-import { staticInfo } from "@mantis/config";
-import Head from "next/head";
+import {
+  AppShell as MantineAppShell,
+  AppShellProps as MantineAppShellProps,
+  Box,
+  Divider,
+  Loader,
+} from "@mantine/core";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
 import { Header } from "../header";
-import { Navbar } from "../navbar";
+import { NavbarProps } from "../navbar";
 
-type AppShellProps = MantineAppShellProps & {
-  title: string;
-};
+const Navbar = dynamic<NavbarProps>(() => import("../navbar").then((mod) => mod.Navbar), {
+  ssr: false,
+  loading: () => (
+    <Box
+      sx={{
+        display: "flex",
+      }}
+    >
+      <Box
+        sx={{
+          alignItems: "center",
+          display: "flex",
+          height: "100vh - 70",
+          justifyContent: "center",
+          width: "300px",
+          maxWidth: "300px",
+        }}
+      >
+        <Loader />
+      </Box>
+      <Divider orientation="vertical" />
+    </Box>
+  ),
+});
 
-export function AppShell({ children, title }: AppShellProps): JSX.Element {
+type AppShellProps = MantineAppShellProps;
+
+export function AppShell({ children }: AppShellProps): JSX.Element {
   const [opened, setOpened] = useState(false);
 
   return (
-    <>
-      <Head>
-        <title>
-          {title} • {staticInfo.serverName}
-        </title>
-      </Head>
-      <MantineAppShell
-        navbarOffsetBreakpoint="sm"
-        fixed
-        navbar={<Navbar padding="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 300 }} />}
-        header={<Header height={70} isOpened={opened} setIsOpened={setOpened} />}
-      >
-        {children}
-      </MantineAppShell>
-    </>
+    <MantineAppShell
+      navbarOffsetBreakpoint="sm"
+      fixed
+      styles={{
+        main: {
+          display: "flex",
+          justifyContent: "center",
+        },
+      }}
+      navbar={<Navbar padding="xs" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 300 }} />}
+      header={<Header height={70} isOpened={opened} setIsOpened={setOpened} />}
+    >
+      {children}
+    </MantineAppShell>
   );
 }
