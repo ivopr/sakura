@@ -1,22 +1,39 @@
-import { Title, Text, Anchor } from '@mantine/core';
+import { Container, List, Text, Title } from "@mantine/core";
+import Head from "next/head";
 
-export default function HomePage() {
+export default function HomePage(): JSX.Element {
   return (
-    <>
-      <Title sx={{ fontSize: 100, fontWeight: 900, letterSpacing: -2 }} align="center" mt={100}>
-        Welcome to{' '}
-        <Text inherit variant="gradient" component="span">
-          Mantine
-        </Text>
-      </Title>
-      <Text color="dimmed" align="center" size="lg" sx={{ maxWidth: 580 }} mx="auto" mt="xl">
-        This starter Next.js projects includes a minimal setup for server side rendering, if you
-        want to learn more on Mantine + Next.js integration follow{' '}
-        <Anchor href="https://mantine.dev/theming/next/" size="lg">
-          this guide
-        </Anchor>
-        . To get started edit index.tsx file.
+    <Container size="xs">
+      <Head>
+        <title>Home &bull; Abyss</title>
+      </Head>
+      <Text align="center">
+        This is{" "}
+        <Title
+          sx={(theme) => ({
+            color: theme.colors[theme.primaryColor][5],
+          })}
+        >
+          Abyss
+        </Title>
       </Text>
-    </>
+
+      <Text my="sm">
+        Abyss is my personal Next.js template filled with the things I&apos;ve grown accostumed to,
+        that includes, but isn&apos;t limited to:
+      </Text>
+
+      <List>
+        <List.Item>Mantine</List.Item>
+        <List.Item>Next Auth</List.Item>
+        <List.Item>Redux Toolkit</List.Item>
+        <List.Item>Prisma</List.Item>
+        <List.Item>Zod</List.Item>
+
+        <List.Item>
+          ...and many more incredible open source things that make my day easier
+        </List.Item>
+      </List>
+    </Container>
   );
 }
