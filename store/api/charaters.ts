@@ -7,7 +7,12 @@ type Character = {
 // Define a service using a base URL and expected endpoints
 export const charactersApi = createApi({
   reducerPath: "charactersApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/characters/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/api/characters/"
+        : `${process.env.VERCEL_URL}/api/characters/`,
+  }),
   refetchOnFocus: true,
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
