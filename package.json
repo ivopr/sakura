@@ -61,5 +61,22 @@
     "prettier": "2.5.1",
     "prisma": "^3.10.0",
     "typescript": "4.6.2"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      {
+        "path": "@semantic-release/git",
+        "assets": [
+          "yarn.lock",
+          "CHANGELOG.md"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
   }
 }
