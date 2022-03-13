@@ -8,10 +8,7 @@ type Character = {
 export const charactersApi = createApi({
   reducerPath: "charactersApi",
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      process.env.VERCRL_ENV === "development"
-        ? "http://localhost:3000/api/characters/"
-        : `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/characters/`,
+    baseUrl: `/api/characters/`,
   }),
   refetchOnFocus: true,
   refetchOnMountOrArgChange: true,
