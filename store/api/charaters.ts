@@ -9,9 +9,9 @@ export const charactersApi = createApi({
   reducerPath: "charactersApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      process.env.NODE_ENV === "development"
+      process.env.VERCRL_ENV === "development"
         ? "http://localhost:3000/api/characters/"
-        : `${process.env.VERCEL_URL}/api/characters/`,
+        : `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/characters/`,
   }),
   refetchOnFocus: true,
   refetchOnMountOrArgChange: true,
