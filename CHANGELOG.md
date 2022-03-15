@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/ivopr/abyss/compare/v1.1.0...v1.1.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* app crashing in production ([eb47d18](https://github.com/ivopr/abyss/commit/eb47d18a56b3040b9326ce8137c594d6ef12f68e))
+
 # [1.1.0](https://github.com/ivopr/abyss/compare/v1.0.0...v1.1.0) (2022-03-15)
 
 
