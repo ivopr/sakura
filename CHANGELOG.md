@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/ivopr/abyss/compare/v1.0.0...v1.1.0) (2022-03-15)
+
+
+### Features
+
+* added i18n ([471ed02](https://github.com/ivopr/abyss/commit/471ed029d147e8bbd94cb4efe441372d4e1d371a))
+
 # 1.0.0 (2022-03-13)
 
 
