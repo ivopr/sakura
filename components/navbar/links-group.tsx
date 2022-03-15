@@ -49,6 +49,7 @@ interface LinksGroupProps {
   initiallyOpened?: boolean;
   link?: string;
   links?: { label: string; link: string }[];
+  onClose: () => void;
 }
 
 export function LinksGroup({
@@ -57,6 +58,7 @@ export function LinksGroup({
   link,
   initiallyOpened,
   links,
+  onClose,
 }: LinksGroupProps): JSX.Element {
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
@@ -64,7 +66,7 @@ export function LinksGroup({
   const ChevronIcon = theme.dir === "ltr" ? ChevronRight : ChevronLeft;
   const items = (hasLinks ? links : []).map((nlink) => (
     <NextLink key={nlink.label} href={nlink.link} passHref>
-      <Text<"a"> component="a" className={classes.link}>
+      <Text<"a"> component="a" className={classes.link} onClick={onClose}>
         {nlink.label}
       </Text>
     </NextLink>
@@ -73,7 +75,7 @@ export function LinksGroup({
   if (link) {
     return (
       <NextLink href={link} passHref>
-        <Box component="a" className={classes.control}>
+        <Box component="a" className={classes.control} onClick={onClose}>
           <Group position="apart" spacing={0}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <ThemeIcon variant="light" size={30}>

@@ -1,0 +1,11 @@
+{
+	"fields": {
+		"email": "Email",
+		"password": "Senha"
+	},
+	"is-registered": "Já possui uma conta?",
+	"login": "Entrar",
+	"or-with": "ou com",
+	"title": "Cadastrar",
+	"with-google": "Cadastrar com Google"
+}

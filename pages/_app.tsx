@@ -1,24 +1,19 @@
-import {
-  AppShell,
-  ColorScheme,
-  ColorSchemeProvider,
-  GlobalStyles,
-  MantineProvider,
-  NormalizeCSS,
-} from "@mantine/core";
+import { AppShell, ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { useLocalStorageValue } from "@mantine/hooks";
 import { NotificationsProvider } from "@mantine/notifications";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
+import { appWithTranslation } from "next-i18next";
 import { useState } from "react";
 import { Provider } from "react-redux";
 
 import { Header } from "../components/header";
+import { LanguageToggler } from "../components/language-toggler";
 import { Navbar } from "../components/navbar";
 import { store } from "../store";
 
-export default function App(props: AppProps): JSX.Element {
+function App(props: AppProps): JSX.Element {
   const { Component, pageProps } = props;
 
   const [opened, setOpened] = useState(false);
@@ -45,9 +40,9 @@ export default function App(props: AppProps): JSX.Element {
                 loader: "dots",
                 primaryColor: "violet",
               }}
+              withGlobalStyles
+              withNormalizeCSS
             >
-              <NormalizeCSS />
-              <GlobalStyles />
               <NotificationsProvider>
                 <AppShell
                   sx={(theme) => ({
@@ -57,9 +52,17 @@ export default function App(props: AppProps): JSX.Element {
                         : theme.fn.darken(theme.colors.gray[9], 0.4),
                   })}
                   fixed
-                  navbar={<Navbar hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200 }} />}
+                  navbar={
+                    <Navbar
+                      hiddenBreakpoint="sm"
+                      hidden={!opened}
+                      onClose={() => setOpened(false)}
+                      width={{ sm: 250 }}
+                    />
+                  }
                   header={<Header height={70} isOpened={opened} setIsOpened={setOpened} />}
                 >
+                  <LanguageToggler />
                   <Component {...pageProps} />
                 </AppShell>
               </NotificationsProvider>
@@ -70,3 +73,5 @@ export default function App(props: AppProps): JSX.Element {
     </>
   );
 }
+
+export default appWithTranslation(App);

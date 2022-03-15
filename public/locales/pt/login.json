@@ -1,0 +1,12 @@
+{
+	"fields": {
+		"email": "Email",
+		"password": "Senha",
+		"remember-me": "Manter sessão"
+	},
+	"is-unregistered": "Ainda não tem uma conta?",
+	"or-with": "ou com",
+	"register-now": "Criar conta",
+	"title": "Entrar",
+	"with-google": "Entrar com Google"
+}

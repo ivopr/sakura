@@ -48,7 +48,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function Navbar({ ...rest }: Omit<MantineNavbarProps, "children">): JSX.Element {
+type NavbarProps = Omit<MantineNavbarProps, "children"> & {
+  onClose: () => void;
+};
+
+export function Navbar({ onClose, ...rest }: NavbarProps): JSX.Element {
   const { status } = useSession();
 
   const mockdata = [
@@ -69,7 +73,7 @@ export function Navbar({ ...rest }: Omit<MantineNavbarProps, "children">): JSX.E
   ];
 
   const { classes } = useStyles();
-  const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
+  const links = mockdata.map((item) => <LinksGroup onClose={onClose} {...item} key={item.label} />);
 
   return (
     <MantineNavbar className={classes.navbar} {...rest}>

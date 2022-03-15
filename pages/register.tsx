@@ -14,6 +14,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import NextLink from "next/link";
 import { signIn } from "next-auth/react";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { BrandGoogle, UserPlus } from "tabler-icons-react";
 import { z } from "zod";
 
@@ -39,22 +41,26 @@ export default function Register(): JSX.Element {
     },
   });
 
-  const onSubmit = form.onSubmit(async () => {
-    // Do Credentials register
+  const commonTL = useTranslation("common");
+  const registerTL = useTranslation("register");
+
+  const onSubmit = form.onSubmit(async ({ email, password }) => {
+    // Handle your credentials register here
+    console.log({ email, password });
   });
 
   return (
     <Container size="xs">
       <Head>
-        <title>Register &bull; Abyss</title>
+        <title>
+          {registerTL.t("title")} &bull; {commonTL.t("app-name")}
+        </title>
       </Head>
-      <Title align="center" sx={{ fontWeight: "bold" }}>
-        Register
-      </Title>
+      <Title align="center">{registerTL.t("title")}</Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        Already have an account?{" "}
+        {registerTL.t("is-registered")}
         <NextLink href="/login" passHref>
-          <Anchor<"a"> size="sm">Login</Anchor>
+          <Anchor<"a"> size="sm">{registerTL.t("login")}</Anchor>
         </NextLink>
       </Text>
 
@@ -65,14 +71,23 @@ export default function Register(): JSX.Element {
           leftIcon={<BrandGoogle size={18} />}
           onClick={() => signIn("google", { redirect: false })}
         >
-          Google
+          {registerTL.t("with-google")}
         </Button>
-        <Divider mt="sm" label="or with" labelPosition="center" />
+        <Divider mt="sm" label={registerTL.t("or-with")} labelPosition="center" />
         <form onSubmit={onSubmit}>
-          <TextInput disabled label="Email" {...form.getInputProps("email")} />
-          <PasswordInput disabled mt="md" label="Password" {...form.getInputProps("password")} />
+          <TextInput
+            disabled
+            label={registerTL.t("fields.email")}
+            {...form.getInputProps("email")}
+          />
+          <PasswordInput
+            disabled
+            mt="md"
+            label={registerTL.t("fields.password")}
+            {...form.getInputProps("password")}
+          />
           <Button disabled type="submit" leftIcon={<UserPlus size={18} />} fullWidth mt="xl">
-            Sign up
+            {registerTL.t("title")}
           </Button>
         </form>
       </Paper>
@@ -80,8 +95,10 @@ export default function Register(): JSX.Element {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (context) => {
   return {
-    props: {},
+    props: {
+      ...(await serverSideTranslations(context.locale ?? "en", ["common", "register"])),
+    },
   };
 });

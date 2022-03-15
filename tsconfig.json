@@ -21,6 +21,8 @@
   },
   "include": [
     ".eslintrc.js",
+    "next-i18next.config.js",
+    "next.config.js",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
