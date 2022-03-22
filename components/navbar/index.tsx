@@ -5,9 +5,11 @@ import {
   NavbarProps as MantineNavbarProps,
   ScrollArea,
 } from "@mantine/core";
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { signOut, useSession } from "next-auth/react";
+import { useTranslation } from "next-i18next";
 import React from "react";
-import { Home, User, Users } from "tabler-icons-react";
+import { Home, Plant2, User } from "tabler-icons-react";
 
 import { LanguageToggler } from "../language-toggler";
 import { ThemeToggler } from "../theme-toggler";
@@ -57,26 +59,36 @@ type NavbarProps = Omit<MantineNavbarProps, "children"> & {
 
 export function Navbar({ onClose, ...rest }: NavbarProps): JSX.Element {
   const { status } = useSession();
+  const commonTL = useTranslation("common");
+  const router = useRouter();
 
-  const mockdata = [
-    { label: "Home", icon: Home, link: "/" },
-    { label: "Characters", icon: Users, link: "/characters" },
+  const data = [
+    { label: commonTL.t("navbar.home"), icon: Home, link: "/" },
     {
-      label: "Account",
+      label: commonTL.t("navbar.account"),
       initiallyOpened: false,
       icon: User,
       links:
         status === "authenticated"
-          ? [{ label: "My Account", link: "/accounts" }]
+          ? [
+              { label: commonTL.t("navbar.my-account"), link: "/accounts" },
+              {
+                label: commonTL.t("navbar.logout"),
+                onClick: async (): Promise<void> => {
+                  signOut({ redirect: false }).then(() => router.push("/login"));
+                },
+              },
+            ]
           : [
-              { label: "Login", link: "/login" },
-              { label: "Register", link: "/register" },
+              { label: commonTL.t("navbar.login"), link: "/login" },
+              { label: commonTL.t("navbar.register"), link: "/register" },
             ],
     },
+    { label: commonTL.t("navbar.about"), icon: Plant2, link: "/about" },
   ];
 
   const { classes } = useStyles();
-  const links = mockdata.map((item) => <LinksGroup onClose={onClose} {...item} key={item.label} />);
+  const links = data.map((item) => <LinksGroup onClose={onClose} {...item} key={item.label} />);
 
   return (
     <MantineNavbar className={classes.navbar} {...rest}>

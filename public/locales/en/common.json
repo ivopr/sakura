@@ -3,5 +3,14 @@
 	"languages": {
 		"en": "English",
 		"pt": "Português"
+	},
+	"navbar": {
+		"about": "About",
+		"account": "Account",
+		"home": "Home",
+		"login": "Login",
+		"logout": "Logout",
+		"my-account": "My Account",
+		"register": "Register"
 	}
 }

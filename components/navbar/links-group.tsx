@@ -48,7 +48,7 @@ interface LinksGroupProps {
   label: string;
   initiallyOpened?: boolean;
   link?: string;
-  links?: { label: string; link: string }[];
+  links?: { label: string; link?: string; onClick?: () => Promise<void> }[];
   onClose: () => void;
 }
 
@@ -65,8 +65,17 @@ export function LinksGroup({
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === "ltr" ? ChevronRight : ChevronLeft;
   const items = (hasLinks ? links : []).map((nlink) => (
-    <NextLink key={nlink.label} href={nlink.link} passHref>
-      <Text<"a"> component="a" className={classes.link} onClick={onClose}>
+    <NextLink key={nlink.label} href={nlink.link ?? "#"} passHref>
+      <Text<"a">
+        component="a"
+        className={classes.link}
+        onClick={() => {
+          if (nlink.onClick) {
+            nlink.onClick();
+          }
+          onClose();
+        }}
+      >
         {nlink.label}
       </Text>
     </NextLink>
