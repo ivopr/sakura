@@ -9,7 +9,6 @@ import { useState } from "react";
 import { Provider } from "react-redux";
 
 import { Header } from "../components/header";
-import { LanguageToggler } from "../components/language-toggler";
 import { Navbar } from "../components/navbar";
 import { store } from "../store";
 
@@ -62,7 +61,6 @@ function App(props: AppProps): JSX.Element {
                   }
                   header={<Header height={70} isOpened={opened} setIsOpened={setOpened} />}
                 >
-                  <LanguageToggler />
                   <Component {...pageProps} />
                 </AppShell>
               </NotificationsProvider>

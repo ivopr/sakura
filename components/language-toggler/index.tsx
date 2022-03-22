@@ -17,7 +17,7 @@ export function LanguageToggler(): JSX.Element {
   }));
 
   return (
-    <Group position="center" mb="xl" mx="auto">
+    <Group position="center" mx="auto">
       <SegmentedControl
         value={locale}
         onChange={(val) => push(route, asPath, { locale: val })}

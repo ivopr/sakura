@@ -1,4 +1,5 @@
 import {
+  Box,
   createStyles,
   Navbar as MantineNavbar,
   NavbarProps as MantineNavbarProps,
@@ -8,6 +9,8 @@ import { useSession } from "next-auth/react";
 import React from "react";
 import { Home, User, Users } from "tabler-icons-react";
 
+import { LanguageToggler } from "../language-toggler";
+import { ThemeToggler } from "../theme-toggler";
 import { LinksGroup } from "./links-group";
 
 const useStyles = createStyles((theme) => ({
@@ -77,6 +80,23 @@ export function Navbar({ onClose, ...rest }: NavbarProps): JSX.Element {
 
   return (
     <MantineNavbar className={classes.navbar} {...rest}>
+      <MantineNavbar.Section
+        sx={(theme) => ({
+          paddingBottom: theme.spacing.xs,
+          paddingTop: theme.spacing.xs,
+        })}
+      >
+        <LanguageToggler />
+        <Box
+          sx={(theme) => ({
+            [theme.fn.largerThan("xs")]: {
+              display: "none",
+            },
+          })}
+        >
+          <ThemeToggler />
+        </Box>
+      </MantineNavbar.Section>
       <MantineNavbar.Section grow className={classes.links} component={ScrollArea}>
         <div className={classes.linksInner}>{links}</div>
       </MantineNavbar.Section>

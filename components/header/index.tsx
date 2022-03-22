@@ -1,4 +1,5 @@
 import {
+  Box,
   Burger,
   Group,
   Header as MantineHeader,
@@ -66,7 +67,16 @@ export function Header({ isOpened, setIsOpened, ...rest }: HeaderProps): JSX.Ele
           </ThemeIcon>
           <Title>{commonTL.t("app-name")}</Title>
         </Group>
-        <ThemeToggler />
+        <Box
+          sx={{
+            marginLeft: "auto",
+            [theme.fn.smallerThan("xs")]: {
+              display: "none",
+            },
+          }}
+        >
+          <ThemeToggler />
+        </Box>
       </div>
     </MantineHeader>
   );
