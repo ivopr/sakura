@@ -1,9 +1,16 @@
 {
+	"CredentialsSignin": "Usuario ou senha incorretos",
+	"form-error": {
+		"name-empty": "Qual o nome da sua conta?",
+		"password-empty": "Você esqueceu de escrever aqui",
+		"password-min": "Esse precisa ter no mínimo 5 caracteres. Essa é a dica"
+	},
 	"fields": {
 		"name": "Nome da Conta",
 		"password": "Senha",
 		"remember-me": "Manter sessão"
 	},
+	"logged-in": "Logado com sucesso",
 	"is-unregistered": "Ainda não tem uma conta?",
 	"or-with": "ou com",
 	"register-now": "Criar conta",
