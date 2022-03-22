@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import React from "react";
 
 export function LanguageToggler(): JSX.Element {
-  const { locale, locales, route, push } = useRouter();
+  const { locale, locales, route, push, asPath } = useRouter();
   const commonTL = useTranslation("common");
 
   const data = locales?.map((otherLocale) => ({
@@ -20,7 +20,7 @@ export function LanguageToggler(): JSX.Element {
     <Group position="center" mb="xl" mx="auto">
       <SegmentedControl
         value={locale}
-        onChange={(val) => push(route, route, { locale: val })}
+        onChange={(val) => push(route, asPath, { locale: val })}
         data={
           data ?? [
             {

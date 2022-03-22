@@ -1,6 +1,6 @@
 {
 	"fields": {
-		"email": "Email",
+		"name": "Nome da Conta",
 		"password": "Senha",
 		"remember-me": "Manter sessão"
 	},

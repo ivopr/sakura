@@ -1,4 +1,28 @@
 {
-	"logout": "Logout",
+	"characters": {
+		"title": "Characters"
+	},
+	"create-character": {
+		"female": "Female",
+		"gender": "Gender",
+		"male": "Male",
+		"name": "Name",
+		"select-your-vocation": "Select your vocation",
+		"title": "Create Character",
+		"vocation": "Vocation"
+	},
+	"id": {
+		"created-at": "Created At",
+		"group": "Group",
+		"premium": "Premium",
+		"premium-not-activated": "Not Activated",
+		"premium-ends-at": "Ends at {{date}}",
+		"title": "My Account",
+		"total-characters": "Total Characters"
+	},
+	"settings": {
+		"logout": "Logout",
+		"title": "Settings"
+	},
 	"welcome": "Welcome"
 }

@@ -278,11 +278,6 @@
   resolved "https://registry.yarnpkg.com/@modulz/radix-icons/-/radix-icons-4.0.0.tgz#628a7826a4569dd2e3331e266d8d2e26c7d6753c"
   integrity sha512-d79T4cYvMGMocVC/q1WiMO578FPFfUoxmXIkduc8cUQAPDr7thuEV5HrCHhqqqkoVaYD0QPct180ilcNUyGPrg==
 
-"@next-auth/prisma-adapter@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@next-auth/prisma-adapter/-/prisma-adapter-1.0.1.tgz#63a55d0c28bbb1f1db1e7823d2fd14eb2856e260"
-  integrity sha512-oZ1yDs5pSz19JvyYkIuf52CHpCc79ND/VYl3sX8Cwy3TaTfGgZWHRJfdcj3ordFNKIPxlV2qBYIX2UjgmSyTqQ==
-
 "@next/bundle-analyzer@12.1.0":
   version "12.1.0"
   resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-12.1.0.tgz#9f6d6cda2a26220c936805be407243e22790f4b7"

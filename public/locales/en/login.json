@@ -1,6 +1,6 @@
 {
 	"fields": {
-		"email": "Email",
+		"name": "Account Name",
 		"password": "Password",
 		"remember-me": "Remember me"
 	},

@@ -1,7 +1,9 @@
 {
 	"fields": {
+		"name": "Account Name",
 		"email": "Email",
-		"password": "Password"
+		"password": "Password",
+		"password-confirmation": "Password Confirm"
 	},
 	"is-registered": "Already have an account?",
 	"login": "Login",

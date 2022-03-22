@@ -1,7 +1,9 @@
 {
 	"fields": {
+		"name": "Nome da Conta",
 		"email": "Email",
-		"password": "Senha"
+		"password": "Senha",
+		"password-confirmation": "Confirmar Senha"
 	},
 	"is-registered": "Já possui uma conta?",
 	"login": "Entrar",

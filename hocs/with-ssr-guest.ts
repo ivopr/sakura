@@ -17,7 +17,7 @@ export function withSSRGuest<P>(fn: GetServerSideProps<P>): GetServerSideProps {
 
     return {
       redirect: {
-        destination: "/account",
+        destination: "/accounts",
         permanent: false,
       },
     };

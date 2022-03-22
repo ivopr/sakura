@@ -64,7 +64,7 @@ export function Navbar({ onClose, ...rest }: NavbarProps): JSX.Element {
       icon: User,
       links:
         status === "authenticated"
-          ? [{ label: "My Account", link: "/account" }]
+          ? [{ label: "My Account", link: "/accounts" }]
           : [
               { label: "Login", link: "/login" },
               { label: "Register", link: "/register" },

@@ -17,7 +17,7 @@ export function withSSRAuth<P>(fn: GetServerSideProps<P>): GetServerSideProps {
 
     return {
       redirect: {
-        destination: "/account/login",
+        destination: "/login",
         permanent: false,
       },
     };

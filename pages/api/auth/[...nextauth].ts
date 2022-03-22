@@ -1,15 +1,59 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+/* eslint-disable no-param-reassign */
+import { createHash } from "crypto";
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 import { prisma } from "../../../services/prisma";
 
 export default NextAuth({
-  adapter: PrismaAdapter(prisma),
+  callbacks: {
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+        token.groupId = user.type;
+      }
+
+      return token;
+    },
+    session: ({ token, session }) => {
+      if (token) {
+        session.id = token.id;
+        session.groupId = token.groupId;
+      }
+
+      return session;
+    },
+  },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        name: { label: "Account Name", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials) {
+          return null;
+        }
+
+        const account = await prisma.accounts.findFirst({
+          where: {
+            name: { equals: credentials.name },
+          },
+        });
+
+        if (!account) {
+          return null;
+        }
+
+        const hashedPassword = createHash("sha1").update(credentials.password).digest("hex");
+
+        if (account.password !== hashedPassword) {
+          return null;
+        }
+
+        return account;
+      },
     }),
   ],
 });

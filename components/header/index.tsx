@@ -1,13 +1,18 @@
 import {
   Burger,
+  Group,
   Header as MantineHeader,
   HeaderProps as MantineHeaderProps,
   MediaQuery,
+  ThemeIcon,
   Title,
   useMantineTheme,
 } from "@mantine/core";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import NextNProgress from "nextjs-progressbar";
 import { Dispatch, SetStateAction } from "react";
+import { Plant2 } from "tabler-icons-react";
 
 import { ThemeToggler } from "../theme-toggler";
 
@@ -17,7 +22,11 @@ export type HeaderProps = Omit<MantineHeaderProps, "children"> & {
 };
 
 export function Header({ isOpened, setIsOpened, ...rest }: HeaderProps): JSX.Element {
+  const commonTL = useTranslation("common");
+  const router = useRouter();
   const theme = useMantineTheme();
+
+  const goToHome = (): Promise<boolean> => router.push("/");
 
   return (
     <MantineHeader p="md" {...rest}>
@@ -39,7 +48,24 @@ export function Header({ isOpened, setIsOpened, ...rest }: HeaderProps): JSX.Ele
             mr="md"
           />
         </MediaQuery>
-        <Title>Abyss</Title>
+        <Group
+          sx={{
+            borderRadius: theme.radius.md,
+            cursor: "pointer",
+            paddingLeft: theme.spacing.xs,
+            paddingRight: theme.spacing.xs,
+            transition: "0.2s ease-in-out",
+            ":hover": {
+              backgroundColor: theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.2),
+            },
+          }}
+          onClick={goToHome}
+        >
+          <ThemeIcon variant="light" size={30}>
+            <Plant2 size={18} />
+          </ThemeIcon>
+          <Title>{commonTL.t("app-name")}</Title>
+        </Group>
         <ThemeToggler />
       </div>
     </MantineHeader>

@@ -38,7 +38,7 @@ function App(props: AppProps): JSX.Element {
               theme={{
                 colorScheme,
                 loader: "dots",
-                primaryColor: "violet",
+                primaryColor: "pink",
               }}
               withGlobalStyles
               withNormalizeCSS
