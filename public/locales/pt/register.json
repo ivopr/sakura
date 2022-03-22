@@ -1,13 +1,21 @@
 {
+	"community-account": "Conta da Comunidade",
 	"fields": {
 		"name": "Nome da Conta",
 		"email": "Email",
 		"password": "Senha",
-		"password-confirmation": "Confirmar Senha"
+		"password-confirmation": "Confirmar Senha",
+		"pronoun": "Pronome",
+		"realname": "Nome Real"
 	},
+	"game-account": "Conta do Jogo",
 	"is-registered": "Já possui uma conta?",
 	"login": "Entrar",
 	"or-with": "ou com",
+	"pronouns": {
+		"he": "Ele",
+		"she": "Ela"
+	},
 	"title": "Cadastrar",
 	"with-google": "Cadastrar com Google"
 }

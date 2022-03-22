@@ -1,4 +1,5 @@
 {
+	"CredentialsSignin": "Incorrect password or username",
 	"form-error": {
 		"name-empty": "What is your account name?",
 		"password-empty": "You've forgot to type this",
