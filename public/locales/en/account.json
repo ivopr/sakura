@@ -4,6 +4,11 @@
 	},
 	"create-character": {
 		"female": "Female",
+		"form-error": {
+			"gender-empty": "Actually we just have these two options, so check one of 'em",
+			"name-empty": "Your new character must be as unique as it's name, so set one",
+			"vocation-empty": "You must specialize in one thing here"
+		},
 		"gender": "Gender",
 		"male": "Male",
 		"name": "Name",

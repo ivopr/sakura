@@ -16,6 +16,7 @@ enum Pronouns {
 
 model sakura_accounts {
   account_id    Int       @unique
+  account       accounts  @relation(fields: [account_id],references: [id])
   pronoun       Pronouns  @default(SHE)
   real_name     String    @db.VarChar(128)
 }
@@ -95,6 +96,7 @@ model accounts {
   premium_ends_at     Int                   @default(0) @db.UnsignedInt
   email               String                @default("") @db.VarChar(255)
   creation            Int                   @default(0)
+  sakura_account      sakura_accounts?
   account_ban_history account_ban_history[]
   account_bans        account_bans?
   account_storage     account_storage[]

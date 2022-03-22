@@ -2,8 +2,10 @@ import {
   Anchor,
   Button,
   Container,
+  Divider,
   Paper,
   PasswordInput,
+  Select,
   Text,
   TextInput,
   Title,
@@ -29,19 +31,27 @@ export default function Register(): JSX.Element {
 
   const RegisterSchema = z
     .object({
-      name: z.string().nonempty({ message: registerTL.t("form-error.name") }),
+      name: z
+        .string({ required_error: registerTL.t("form-error.name-empty") })
+        .nonempty({ message: registerTL.t("form-error.name-empty") }),
       email: z
-        .string()
+        .string({ required_error: registerTL.t("form-error.email-empty") })
         .nonempty({ message: registerTL.t("form-error.email-empty") })
         .email({ message: registerTL.t("form-error.email-invalid") }),
       password: z
-        .string()
+        .string({ required_error: registerTL.t("form-error.password-empty") })
         .nonempty({ message: registerTL.t("form-error.password-empty") })
         .min(5, { message: registerTL.t("form-error.password-min") }),
       passwordConfirmation: z
-        .string()
+        .string({ required_error: registerTL.t("form-error.password-empty") })
         .nonempty({ message: registerTL.t("form-error.password-empty") })
         .min(5, { message: registerTL.t("form-error.password-min") }),
+      realname: z
+        .string({ required_error: registerTL.t("form-error.realname-empty") })
+        .nonempty({ message: registerTL.t("form-error.realname-empty") }),
+      pronoun: z
+        .string({ required_error: registerTL.t("form-error.pronoun-empty") })
+        .nonempty({ message: registerTL.t("form-error.pronoun-empty") }),
     })
     .refine((data) => data.password === data.passwordConfirmation, {
       message: registerTL.t("form-error.password-do-not-match"),
@@ -49,15 +59,17 @@ export default function Register(): JSX.Element {
     });
   const form = useForm<z.infer<typeof RegisterSchema>>({
     schema: zodResolver(RegisterSchema),
-    initialValues: {} as z.infer<typeof RegisterSchema>,
+    initialValues: {
+      pronoun: "HE",
+    } as z.infer<typeof RegisterSchema>,
   });
 
   const [createAccount] = usePostCreateAccountMutation();
   const notifications = useNotifications();
   const router = useRouter();
 
-  const onSubmit = form.onSubmit(async ({ email, name, password }) => {
-    await createAccount({ email, name, password })
+  const onSubmit = form.onSubmit(async ({ email, name, password, pronoun, realname }) => {
+    await createAccount({ email, name, password, pronoun, realname })
       .unwrap()
       .then(async () => {
         notifications.showNotification({
@@ -91,6 +103,7 @@ export default function Register(): JSX.Element {
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={onSubmit}>
+          <Divider label={registerTL.t("game-account")} />
           <TextInput label={registerTL.t("fields.name")} {...form.getInputProps("name")} />
           <TextInput
             label={registerTL.t("fields.email")}
@@ -106,6 +119,17 @@ export default function Register(): JSX.Element {
             mt="md"
             label={registerTL.t("fields.password-confirmation")}
             {...form.getInputProps("passwordConfirmation")}
+          />
+          <Divider label={registerTL.t("community-account")} mt="md" />
+          <TextInput label={registerTL.t("fields.realname")} {...form.getInputProps("realname")} />
+          <Select
+            label={registerTL.t("fields.pronoun")}
+            mt="sm"
+            data={[
+              { value: "HE", label: registerTL.t("pronouns.he") },
+              { value: "SHE", label: registerTL.t("pronouns.she") },
+            ]}
+            {...form.getInputProps("pronoun")}
           />
           <Button type="submit" leftIcon={<UserPlus size={18} />} fullWidth mt="xl">
             {registerTL.t("title")}

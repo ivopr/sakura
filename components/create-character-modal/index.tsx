@@ -10,21 +10,27 @@ import { z } from "zod";
 import { useGetAccountByNameQuery } from "../../store/api/accounts";
 import { usePostCreateCharacterMutation } from "../../store/api/characters";
 
-const CreateCharacterSchema = z.object({
-  name: z.string().nonempty({ message: "Your character must have a name" }),
-  gender: z.string().nonempty({ message: "Your must select the gender of your character" }),
-  vocation: z.string().nonempty({ message: "Your must select the vocation of your character" }),
-});
-
 export function CreateCharacterModal(): JSX.Element {
   const [opened, setOpened] = useState(false);
   const [createCharacter] = usePostCreateCharacterMutation();
+  const accountTL = useTranslation("account");
+  const notifications = useNotifications();
+
+  const CreateCharacterSchema = z.object({
+    name: z
+      .string({ required_error: accountTL.t("create-character.form-error.name-empty") })
+      .nonempty({ message: accountTL.t("create-character.form-error.name-empty") }),
+    gender: z
+      .string({ required_error: accountTL.t("create-character.form-error.gender-empty") })
+      .nonempty({ message: accountTL.t("create-character.form-error.gender-empty") }),
+    vocation: z
+      .string({ required_error: accountTL.t("create-character.form-error.vocation-empty") })
+      .nonempty({ message: accountTL.t("create-character.form-error.vocation-empty") }),
+  });
   const form = useForm<z.infer<typeof CreateCharacterSchema>>({
     schema: zodResolver(CreateCharacterSchema),
     initialValues: {} as z.infer<typeof CreateCharacterSchema>,
   });
-  const notifications = useNotifications();
-  const accountTL = useTranslation("account");
 
   const { data: sessionData } = useSession();
   const { refetch } = useGetAccountByNameQuery(sessionData?.user?.name as string);

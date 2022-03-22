@@ -8,9 +8,9 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Id, Logout, Settings, Users } from "tabler-icons-react";
 
+import { CharacterCard } from "../../components/character-card";
 import { CreateCharacterModal } from "../../components/create-character-modal";
 import { Loader } from "../../components/loader";
-import { PlayerCard } from "../../components/player-card";
 import { withSSRAuth } from "../../hocs/with-ssr-auth";
 import { useGetAccountByNameQuery } from "../../store/api/accounts";
 
@@ -39,8 +39,13 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
       <Avatar mb="sm" mx="auto" size="xl" />
       <Text align="center">{accountTL.t("welcome")}</Text>
       <Title align="center" sx={(theme) => ({ color: theme.colors[theme.primaryColor][5] })}>
-        {name}
+        {data.account?.sakura_account?.real_name ?? name}
       </Title>
+      {data.account?.sakura_account?.real_name && (
+        <Title align="center" color="dimmed" order={5}>
+          {name}
+        </Title>
+      )}
 
       {status === "authenticated" && sessionData?.user?.name === name && <CreateCharacterModal />}
 
@@ -71,7 +76,7 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
         </Tabs.Tab>
         <Tabs.Tab label={accountTL.t("characters.title")} icon={<Users />}>
           {data?.account.players?.map((character) => (
-            <PlayerCard key={character.name + character.id} character={character} />
+            <CharacterCard key={character.name + character.id} character={character} />
           ))}
         </Tabs.Tab>
         {status === "authenticated" && sessionData?.user?.name === name && (
@@ -80,9 +85,8 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
               fullWidth
               leftIcon={<Logout />}
               onClick={() => signOut({ redirect: false }).then(() => router.push("/login"))}
-              size="lg"
             >
-              {accountTL.t("logout")}
+              {accountTL.t("settings.logout")}
             </Button>
           </Tabs.Tab>
         )}

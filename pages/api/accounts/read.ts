@@ -34,6 +34,7 @@ export default async function handler(
             email: true,
             creation: true,
             premium_ends_at: true,
+            sakura_account: data.shouldBringRelations === "true",
             type: true,
             players: data.shouldBringRelations === "true",
           },
@@ -61,6 +62,7 @@ export default async function handler(
           creation: true,
           premium_ends_at: true,
           type: true,
+          sakura_account: data.shouldBringRelations === "true",
           players: data.shouldBringRelations === "true",
         },
       });

@@ -2,11 +2,11 @@ import { Box, Group, Paper, SimpleGrid, Text, Title } from "@mantine/core";
 import { players } from "@prisma/client";
 import NextLink from "next/link";
 
-type PlayerCardProps = {
+type CharacterCardProps = {
   character: players;
 };
 
-export function PlayerCard({ character }: PlayerCardProps): JSX.Element {
+export function CharacterCard({ character }: CharacterCardProps): JSX.Element {
   return (
     <NextLink href={`/players/${character.name}`} passHref>
       <Paper
@@ -19,12 +19,12 @@ export function PlayerCard({ character }: PlayerCardProps): JSX.Element {
           alignItems: "center",
           backgroundColor: theme.colorScheme === "light" ? theme.white : theme.colors.gray[9],
           display: "flex",
-          transition: "0.2s ease-in-out",
           [theme.fn.smallerThan("sm")]: {
             flexDirection: "column",
           },
           ":hover": {
             backgroundColor: theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.3),
+            transition: "0.25s ease-in-out",
           },
         })}
       >

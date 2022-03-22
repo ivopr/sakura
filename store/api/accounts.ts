@@ -1,12 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { Account } from "../../types/account";
-
-type AccountCreateData = {
-  email: string;
-  name: string;
-  password: string;
-};
+import { Account, AccountCreateData } from "../../types/account";
 
 type PostResponse = {
   message: string;

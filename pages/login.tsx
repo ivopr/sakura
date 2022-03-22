@@ -30,22 +30,21 @@ export default function Login(): JSX.Element {
   const notifications = useNotifications();
   const router = useRouter();
 
-  const LoginSchema = z
-    .object({
-      name: z.string().nonempty({ message: "What is your account name?" }),
-      password: z
-        .string()
-        .nonempty({ message: "You surely set a password when creating your account" })
-        .min(5, { message: "Your password must be at least 5 characters long" }),
-    })
-    .partial();
+  const LoginSchema = z.object({
+    name: z
+      .string({ required_error: loginTL.t("form-error.name-empty") })
+      .nonempty({ message: loginTL.t("form-error.name-empty") }),
+    password: z
+      .string({ required_error: loginTL.t("form-error.password-empty") })
+      .nonempty({ message: loginTL.t("form-error.password-empty") })
+      .min(5, { message: loginTL.t("form-error.password-min") }),
+  });
   const form = useForm<z.infer<typeof LoginSchema>>({
     schema: zodResolver(LoginSchema),
-    initialValues: {},
+    initialValues: {} as z.infer<typeof LoginSchema>,
   });
 
   const onSubmit = form.onSubmit(async ({ name, password }) => {
-    // Handle your credentials login here
     await signIn("credentials", {
       name,
       password,

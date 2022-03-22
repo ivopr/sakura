@@ -3,6 +3,7 @@ import { createHash } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../services/prisma";
+import { AccountCreateData } from "../../../types/account";
 
 type Data = {
   account?: Partial<accounts>;
@@ -15,7 +16,14 @@ export default async function handler(
 ): Promise<void> {
   if (req.method === "POST") {
     try {
-      const data: Prisma.accountsCreateInput = req.body;
+      const data: AccountCreateData = req.body;
+      const sakuraAccountData: Prisma.sakura_accountsCreateWithoutAccountInput = {
+        real_name: data.realname ?? "",
+        pronoun: data.pronoun as "HE" | "SHE",
+      };
+
+      delete data.realname;
+      delete data.pronoun;
 
       const existingAccount = await prisma.accounts.findFirst({
         where: {
@@ -25,13 +33,13 @@ export default async function handler(
 
       if (existingAccount) {
         return res.status(409).json({
-          message: "accountNameEmailNotUnique",
+          message: "account-name-email-not-unique",
         });
       }
 
       if (data.password.length < 5) {
         return res.status(400).json({
-          message: "shortPassword",
+          message: "short-password",
         });
       }
 
@@ -42,12 +50,11 @@ export default async function handler(
           ...data,
           password: hashedPassword,
           creation: Number(Date.now().toString().slice(0, 10)),
-        },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          creation: true,
+          sakura_account: {
+            create: {
+              ...sakuraAccountData,
+            },
+          },
         },
       });
 

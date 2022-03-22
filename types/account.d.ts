@@ -1,5 +1,11 @@
-import { accounts, players } from "@prisma/client";
+import { accounts, players, Prisma, sakura_accounts } from "@prisma/client";
 
 export type Account = accounts & {
-  players: players[];
+  sakura_account?: sakura_accounts;
+  players?: players[];
+};
+
+export type AccountCreateData = Prisma.accountsCreateInput & {
+  pronoun?: string;
+  realname?: string;
 };
