@@ -5,6 +5,14 @@
 		"password": "Password",
 		"password-confirmation": "Password Confirm"
 	},
+	"form-error": {
+		"email-empty": "What is your email?",
+		"email-invalid": "This must be a valid email address",
+		"name": "Your account must have a name",
+		"password-empty": "For security reasons we ask you to set this one",
+		"password-min": "This must be 5 characters long at least",
+		"password-do-not-match": "Your passwords do not match"
+	},
 	"is-registered": "Already have an account?",
 	"login": "Login",
 	"or-with": "or with",

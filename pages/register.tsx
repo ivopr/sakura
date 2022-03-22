@@ -29,22 +29,22 @@ export default function Register(): JSX.Element {
 
   const RegisterSchema = z
     .object({
-      name: z.string().nonempty({ message: "Your account should have a name" }),
+      name: z.string().nonempty({ message: registerTL.t("form-error.name") }),
       email: z
         .string()
-        .nonempty({ message: "What is your email?" })
-        .email({ message: "This must be a valid email" }),
+        .nonempty({ message: registerTL.t("form-error.email-empty") })
+        .email({ message: registerTL.t("form-error.email-invalid") }),
       password: z
         .string()
-        .nonempty({ message: "You surely set a password when creating your account" })
-        .min(5, { message: "Your password must be at least 5 characters long" }),
+        .nonempty({ message: registerTL.t("form-error.password-empty") })
+        .min(5, { message: registerTL.t("form-error.password-min") }),
       passwordConfirmation: z
         .string()
-        .nonempty({ message: "You surely set a password when creating your account" })
-        .min(5, { message: "Your password must be at least 5 characters long" }),
+        .nonempty({ message: registerTL.t("form-error.password-empty") })
+        .min(5, { message: registerTL.t("form-error.password-min") }),
     })
     .refine((data) => data.password === data.passwordConfirmation, {
-      message: "Passwords do not match",
+      message: registerTL.t("form-error.password-do-not-match"),
       path: ["passwordConfirmation"],
     });
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -95,7 +95,6 @@ export default function Register(): JSX.Element {
           <TextInput
             label={registerTL.t("fields.email")}
             mt="md"
-            type="email"
             {...form.getInputProps("email")}
           />
           <PasswordInput
