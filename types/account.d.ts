@@ -10,4 +10,4 @@ export type AccountCreateData = {
   sakura_account?: Prisma.sakura_accountsCreateWithoutAccountInput;
 };
 
-export type AccountUpdateData = Prisma.accountsUpdateInput & Prisma.sakura_accountsUpdateInput;
+export type AccountUpdateData = Prisma.sakura_accountsUpdateWithoutAccountInput;

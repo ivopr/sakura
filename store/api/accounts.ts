@@ -26,11 +26,11 @@ export const accountsApi = createApi({
         method: "POST",
       }),
     }),
-    postUpdateAccount: builder.mutation<PostResponse, AccountUpdateData>({
+    putUpdateAccount: builder.mutation<PostResponse, AccountUpdateData>({
       query: (body) => ({
         url: "update",
         body,
-        method: "POST",
+        method: "PUT",
       }),
     }),
   }),
@@ -38,5 +38,9 @@ export const accountsApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAccountByNameQuery, useGetAllAccountsQuery, usePostCreateAccountMutation } =
-  accountsApi;
+export const {
+  useGetAccountByNameQuery,
+  useGetAllAccountsQuery,
+  usePostCreateAccountMutation,
+  usePutUpdateAccountMutation,
+} = accountsApi;

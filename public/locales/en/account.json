@@ -29,5 +29,17 @@
 		"logout": "Logout",
 		"title": "Settings"
 	},
+	"update": {
+		"fields": {
+			"pronoun": "Pronoun",
+			"realname": "Real Name"
+		},
+		"helper": "Note that you can't update your account name or email. If you need to, contact the server moderators",
+		"pronouns": {
+			"he": "He",
+			"she": "She"
+		},
+		"title": "Update Community Account"
+	},
 	"welcome": "Welcome"
 }

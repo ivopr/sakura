@@ -1,45 +1,45 @@
-import { Button, Group, Modal, Radio, RadioGroup, Select, TextInput } from "@mantine/core";
+import { Button, Group, Modal, Select, Text, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useNotifications } from "@mantine/notifications";
-import { useSession } from "next-auth/react";
+import { sakura_accounts } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
-import { Plus } from "tabler-icons-react";
+import { Pencil, UserPlus } from "tabler-icons-react";
 import { z } from "zod";
 
-import { useGetAccountByNameQuery } from "../../store/api/accounts";
-import { usePostCreatePlayerMutation } from "../../store/api/players";
+import { usePutUpdateAccountMutation } from "../../store/api/accounts";
 
-export function UpdateAccountModal(): JSX.Element {
+type UpdateAccountModalProps = {
+  sakuraAccount?: sakura_accounts;
+  refetch: () => void;
+};
+
+export function UpdateAccountModal({
+  sakuraAccount,
+  refetch,
+}: UpdateAccountModalProps): JSX.Element {
   const [opened, setOpened] = useState(false);
-  const [createPlayer] = usePostCreatePlayerMutation();
+  const [updateAccount] = usePutUpdateAccountMutation();
   const accountTL = useTranslation("account");
   const notifications = useNotifications();
 
-  const CreatePlayerSchema = z.object({
-    name: z
-      .string({ required_error: accountTL.t("create-player.form-error.name-empty") })
-      .nonempty({ message: accountTL.t("create-player.form-error.name-empty") }),
-    gender: z
-      .string({ required_error: accountTL.t("create-player.form-error.gender-empty") })
-      .nonempty({ message: accountTL.t("create-player.form-error.gender-empty") }),
-    vocation: z
-      .string({ required_error: accountTL.t("create-player.form-error.vocation-empty") })
-      .nonempty({ message: accountTL.t("create-player.form-error.vocation-empty") }),
+  const UpdateAccountSchema = z.object({
+    realname: z.string().optional().or(z.literal("")),
+    pronoun: z.enum(["HE", "SHE"]),
   });
-  const form = useForm<z.infer<typeof CreatePlayerSchema>>({
-    schema: zodResolver(CreatePlayerSchema),
-    initialValues: {} as z.infer<typeof CreatePlayerSchema>,
+  const form = useForm<z.infer<typeof UpdateAccountSchema>>({
+    schema: zodResolver(UpdateAccountSchema),
+    initialValues: {
+      realname: sakuraAccount?.real_name ?? "",
+      pronoun: sakuraAccount?.pronoun ?? "HE",
+    } as z.infer<typeof UpdateAccountSchema>,
   });
 
-  const { data: sessionData } = useSession();
-  const { refetch } = useGetAccountByNameQuery(sessionData?.user?.name as string);
-
-  const onSubmit = form.onSubmit(async ({ name, gender, vocation }) => {
-    await createPlayer({ name, sex: Number(gender), vocation: Number(vocation) })
+  const onSubmit = form.onSubmit(async ({ pronoun, realname }) => {
+    await updateAccount({ pronoun, real_name: realname })
       .unwrap()
       .then((data) => {
-        if (data.message === "created") {
+        if (data.message === "updated") {
           notifications.showNotification({
             message: `Player created`,
             color: "green",
@@ -47,7 +47,6 @@ export function UpdateAccountModal(): JSX.Element {
 
           refetch();
           setOpened(false);
-          form.reset();
         }
       })
       .catch(() => {
@@ -64,39 +63,34 @@ export function UpdateAccountModal(): JSX.Element {
         centered
         opened={opened}
         onClose={() => setOpened(false)}
-        title={accountTL.t("create-player.title")}
+        title={accountTL.t("update.title")}
       >
+        <Text color="dimmed" mb="md">
+          {accountTL.t("update.helper")}
+        </Text>
         <form onSubmit={onSubmit}>
-          <TextInput label={accountTL.t("create-player.name")} {...form.getInputProps("name")} />
-          <RadioGroup
-            label={accountTL.t("create-player.gender")}
-            mt="sm"
-            {...form.getInputProps("gender")}
-          >
-            <Radio label={accountTL.t("create-player.male")} value="0" />
-            <Radio label={accountTL.t("create-player.female")} value="1" />
-          </RadioGroup>
-          <Select
-            label={accountTL.t("create-player.vocation")}
-            mt="sm"
-            placeholder={accountTL.t("create-player.select-your-vocation")}
-            data={[
-              { value: "1", label: "Knight" },
-              { value: "2", label: "Paladin" },
-              { value: "3", label: "Druid" },
-              { value: "4", label: "Sorcerer" },
-            ]}
-            {...form.getInputProps("vocation")}
+          <TextInput
+            label={accountTL.t("update.fields.realname")}
+            {...form.getInputProps("realname")}
           />
-          <Button type="submit" leftIcon={<Plus size={18} />} fullWidth mt="xl">
-            {accountTL.t("create-player.title")}
+          <Select
+            label={accountTL.t("update.fields.pronoun")}
+            mt="sm"
+            data={[
+              { value: "HE", label: accountTL.t("update.pronouns.he") },
+              { value: "SHE", label: accountTL.t("update.pronouns.she") },
+            ]}
+            {...form.getInputProps("pronoun")}
+          />
+          <Button type="submit" leftIcon={<UserPlus size={18} />} fullWidth mt="xl">
+            {accountTL.t("update.title")}
           </Button>
         </form>
       </Modal>
 
       <Group position="center">
-        <Button color="green" fullWidth my="sm" onClick={() => setOpened(true)}>
-          {accountTL.t("create-player.title")}
+        <Button leftIcon={<Pencil size={18} />} fullWidth my="sm" onClick={() => setOpened(true)}>
+          {accountTL.t("update.title")}
         </Button>
       </Group>
     </>

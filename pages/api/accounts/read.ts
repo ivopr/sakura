@@ -1,8 +1,8 @@
-import { accounts } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 
 import { prisma } from "../../../services/prisma";
+import { Account } from "../../../types/account";
 import { ParseBigInt } from "../../../utils/bigint-parser";
 
 type QueryData = {
@@ -13,11 +13,12 @@ type QueryData = {
   id?: number;
 };
 
-type Data = {
-  account?: Partial<accounts>;
-  accounts?: Partial<accounts>[];
-  message?: string;
-};
+type Data =
+  | Account
+  | Account[]
+  | {
+      message?: string;
+    };
 
 export default async function handler(
   req: NextApiRequest,
@@ -51,9 +52,7 @@ export default async function handler(
           },
         });
 
-        return res.status(200).json({
-          accounts: ParseBigInt(retAccounts),
-        });
+        return res.status(200).json(ParseBigInt(retAccounts));
       } catch {
         return res.status(400).json({ message: "not-possible" });
       }
@@ -85,7 +84,7 @@ export default async function handler(
           });
         }
 
-        return res.status(200).json({ account: ParseBigInt(account) });
+        return res.status(200).json(ParseBigInt(account));
       } catch {
         return res.status(400).json({ message: "not-possible" });
       }

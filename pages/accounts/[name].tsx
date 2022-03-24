@@ -11,6 +11,7 @@ import { Id, Logout, Settings, Users } from "tabler-icons-react";
 import { CreatePlayerModal } from "../../components/create-player-modal";
 import { Loader } from "../../components/loader";
 import { PlayerCard } from "../../components/player-card";
+import { UpdateAccountModal } from "../../components/update-account-modal";
 import { withSSRAuth } from "../../hocs/with-ssr-auth";
 import { useGetAccountByNameQuery } from "../../store/api/accounts";
 
@@ -20,7 +21,7 @@ type AccountPageProps = {
 
 export default function Account({ name }: AccountPageProps): JSX.Element {
   const { data: sessionData, status } = useSession();
-  const { data } = useGetAccountByNameQuery(name);
+  const { data, refetch } = useGetAccountByNameQuery(name);
   const router = useRouter();
   const accountTL = useTranslation("account");
   const commonTL = useTranslation("common");
@@ -39,9 +40,9 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
       <Avatar mb="sm" mx="auto" size="xl" />
       <Text align="center">{accountTL.t("welcome")}</Text>
       <Title align="center" sx={(theme) => ({ color: theme.colors[theme.primaryColor][5] })}>
-        {data.account?.sakura_account?.real_name ?? name}
+        {data?.sakura_account?.real_name ?? name}
       </Title>
-      {data.account?.sakura_account?.real_name && (
+      {data?.sakura_account?.real_name && (
         <Title align="center" color="dimmed" order={5}>
           {name}
         </Title>
@@ -53,34 +54,35 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
         <Tabs.Tab label={accountTL.t("id.title")} icon={<Id />}>
           <Group align="baseline" spacing="xs">
             <Title order={4}>{accountTL.t("id.group")}</Title>
-            <Text>{data?.account.type}</Text>
+            <Text>{data?.type}</Text>
           </Group>
           <Group align="baseline" spacing="xs">
             <Title order={4}>{accountTL.t("id.premium")}</Title>
-            <Text color={data?.account.premium_ends_at === 0 ? "red" : "green"}>
-              {data?.account.premium_ends_at === 0
+            <Text color={data?.premium_ends_at === 0 ? "red" : "green"}>
+              {data?.premium_ends_at === 0
                 ? accountTL.t("id.premium-not-activated")
                 : accountTL.t("id.premium-ends-at", {
-                    date: dayjs.unix(data?.account.premium_ends_at).format("DD/MM/YYYY HH:mm"),
+                    date: dayjs.unix(data?.premium_ends_at).format("DD/MM/YYYY HH:mm"),
                   })}
             </Text>
           </Group>
           <Group align="baseline" spacing="xs">
             <Title order={4}>{accountTL.t("id.total-characters")}</Title>
-            <Text>{data?.account.players?.length}</Text>
+            <Text>{data?.players?.length}</Text>
           </Group>
           <Group align="baseline" spacing="xs">
             <Title order={4}>{accountTL.t("id.created-at")}</Title>
-            <Text>{dayjs.unix(data?.account.creation).format("DD/MM/YYYY HH:mm")}</Text>
+            <Text>{dayjs.unix(data?.creation).format("DD/MM/YYYY HH:mm")}</Text>
           </Group>
         </Tabs.Tab>
         <Tabs.Tab label={accountTL.t("characters.title")} icon={<Users />}>
-          {data?.account.players?.map((player) => (
+          {data?.players?.map((player) => (
             <PlayerCard key={player.name + player.id} player={player} />
           ))}
         </Tabs.Tab>
         {status === "authenticated" && sessionData?.user?.name === name && (
           <Tabs.Tab label={accountTL.t("settings.title")} icon={<Settings />}>
+            <UpdateAccountModal refetch={refetch} sakuraAccount={data.sakura_account} />
             <Button
               fullWidth
               leftIcon={<Logout />}
