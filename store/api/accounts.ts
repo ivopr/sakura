@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { Account, AccountCreateData } from "../../types/account";
+import { Account, AccountCreateData, AccountUpdateData } from "../../types/account";
 
 type PostResponse = {
   message: string;
@@ -13,15 +13,22 @@ export const accountsApi = createApi({
   refetchOnFocus: true,
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
-    getAccountByName: builder.query<{ account: Account }, string>({
+    getAccountByName: builder.query<Account, string>({
       query: (name) => ({ url: `read?type=one&name=${name}&shouldBringRelations=true` }),
     }),
-    getAllAccounts: builder.query<{ accounts: Account[] }, null>({
+    getAllAccounts: builder.query<Account[], null>({
       query: () => ({ url: `read?type=all&shouldBringRelations=true` }),
     }),
     postCreateAccount: builder.mutation<PostResponse, AccountCreateData>({
       query: (body) => ({
         url: "create",
+        body,
+        method: "POST",
+      }),
+    }),
+    postUpdateAccount: builder.mutation<PostResponse, AccountUpdateData>({
+      query: (body) => ({
+        url: "update",
         body,
         method: "POST",
       }),

@@ -1,4 +1,3 @@
-import { accounts, Prisma } from "@prisma/client";
 import { createHash } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -6,8 +5,7 @@ import { prisma } from "../../../services/prisma";
 import { AccountCreateData } from "../../../types/account";
 
 type Data = {
-  account?: Partial<accounts>;
-  message?: string;
+  message: string;
 };
 
 export default async function handler(
@@ -17,17 +15,10 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const data: AccountCreateData = req.body;
-      const sakuraAccountData: Prisma.sakura_accountsCreateWithoutAccountInput = {
-        real_name: data.realname ?? "",
-        pronoun: data.pronoun as "HE" | "SHE",
-      };
-
-      delete data.realname;
-      delete data.pronoun;
 
       const existingAccount = await prisma.accounts.findFirst({
         where: {
-          OR: [{ email: { equals: data.email } }, { name: { equals: data.name } }],
+          OR: [{ email: { equals: data.account.email } }, { name: { equals: data.account.name } }],
         },
       });
 
@@ -37,24 +28,26 @@ export default async function handler(
         });
       }
 
-      if (data.password.length < 5) {
+      if (data.account.password.length < 5) {
         return res.status(400).json({
           message: "short-password",
         });
       }
 
-      const hashedPassword = createHash("sha1").update(data.password).digest("hex");
+      const hashedPassword = createHash("sha1").update(data.account.password).digest("hex");
 
       await prisma.accounts.create({
         data: {
-          ...data,
+          ...data.account,
           password: hashedPassword,
           creation: Number(Date.now().toString().slice(0, 10)),
-          sakura_account: {
-            create: {
-              ...sakuraAccountData,
-            },
-          },
+          sakura_account: data.sakura_account
+            ? {
+                create: {
+                  ...data.sakura_account,
+                },
+              }
+            : undefined,
         },
       });
 

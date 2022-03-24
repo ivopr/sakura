@@ -10,15 +10,15 @@ export default NextAuth({
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
-        token.groupId = user.type;
+        token.groupId = Number(user.type);
       }
 
       return token;
     },
     session: ({ token, session }) => {
       if (token) {
-        session.id = token.id;
-        session.groupId = token.groupId;
+        session.user.id = token.id;
+        session.user.groupId = token.groupId;
       }
 
       return session;

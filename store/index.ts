@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import { accountsApi } from "./api/accounts";
+import { playersApi } from "./api/players";
 
 export const store = configureStore({
   reducer: {
     [accountsApi.reducerPath]: accountsApi.reducer,
+    [playersApi.reducerPath]: playersApi.reducer,
   },
 });
 

@@ -5,7 +5,9 @@ export type Account = accounts & {
   players?: players[];
 };
 
-export type AccountCreateData = Prisma.accountsCreateInput & {
-  pronoun?: string;
-  realname?: string;
+export type AccountCreateData = {
+  account: Prisma.accountsCreateInput;
+  sakura_account?: Prisma.sakura_accountsCreateWithoutAccountInput;
 };
+
+export type AccountUpdateData = Prisma.accountsUpdateInput & Prisma.sakura_accountsUpdateInput;

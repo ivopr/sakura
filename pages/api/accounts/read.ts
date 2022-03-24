@@ -1,5 +1,6 @@
 import { accounts } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 
 import { prisma } from "../../../services/prisma";
 import { ParseBigInt } from "../../../utils/bigint-parser";
@@ -27,6 +28,16 @@ export default async function handler(
 
     if (data.type === "all") {
       try {
+        const session = await getSession({ req });
+
+        if (!session) {
+          return res.status(401).json({ message: "unauthenticated" });
+        }
+
+        if (session.user.groupId < 6) {
+          return res.status(401).json({ message: "unauthorized" });
+        }
+
         const retAccounts = await prisma.accounts.findMany({
           select: {
             id: true,
@@ -47,33 +58,37 @@ export default async function handler(
         return res.status(400).json({ message: "not-possible" });
       }
     } else if (data.type === "one") {
-      const account = await prisma.accounts.findFirst({
-        where: {
-          OR: [
-            { id: { equals: data.id } },
-            { name: { equals: data.name } },
-            { email: { equals: data.email } },
-          ],
-        },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          creation: true,
-          premium_ends_at: true,
-          type: true,
-          sakura_account: data.shouldBringRelations === "true",
-          players: data.shouldBringRelations === "true",
-        },
-      });
-
-      if (!account) {
-        return res.status(400).json({
-          message: "account-not-found",
+      try {
+        const account = await prisma.accounts.findFirst({
+          where: {
+            OR: [
+              { id: { equals: data.id } },
+              { name: { equals: data.name } },
+              { email: { equals: data.email } },
+            ],
+          },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            creation: true,
+            premium_ends_at: true,
+            type: true,
+            sakura_account: data.shouldBringRelations === "true",
+            players: data.shouldBringRelations === "true",
+          },
         });
-      }
 
-      return res.status(200).json({ account: ParseBigInt(account) });
+        if (!account) {
+          return res.status(400).json({
+            message: "account-not-found",
+          });
+        }
+
+        return res.status(200).json({ account: ParseBigInt(account) });
+      } catch {
+        return res.status(400).json({ message: "not-possible" });
+      }
     }
     return res.status(400).json({
       message: "bad-request",

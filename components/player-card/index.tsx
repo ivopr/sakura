@@ -2,16 +2,16 @@ import { Box, Group, Paper, SimpleGrid, Text, Title } from "@mantine/core";
 import { players } from "@prisma/client";
 import NextLink from "next/link";
 
-type CharacterCardProps = {
-  character: players;
+type PlayerCardProps = {
+  player: players;
 };
 
-export function CharacterCard({ character }: CharacterCardProps): JSX.Element {
+export function PlayerCard({ player }: PlayerCardProps): JSX.Element {
   return (
-    <NextLink href={`/players/${character.name}`} passHref>
+    <NextLink href={`/players/${player.name}`} passHref>
       <Paper
         component="a"
-        key={character.id + character.name}
+        key={player.id + player.name}
         my="xs"
         p="md"
         shadow="md"
@@ -35,7 +35,7 @@ export function CharacterCard({ character }: CharacterCardProps): JSX.Element {
             width: "100%",
           })}
         >
-          <Title order={3}>{character.name}</Title>
+          <Title order={3}>{player.name}</Title>
           <SimpleGrid
             breakpoints={[
               { maxWidth: "xs", cols: 1 },
@@ -45,27 +45,27 @@ export function CharacterCard({ character }: CharacterCardProps): JSX.Element {
           >
             <Group align="baseline" spacing="xs">
               <Title order={4}>Level: </Title>
-              <Text>{character.level}</Text>
+              <Text>{player.level}</Text>
             </Group>
             <Group align="baseline" spacing="xs">
               <Title order={4}>Vocation: </Title>
-              <Text>{character.vocation}</Text>
+              <Text>{player.vocation}</Text>
             </Group>
             <Group align="baseline" spacing="xs">
               <Title order={4}>Gender: </Title>
-              <Text>{character.sex}</Text>
+              <Text>{player.sex}</Text>
             </Group>
             <Group align="baseline" spacing="xs">
               <Title order={4}>Magic Level: </Title>
-              <Text>{character.maglevel}</Text>
+              <Text>{player.maglevel}</Text>
             </Group>
             <Group align="baseline" spacing="xs">
               <Title order={4}>Stamina: </Title>
-              <Text>{character.stamina}</Text>
+              <Text>{player.stamina}</Text>
             </Group>
             <Group align="baseline" spacing="xs">
               <Title order={4}>Group: </Title>
-              <Text>{character.group_id}</Text>
+              <Text>{player.group_id}</Text>
             </Group>
           </SimpleGrid>
         </Box>

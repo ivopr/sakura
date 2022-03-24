@@ -8,40 +8,40 @@ import { Plus } from "tabler-icons-react";
 import { z } from "zod";
 
 import { useGetAccountByNameQuery } from "../../store/api/accounts";
-import { usePostCreateCharacterMutation } from "../../store/api/characters";
+import { usePostCreatePlayerMutation } from "../../store/api/players";
 
-export function CreateCharacterModal(): JSX.Element {
+export function CreatePlayerModal(): JSX.Element {
   const [opened, setOpened] = useState(false);
-  const [createCharacter] = usePostCreateCharacterMutation();
+  const [createPlayer] = usePostCreatePlayerMutation();
   const accountTL = useTranslation("account");
   const notifications = useNotifications();
 
-  const CreateCharacterSchema = z.object({
+  const CreatePlayerSchema = z.object({
     name: z
-      .string({ required_error: accountTL.t("create-character.form-error.name-empty") })
-      .nonempty({ message: accountTL.t("create-character.form-error.name-empty") }),
+      .string({ required_error: accountTL.t("create-player.form-error.name-empty") })
+      .nonempty({ message: accountTL.t("create-player.form-error.name-empty") }),
     gender: z
-      .string({ required_error: accountTL.t("create-character.form-error.gender-empty") })
-      .nonempty({ message: accountTL.t("create-character.form-error.gender-empty") }),
+      .string({ required_error: accountTL.t("create-player.form-error.gender-empty") })
+      .nonempty({ message: accountTL.t("create-player.form-error.gender-empty") }),
     vocation: z
-      .string({ required_error: accountTL.t("create-character.form-error.vocation-empty") })
-      .nonempty({ message: accountTL.t("create-character.form-error.vocation-empty") }),
+      .string({ required_error: accountTL.t("create-player.form-error.vocation-empty") })
+      .nonempty({ message: accountTL.t("create-player.form-error.vocation-empty") }),
   });
-  const form = useForm<z.infer<typeof CreateCharacterSchema>>({
-    schema: zodResolver(CreateCharacterSchema),
-    initialValues: {} as z.infer<typeof CreateCharacterSchema>,
+  const form = useForm<z.infer<typeof CreatePlayerSchema>>({
+    schema: zodResolver(CreatePlayerSchema),
+    initialValues: {} as z.infer<typeof CreatePlayerSchema>,
   });
 
   const { data: sessionData } = useSession();
   const { refetch } = useGetAccountByNameQuery(sessionData?.user?.name as string);
 
   const onSubmit = form.onSubmit(async ({ name, gender, vocation }) => {
-    await createCharacter({ name, sex: Number(gender), vocation: Number(vocation) })
+    await createPlayer({ name, sex: Number(gender), vocation: Number(vocation) })
       .unwrap()
       .then((data) => {
         if (data.message === "created") {
           notifications.showNotification({
-            message: `Character created`,
+            message: `Player created`,
             color: "green",
           });
 
@@ -52,7 +52,7 @@ export function CreateCharacterModal(): JSX.Element {
       })
       .catch(() => {
         notifications.showNotification({
-          message: "There was an error creating your character",
+          message: "There was an error creating your player",
           color: "red",
         });
       });
@@ -64,22 +64,22 @@ export function CreateCharacterModal(): JSX.Element {
         centered
         opened={opened}
         onClose={() => setOpened(false)}
-        title={accountTL.t("create-character.title")}
+        title={accountTL.t("create-player.title")}
       >
         <form onSubmit={onSubmit}>
-          <TextInput label={accountTL.t("create-character.name")} {...form.getInputProps("name")} />
+          <TextInput label={accountTL.t("create-player.name")} {...form.getInputProps("name")} />
           <RadioGroup
-            label={accountTL.t("create-character.gender")}
+            label={accountTL.t("create-player.gender")}
             mt="sm"
             {...form.getInputProps("gender")}
           >
-            <Radio label={accountTL.t("create-character.male")} value="0" />
-            <Radio label={accountTL.t("create-character.female")} value="1" />
+            <Radio label={accountTL.t("create-player.male")} value="0" />
+            <Radio label={accountTL.t("create-player.female")} value="1" />
           </RadioGroup>
           <Select
-            label={accountTL.t("create-character.vocation")}
+            label={accountTL.t("create-player.vocation")}
             mt="sm"
-            placeholder={accountTL.t("create-character.select-your-vocation")}
+            placeholder={accountTL.t("create-player.select-your-vocation")}
             data={[
               { value: "1", label: "Knight" },
               { value: "2", label: "Paladin" },
@@ -89,14 +89,14 @@ export function CreateCharacterModal(): JSX.Element {
             {...form.getInputProps("vocation")}
           />
           <Button type="submit" leftIcon={<Plus size={18} />} fullWidth mt="xl">
-            {accountTL.t("create-character.title")}
+            {accountTL.t("create-player.title")}
           </Button>
         </form>
       </Modal>
 
       <Group position="center">
         <Button color="green" fullWidth my="sm" onClick={() => setOpened(true)}>
-          {accountTL.t("create-character.title")}
+          {accountTL.t("create-player.title")}
         </Button>
       </Group>
     </>

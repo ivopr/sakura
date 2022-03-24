@@ -8,9 +8,9 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Id, Logout, Settings, Users } from "tabler-icons-react";
 
-import { CharacterCard } from "../../components/character-card";
-import { CreateCharacterModal } from "../../components/create-character-modal";
+import { CreatePlayerModal } from "../../components/create-player-modal";
 import { Loader } from "../../components/loader";
+import { PlayerCard } from "../../components/player-card";
 import { withSSRAuth } from "../../hocs/with-ssr-auth";
 import { useGetAccountByNameQuery } from "../../store/api/accounts";
 
@@ -47,7 +47,7 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
         </Title>
       )}
 
-      {status === "authenticated" && sessionData?.user?.name === name && <CreateCharacterModal />}
+      {status === "authenticated" && sessionData?.user?.name === name && <CreatePlayerModal />}
 
       <Tabs mt="md" position="center" variant="pills">
         <Tabs.Tab label={accountTL.t("id.title")} icon={<Id />}>
@@ -75,8 +75,8 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
           </Group>
         </Tabs.Tab>
         <Tabs.Tab label={accountTL.t("characters.title")} icon={<Users />}>
-          {data?.account.players?.map((character) => (
-            <CharacterCard key={character.name + character.id} character={character} />
+          {data?.account.players?.map((player) => (
+            <PlayerCard key={player.name + player.id} player={player} />
           ))}
         </Tabs.Tab>
         {status === "authenticated" && sessionData?.user?.name === name && (

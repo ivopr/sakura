@@ -18,7 +18,7 @@ model sakura_accounts {
   account_id    Int       @unique
   account       accounts  @relation(fields: [account_id],references: [id])
   pronoun       Pronouns  @default(SHE)
-  real_name     String    @db.VarChar(128)
+  real_name     String?    @db.VarChar(128)
 }
 
 model sakura_config {

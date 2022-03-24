@@ -2,7 +2,7 @@
 	"characters": {
 		"title": "Characters"
 	},
-	"create-character": {
+	"create-player": {
 		"female": "Female",
 		"form-error": {
 			"gender-empty": "Actually we just have these two options, so check one of 'em",

@@ -46,16 +46,12 @@ export default function Register(): JSX.Element {
         .string({ required_error: registerTL.t("form-error.password-empty") })
         .nonempty({ message: registerTL.t("form-error.password-empty") })
         .min(5, { message: registerTL.t("form-error.password-min") }),
-      realname: z
-        .string({ required_error: registerTL.t("form-error.realname-empty") })
-        .nonempty({ message: registerTL.t("form-error.realname-empty") }),
-      pronoun: z
-        .string({ required_error: registerTL.t("form-error.pronoun-empty") })
-        .nonempty({ message: registerTL.t("form-error.pronoun-empty") }),
+      realname: z.string().optional().or(z.literal("")),
+      pronoun: z.enum(["HE", "SHE"]),
     })
     .refine((data) => data.password === data.passwordConfirmation, {
       message: registerTL.t("form-error.password-do-not-match"),
-      path: ["passwordConfirmation"],
+      path: ["passwordConfirmation", "password"],
     });
   const form = useForm<z.infer<typeof RegisterSchema>>({
     schema: zodResolver(RegisterSchema),
@@ -69,7 +65,10 @@ export default function Register(): JSX.Element {
   const router = useRouter();
 
   const onSubmit = form.onSubmit(async ({ email, name, password, pronoun, realname }) => {
-    await createAccount({ email, name, password, pronoun, realname })
+    await createAccount({
+      account: { email, name, password },
+      sakura_account: pronoun || realname ? { pronoun, real_name: realname } : undefined,
+    })
       .unwrap()
       .then(async () => {
         notifications.showNotification({
@@ -77,7 +76,7 @@ export default function Register(): JSX.Element {
           color: "green",
         });
 
-        await signIn("credentials", { email, password, redirect: false }).then(() =>
+        await signIn("credentials", { name, password, redirect: false }).then(() =>
           router.push("/accounts")
         );
       })
