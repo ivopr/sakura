@@ -1,14 +1,17 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
+// All sakura_ tables are proprietary sakura tables
+// We also did our best to keep the base schema unchanged
+// We're trying to keep sakura data in sakura_ tables, and reference them in the base schema
 enum Pronouns {
   HE
   SHE
@@ -52,6 +55,7 @@ model account_ban_history {
   banned_by  Int
   accounts   accounts @relation(fields: [account_id], references: [id], onDelete: Cascade, map: "account_ban_history_ibfk_1")
   players    players  @relation(fields: [banned_by], references: [id], onDelete: Cascade, map: "account_ban_history_ibfk_2")
+
   @@index([account_id], map: "account_id")
   @@index([banned_by], map: "banned_by")
 }
@@ -64,6 +68,7 @@ model account_bans {
   banned_by  Int
   accounts   accounts @relation(fields: [account_id], references: [id], onDelete: Cascade, map: "account_bans_ibfk_1")
   players    players  @relation(fields: [banned_by], references: [id], onDelete: Cascade, map: "account_bans_ibfk_2")
+
   @@index([banned_by], map: "banned_by")
 }
 
@@ -72,6 +77,7 @@ model account_storage {
   key        Int      @db.UnsignedInt
   value      Int
   accounts   accounts @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "account_storage_ibfk_1")
+
   @@id([account_id, key])
 }
 
@@ -83,6 +89,7 @@ model account_viplist {
   notify      Int      @default(0) @db.TinyInt
   accounts    accounts @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "account_viplist_ibfk_1")
   players     players  @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "account_viplist_ibfk_2")
+
   @@unique([account_id, player_id], map: "account_player_index")
   @@index([player_id], map: "player_id")
 }
@@ -96,12 +103,12 @@ model accounts {
   premium_ends_at     Int                   @default(0) @db.UnsignedInt
   email               String                @default("") @db.VarChar(255)
   creation            Int                   @default(0)
-  sakura_account      sakura_accounts?
   account_ban_history account_ban_history[]
   account_bans        account_bans?
   account_storage     account_storage[]
   account_viplist     account_viplist[]
   players             players[]
+  sakura_accounts     sakura_accounts?
 }
 
 model guild_invites {
@@ -109,6 +116,7 @@ model guild_invites {
   guild_id  Int     @default(0)
   guilds    guilds  @relation(fields: [guild_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "guild_invites_ibfk_2")
   players   players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "guild_invites_ibfk_1")
+
   @@id([player_id, guild_id])
   @@index([guild_id], map: "guild_id")
 }
@@ -121,6 +129,7 @@ model guild_membership {
   guilds      guilds      @relation(fields: [guild_id], references: [id], onDelete: Cascade, map: "guild_membership_ibfk_2")
   players     players     @relation(fields: [player_id], references: [id], onDelete: Cascade, map: "guild_membership_ibfk_1")
   guild_ranks guild_ranks @relation(fields: [rank_id], references: [id], onDelete: Cascade, map: "guild_membership_ibfk_3")
+
   @@index([guild_id], map: "guild_id")
   @@index([rank_id], map: "rank_id")
 }
@@ -132,6 +141,7 @@ model guild_ranks {
   level            Int
   guilds           guilds             @relation(fields: [guild_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "guild_ranks_ibfk_1")
   guild_membership guild_membership[]
+
   @@index([guild_id], map: "guild_id")
 }
 
@@ -145,6 +155,7 @@ model guild_wars {
   started        BigInt           @default(0)
   ended          BigInt           @default(0)
   guildwar_kills guildwar_kills[]
+
   @@index([guild1], map: "guild1")
   @@index([guild2], map: "guild2")
 }
@@ -170,6 +181,7 @@ model guildwar_kills {
   warid       Int        @default(0)
   time        BigInt
   guild_wars  guild_wars @relation(fields: [warid], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "guildwar_kills_ibfk_1")
+
   @@index([warid], map: "warid")
 }
 
@@ -179,6 +191,7 @@ model house_lists {
   listid   Int
   list     String @db.Text
   houses   houses @relation(fields: [house_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "house_lists_ibfk_1")
+
   @@index([house_id], map: "house_id")
   @@ignore
 }
@@ -199,6 +212,7 @@ model houses {
   beds           Int           @default(0)
   house_lists    house_lists[] @ignore
   tile_store     tile_store[]  @ignore
+
   @@index([owner], map: "owner")
   @@index([town_id], map: "town_id")
 }
@@ -210,6 +224,7 @@ model ip_bans {
   expires_at BigInt
   banned_by  Int
   players    players @relation(fields: [banned_by], references: [id], onDelete: Cascade, map: "ip_bans_ibfk_1")
+
   @@index([banned_by], map: "banned_by")
 }
 
@@ -219,11 +234,12 @@ model market_history {
   sale       Int     @default(0) @db.TinyInt
   itemtype   Int     @db.UnsignedSmallInt
   amount     Int     @db.UnsignedSmallInt
-  price      Int     @default(0) @db.UnsignedInt
+  price      BigInt  @default(0) @db.UnsignedBigInt
   expires_at BigInt  @db.UnsignedBigInt
   inserted   BigInt  @db.UnsignedBigInt
   state      Int     @db.UnsignedTinyInt
   players    players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "market_history_ibfk_1")
+
   @@index([player_id, sale], map: "player_id")
 }
 
@@ -235,8 +251,9 @@ model market_offers {
   amount    Int     @db.UnsignedSmallInt
   created   BigInt  @db.UnsignedBigInt
   anonymous Int     @default(0) @db.TinyInt
-  price     Int     @default(0) @db.UnsignedInt
+  price     BigInt  @default(0) @db.UnsignedBigInt
   players   players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "market_offers_ibfk_1")
+
   @@index([created], map: "created")
   @@index([player_id], map: "player_id")
   @@index([sale, itemtype], map: "sale")
@@ -254,6 +271,7 @@ model player_deaths {
   unjustified            Int     @default(0) @db.TinyInt
   mostdamage_unjustified Int     @default(0) @db.TinyInt
   players                players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "player_deaths_ibfk_1")
+
   @@index([killed_by], map: "killed_by")
   @@index([mostdamage_by], map: "mostdamage_by")
   @@index([player_id], map: "player_id")
@@ -268,6 +286,7 @@ model player_depotitems {
   count      Int     @default(0) @db.SmallInt
   attributes Bytes   @db.Blob
   players    players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "player_depotitems_ibfk_1")
+
   @@unique([player_id, sid], map: "player_id_2")
 }
 
@@ -279,6 +298,7 @@ model player_inboxitems {
   count      Int     @default(0) @db.SmallInt
   attributes Bytes   @db.Blob
   players    players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "player_inboxitems_ibfk_1")
+
   @@unique([player_id, sid], map: "player_id_2")
 }
 
@@ -291,6 +311,7 @@ model player_items {
   count      Int     @default(0) @db.SmallInt
   attributes Bytes   @db.Blob
   players    players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "player_items_ibfk_1")
+
   @@index([player_id], map: "player_id")
   @@index([sid], map: "sid")
   @@ignore
@@ -303,6 +324,7 @@ model player_namelocks {
   namelocked_by                                   Int
   players_player_namelocks_namelocked_byToplayers players @relation("player_namelocks_namelocked_byToplayers", fields: [namelocked_by], references: [id], onDelete: Cascade, map: "player_namelocks_ibfk_2")
   players_player_namelocks_player_idToplayers     players @relation("player_namelocks_player_idToplayers", fields: [player_id], references: [id], onDelete: Cascade, map: "player_namelocks_ibfk_1")
+
   @@index([namelocked_by], map: "namelocked_by")
 }
 
@@ -311,6 +333,7 @@ model player_spells {
   player_id Int
   name      String  @db.VarChar(255)
   players   players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "player_spells_ibfk_1")
+
   @@index([player_id], map: "player_id")
   @@ignore
 }
@@ -320,6 +343,7 @@ model player_storage {
   key       Int     @default(0) @db.UnsignedInt
   value     Int     @default(0)
   players   players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "player_storage_ibfk_1")
+
   @@id([player_id, key])
 }
 
@@ -331,6 +355,7 @@ model player_storeinboxitems {
   count      Int     @default(0) @db.SmallInt
   attributes Bytes   @db.Blob
   players    players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "player_storeinboxitems_ibfk_1")
+
   @@unique([player_id, sid], map: "player_id_2")
 }
 
@@ -350,6 +375,11 @@ model players {
   looklegs                                                 Int                      @default(0)
   looktype                                                 Int                      @default(136)
   lookaddons                                               Int                      @default(0)
+  lookmount                                                Int                      @default(0)
+  lookmounthead                                            Int                      @default(0)
+  lookmountbody                                            Int                      @default(0)
+  lookmountlegs                                            Int                      @default(0)
+  lookmountfeet                                            Int                      @default(0)
   direction                                                Int                      @default(2) @db.UnsignedTinyInt
   maglevel                                                 Int                      @default(0)
   mana                                                     Int                      @default(0)
@@ -360,7 +390,7 @@ model players {
   posx                                                     Int                      @default(0)
   posy                                                     Int                      @default(0)
   posz                                                     Int                      @default(0)
-  conditions                                               Bytes                    @db.Blob
+  conditions                                               Bytes?                   @db.Blob
   cap                                                      Int                      @default(400)
   sex                                                      Int                      @default(0)
   lastlogin                                                BigInt                   @default(0) @db.UnsignedBigInt
@@ -409,6 +439,7 @@ model players {
   player_spells                                            player_spells[]          @ignore
   player_storage                                           player_storage[]
   player_storeinboxitems                                   player_storeinboxitems[]
+
   @@index([account_id], map: "account_id")
   @@index([vocation], map: "vocation")
 }
@@ -427,6 +458,7 @@ model tile_store {
   house_id Int
   data     Bytes
   houses   houses @relation(fields: [house_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "tile_store_ibfk_1")
+
   @@index([house_id], map: "house_id")
   @@ignore
 }
