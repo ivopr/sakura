@@ -41,7 +41,7 @@ export default async function handler(
           ...data.account,
           password: hashedPassword,
           creation: Number(Date.now().toString().slice(0, 10)),
-          sakura_account: data.sakura_account
+          sakura_accounts: data.sakura_account
             ? {
                 create: {
                   ...data.sakura_account,
@@ -54,7 +54,8 @@ export default async function handler(
       return res.status(201).json({
         message: "created",
       });
-    } catch {
+    } catch (error) {
+      console.log(error);
       return res.status(400).json({
         message: "notCreated",
       });

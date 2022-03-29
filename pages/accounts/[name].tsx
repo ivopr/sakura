@@ -40,9 +40,9 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
       <Avatar mb="sm" mx="auto" size="xl" />
       <Text align="center">{accountTL.t("welcome")}</Text>
       <Title align="center" sx={(theme) => ({ color: theme.colors[theme.primaryColor][5] })}>
-        {data?.sakura_account?.real_name ?? name}
+        {data?.sakura_accounts?.real_name ?? name}
       </Title>
-      {data?.sakura_account?.real_name && (
+      {data?.sakura_accounts?.real_name && (
         <Title align="center" color="dimmed" order={5}>
           {name}
         </Title>
@@ -82,7 +82,7 @@ export default function Account({ name }: AccountPageProps): JSX.Element {
         </Tabs.Tab>
         {status === "authenticated" && sessionData?.user?.name === name && (
           <Tabs.Tab label={accountTL.t("settings.title")} icon={<Settings />}>
-            <UpdateAccountModal refetch={refetch} sakuraAccount={data.sakura_account} />
+            <UpdateAccountModal refetch={refetch} sakuraAccount={data.sakura_accounts} />
             <Button
               fullWidth
               leftIcon={<Logout />}

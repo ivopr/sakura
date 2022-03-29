@@ -46,7 +46,7 @@ export default async function handler(
             email: true,
             creation: true,
             premium_ends_at: true,
-            sakura_account: data.shouldBringRelations === "true",
+            sakura_accounts: data.shouldBringRelations === "true",
             type: true,
             players: data.shouldBringRelations === "true",
           },
@@ -73,7 +73,7 @@ export default async function handler(
             creation: true,
             premium_ends_at: true,
             type: true,
-            sakura_account: data.shouldBringRelations === "true",
+            sakura_accounts: data.shouldBringRelations === "true",
             players: data.shouldBringRelations === "true",
           },
         });
@@ -85,7 +85,8 @@ export default async function handler(
         }
 
         return res.status(200).json(ParseBigInt(account));
-      } catch {
+      } catch (erro) {
+        console.log(erro);
         return res.status(400).json({ message: "not-possible" });
       }
     }
