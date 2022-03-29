@@ -1,7 +1,7 @@
 import { accounts, players, Prisma, sakura_accounts } from "@prisma/client";
 
 export type Account = accounts & {
-  sakura_account?: sakura_accounts;
+  sakura_accounts?: sakura_accounts;
   players?: players[];
 };
 

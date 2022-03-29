@@ -18,32 +18,32 @@ enum Pronouns {
 }
 
 model sakura_accounts {
-  account_id    Int       @unique
-  account       accounts  @relation(fields: [account_id],references: [id])
-  pronoun       Pronouns  @default(SHE)
-  real_name     String?    @db.VarChar(128)
+  account_id Int      @unique
+  account    accounts @relation(fields: [account_id], references: [id])
+  pronoun    Pronouns @default(SHE)
+  real_name  String?  @db.VarChar(128)
 }
 
 model sakura_config {
-  id            Int @id @default(autoincrement())
-  servername    String @default("Mantis")
-  intalled_at   DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  servername  String   @default("Mantis")
+  intalled_at DateTime @default(now())
 }
 
 model sakura_shop_offers {
-  id            Int   @id @default(autoincrement())
-  name          String @db.VarChar(255)
-  description   String? @db.VarChar(255)
-  price         Float @db.Float @default(1)
-  created_at    DateTime @db.DateTime @default(now())
-  updated_at    DateTime @db.DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.VarChar(255)
+  price       Float    @default(1) @db.Float
+  created_at  DateTime @default(now()) @db.DateTime
+  updated_at  DateTime @default(now()) @db.DateTime
 }
 
 model sakura_shop_history {
-  id          Int @id @default(autoincrement())
-  offer_id    Int
-  player_id   Int
-  bought_at   DateTime @db.DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  offer_id  Int
+  player_id Int
+  bought_at DateTime @default(now()) @db.DateTime
 }
 
 model account_ban_history {

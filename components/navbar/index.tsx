@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import { Home, Plant2, User } from "tabler-icons-react";
+import { Home, Plant2, Shield, User } from "tabler-icons-react";
 
 import { LanguageToggler } from "../language-toggler";
 import { ThemeToggler } from "../theme-toggler";
@@ -84,11 +84,20 @@ export function Navbar({ onClose, ...rest }: NavbarProps): JSX.Element {
               { label: commonTL.t("navbar.register"), link: "/register" },
             ],
     },
+    status === "authenticated" && {
+      label: commonTL.t("navbar.guild"),
+      initiallyOpened: false,
+      icon: Shield,
+      link: "/",
+    },
     { label: commonTL.t("navbar.about"), icon: Plant2, link: "/about" },
   ];
 
   const { classes } = useStyles();
-  const links = data.map((item) => <LinksGroup onClose={onClose} {...item} key={item.label} />);
+  const links = data.map((item) => {
+    if (item) return <LinksGroup onClose={onClose} {...item} key={item.label} />;
+    return <></>;
+  });
 
   return (
     <MantineNavbar className={classes.navbar} {...rest}>
