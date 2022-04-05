@@ -1,4 +1,6 @@
 # Sakura
+![GitHub repo size](https://img.shields.io/github/repo-size/demonicat/sakura)
+[![GitHub](https://img.shields.io/github/license/demonicat/sakura)](https://github.com/demonicat/sakura/blob/master/LICENSE)
 
 Sakura is a Tibia Account Manager written in TypeScript, using Next.js as main framework and numerous cool libraries.
 
