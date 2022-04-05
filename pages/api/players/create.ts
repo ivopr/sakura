@@ -53,7 +53,7 @@ export default async function handler(
           ...data,
           accounts: {
             connect: {
-              id: session.id as number,
+              id: Number(session.user.id),
             },
           },
           conditions: Buffer.from([]),
