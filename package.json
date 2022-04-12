@@ -74,6 +74,7 @@
       {
         "path": "@semantic-release/git",
         "assets": [
+          "package.json",
           "yarn.lock",
           "CHANGELOG.md"
         ],
