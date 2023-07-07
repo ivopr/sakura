@@ -17,11 +17,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     ".eslintrc.js",
-    "next-i18next.config.js",
     "next.config.js",
     "next-env.d.ts",
     "**/*.ts",

@@ -1,7 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { Account, AccountCreateData, AccountUpdateData } from "../../types/account";
-
 type PostResponse = {
   message: string;
 };
@@ -14,7 +12,9 @@ export const accountsApi = createApi({
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getAccountByName: builder.query<Account, string>({
-      query: (name) => ({ url: `read?type=one&name=${name}&shouldBringRelations=true` }),
+      query: (name) => ({
+        url: `read?type=one&name=${name}&shouldBringRelations=true`,
+      }),
     }),
     getAllAccounts: builder.query<Account[], null>({
       query: () => ({ url: `read?type=all&shouldBringRelations=true` }),
