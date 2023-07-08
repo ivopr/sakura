@@ -13,6 +13,7 @@
     "db": "prisma studio"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.1",
     "@prisma/client": "^4.16.2",
     "@reduxjs/toolkit": "1.9.5",
     "clsx": "^1.2.1",
@@ -22,8 +23,10 @@
     "next": "13.4.9",
     "next-auth": "4.22.1",
     "nextjs-progressbar": "0.0.16",
+    "prisma-zod-generator": "^0.8.13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.45.1",
     "react-redux": "^8.1.1",
     "react-social-icons": "^5.15.0",
     "tailwind-merge": "^1.13.2",
