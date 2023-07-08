@@ -1,6 +1,7 @@
 {
     "extends": ["@ivopr/eslint-config/react"],
     "rules": {
-        "no-undef": "off"
+        "no-undef": "off",
+        "camelcase": "off"
     }
 }

@@ -1,3 +1,9 @@
+import { PageLayout } from "@/components/PageLayout";
+
 export default function Page() {
-  return <h1 className="text-4xl">Inicio</h1>;
+  return (
+    <PageLayout>
+      <h1>Inicio</h1>
+    </PageLayout>
+  );
 }

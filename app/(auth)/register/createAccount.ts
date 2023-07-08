@@ -1,3 +1,4 @@
+"use server";
 import { createHash } from "crypto";
 
 import { prisma } from "@/services/prisma";

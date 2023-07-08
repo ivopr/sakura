@@ -11,6 +11,11 @@ export function HeaderContent() {
       Icon: Home,
       exact: true,
     },
+    {
+      label: "Cadastro",
+      href: "/register",
+      Icon: Home,
+    },
   ];
 
   return (
