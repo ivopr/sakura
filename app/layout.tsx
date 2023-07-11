@@ -7,6 +7,8 @@ import { Header } from "@/components/Header";
 import { Navbar } from "@/components/Navbar";
 import { NavbarProvider } from "@/contexts/Navbar";
 
+import SessionHandler from "./sessionHandler";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,14 +27,16 @@ export default function RootLayout({ children }: PropsWithChildren) {
       className={`bg-background text-onBackground ${inter.variable} z-0`}
     >
       <body className="flex flex-col overflow-hidden h-screen font-sans">
-        <NavbarProvider>
-          <Header />
-          <Navbar />
-          <div className="flex flex-1 flex-col overflow-y-auto">
-            <div className="flex flex-1 flex-col">{children}</div>
-            <Footer />
-          </div>
-        </NavbarProvider>
+        <SessionHandler>
+          <NavbarProvider>
+            <Header />
+            <Navbar />
+            <div className="flex flex-1 flex-col overflow-y-auto">
+              <div className="flex flex-1 flex-col">{children}</div>
+              <Footer />
+            </div>
+          </NavbarProvider>
+        </SessionHandler>
       </body>
     </html>
   );

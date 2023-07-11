@@ -34,3 +34,6 @@ yarn-error.log*
 # vercel
 .vercel
 *.tsbuildinfo
+
+# Prisma
+prisma/generated

@@ -16,6 +16,11 @@ export function HeaderContent() {
       href: "/register",
       Icon: Home,
     },
+    {
+      label: "Entrar",
+      href: "/login",
+      Icon: Home,
+    },
   ];
 
   return (
