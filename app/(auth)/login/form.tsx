@@ -1,6 +1,7 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 import { Button } from "@/components/Button";
@@ -9,6 +10,7 @@ import { Input } from "@/components/Input";
 import { LoginSchema, LoginType } from "./login.schema";
 
 export function LoginForm() {
+  const router = useRouter();
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -18,11 +20,15 @@ export function LoginForm() {
   });
 
   const onSubmit: SubmitHandler<LoginType> = async ({ name, password }) => {
-    signIn("credentials", { name, password, redirect: false }).then(
-      (response) => {
-        console.log(response);
-      }
-    );
+    const response = await signIn("credentials", {
+      name,
+      password,
+      redirect: false,
+    });
+
+    if (response && !response.error) {
+      router.push("/");
+    }
   };
 
   return (

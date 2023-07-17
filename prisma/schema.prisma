@@ -1,14 +1,10 @@
 generator client {
-  provider        = "prisma-client-js"
-}
-
-generator zod {
-  provider = "prisma-zod-generator"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 // All sakura_ tables are proprietary sakura tables
